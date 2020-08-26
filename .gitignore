@@ -5,3 +5,6 @@ PheSpec/
 documents/
 textmodel/
 hpo/
+corona/
+patient-similarity-master/
+word2vec/

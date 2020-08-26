@@ -1,0 +1,10 @@
+'scoliotic':'scoliosis',
+'kypho':'kyphosis',
+'intracranial bleeding':'intracranial hemmorrage',
+'haemorhage' : 'hemorrhage',
+'leasions' : 'lesions',
+'leasion' : 'lesion',
+'id':'immunodeficiency',
+'mid face':'midface',
+'vsd': 'ventricular septal defect',
+'adhd': 'attention deficit hyperactivity disorder'

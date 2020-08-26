@@ -1,0 +1,1 @@
+C:\Users\levrex\Anaconda3\envs\my_env\lib\site-packages\clinphen_src\data/hpo_synonyms.txt

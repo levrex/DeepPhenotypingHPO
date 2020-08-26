@@ -1,0 +1,18 @@
+[0::17]	HP_0006746 | Neurofibromatosis
+[32::50]	HP_0000006 | autosomal dominant
+[84::115]	HP_0009588 | tumors on the vestibular branch
+[84::141]	HP_0009591 | tumors on the vestibular branch of the VIII cranial nerve
+[162::183]	HP_0004375 | nervous system tumors
+[364::376]	HP_0004375 | nerve tumors
+[453::465]	HP_0004375 | nerve tumors
+[806::830]	HP_0100009 | intracranial meningiomas
+[832::845]	HP_0010302 | spinal tumors
+[851::874]	HP_0100007 | peripheral nerve tumors
+[1012::1018]	HP_0002664 | tumors
+[1173::1184]	HP_0002858 | meningiomas
+[1160::1184]	HP_0100009 | intracranial meningiomas
+[1189::1202]	HP_0010302 | spinal tumors
+[1379::1390]	HP_0002858 | meningiomas
+[1366::1390]	HP_0100009 | intracranial meningiomas
+[1392::1405]	HP_0010302 | spinal tumors
+[1411::1434]	HP_0100007 | peripheral nerve tumors
