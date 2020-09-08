@@ -1,8 +1,8 @@
 ;Type;Language;Negation;Lemmatizing;Sensitivy;Precision;F1-score;Accuracy
-ClinPhen;heuristic rulebased;python;y;y;;;;
-scispacy;statistical model;python;n;;0.52;0.15;0.23;0.13
-text2hpo;;python;y;;0.46;0.74;0.57;0.40
-Monarch;;java;;;0.57;0.61;0.59;0.41
+ClinPhen;heuristic rulebased;python;y;y;0.62;0.62;0.62;0.45
+scispacy;statistical model;python;n;;0.50;0.15;0.23;0.13
+text2hpo;;python;y;;0.53;0.80;0.64;0.47
+Monarch;;java;;;;;;
 CTAKES;;java;y;;;;;
 MetaMap;;java;;;;;;
 Custom;;python;n;;;;;

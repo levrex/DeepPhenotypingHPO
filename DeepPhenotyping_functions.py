@@ -4,13 +4,14 @@ from bokeh.plotting import figure, show, output_notebook
 from bokeh.transform import factor_cmap
 from bokeh.models import  CategoricalColorMapper, LinearColorMapper
 import collections
+import matplotlib.pyplot as plt
+import numpy as np
+from numpy.linalg import norm 
+import networkx as nx
 import pandas as pd
 from sklearn.cluster import KMeans
 from sklearn import metrics # 
 from sklearn.metrics import roc_curve, auc, confusion_matrix, precision_recall_curve
-import matplotlib.pyplot as plt
-import numpy as np
-from numpy.linalg import norm 
 from scipy.spatial.distance import pdist
 from scipy.spatial.distance import squareform
 from sklearn.cluster import KMeans
@@ -941,3 +942,18 @@ def update_deprecated_OBO(l_hpo, d_trans):
         if hpo in d_trans:
             l_hpo[idx] = d_trans[hpo]
     return l_hpo
+
+def is_phenotypic_abnormality(graph, l_hpo):
+    """
+    Only keep HPO annotations that refer to phenotypic abnormality
+    
+    Input:
+        graph = obo graph (HPO DAG)
+        l_hpo = list of human phenotype ontology codes
+    """ 
+    new_hpo = []
+    PHENOTYPIC_ABNORMALITY_ID = "HP:0000118"
+    for idx, hpo in enumerate(l_hpo):
+        if [PHENOTYPIC_ABNORMALITY_ID] in list(nx.dfs_successors(graph,hpo).values()):
+            new_hpo.append(hpo)
+    return new_hpo
