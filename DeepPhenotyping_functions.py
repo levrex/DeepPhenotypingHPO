@@ -5,6 +5,7 @@ from bokeh.transform import factor_cmap
 from bokeh.models import  CategoricalColorMapper, LinearColorMapper
 import collections
 import matplotlib.pyplot as plt
+from math import log2
 import numpy as np
 from numpy.linalg import norm 
 import networkx as nx
@@ -957,3 +958,170 @@ def is_phenotypic_abnormality(graph, l_hpo):
         if [PHENOTYPIC_ABNORMALITY_ID] in list(nx.dfs_successors(graph,hpo).values()):
             new_hpo.append(hpo)
     return new_hpo
+
+def calculateIC(hpo_network, n_anno): # CURRENTLY NOT USED !
+    """ 
+    Calculate infromation content & depth per node!
+    """ 
+    (disease_records,phenotype_to_diseases,) = load_d2p(disease_to_phenotype_file, hpo_network, alt2prim, )
+
+    custom_annos = []
+    for node_id, data in hpo_network.nodes(data=True):
+            # annotate with information content value
+            hpo_network.nodes[node_id]['ic'] = calculate_information_content(
+                node_id,
+                hpo_network,
+                phenotype_to_diseases,
+                n_anno,
+                custom_annos,
+            )
+    return hpo_network
+
+def visualizeIC_Features(df, ic_weights, depth_weights, cluster, cutoff=3): # CURRENTLY NOT USED !
+    """
+    Input:
+    cutoff = specify the required prevalency of the feature 
+    
+        Default cut-off = 0.2
+            feature should at least be prevalent in 20% of the patients of this cluster
+            
+    Description:
+        Visualize the top-%  features with highest Information Content
+
+    Output:
+        barplot highlighting prevalence of each feature
+    """
+    #plt.figure
+    N = len(df[df['cluster']==cluster])
+    series = df[df['cluster']==cluster].loc[:, ~df.columns.isin(['cluster'])].sum() #[:10]
+    #print([weights[col.lower().strip()] for col in series.keys()])
+    prob = series + ([ic_weights[col.lower().strip()] for col in series.keys()]) # series + 
+    prob = prob * ([depth_weights[col.lower().strip()] for col in series.keys()])
+    #prob = np.log2(prob)
+    #print(weights[max(weights)])
+    prob = prob / max(prob)
+    #print(prob)
+    prob = prob.rename(lambda x: x[:25] + '...' if len(x)> 25 else x) # long labels are automatically shortened
+    prob = prob.sort_values(ascending=True)
+    # / N
+    mask = prob > cutoff
+    tail_prob = prob.loc[~mask].sum()
+    prob = prob.loc[mask]
+    prob.plot(kind='barh',figsize=(9,9), title='Most occuring phenotypic features in Cluster %s (n=%s)' % (cluster, str(N)))
+    plt.show()
+    return
+
+
+def visualizeMostOccuringFeatures(df, cluster, cutoff=0.2):
+    """
+    Input:
+        df = dataframe with phenotypic profile per patient & assigned clusters
+        cluster = cluster of interest
+        cutoff = specify the required prevalency of the feature 
+    
+            Default cut-off = 0.2
+                feature should at least be prevalent in 20% of the patients of this cluster
+            
+    Description:
+        Visualize the top-% most occurring features of a cluster/group
+            
+    Beware: making the cut-off too large will not show pathognomic features but
+        making the cut-off too small and this plot will show individual characteristics
+        rather than a phenotypic profile for the disease. Also, don't forget
+        to consider the impact of the group-size when defining a cut-off.
+    
+    Output:
+        barplot highlighting prevalence of each feature
+    """
+    #plt.figure
+    N = len(df[df['cluster']==cluster])
+    series = df[df['cluster']==cluster].loc[:, ~df.columns.isin(['cluster'])].sum().sort_values(ascending=True) #[:10]
+    series = series.rename(lambda x: x[:25] + '...' if len(x)> 25 else x) # long labels are automatically shortened
+    prob = series / N
+    mask = prob > cutoff
+    tail_prob = prob.loc[~mask].sum()
+    prob = prob.loc[mask]
+    prob.plot(kind='barh',figsize=(9,9), title='Most occuring phenotypic features in Cluster %s (n=%s)' % (cluster, str(N)))
+    plt.show()
+    return
+
+def visualizePhenotypicSpecificity(df, weights, cluster, cutoff=0.2, pat=2):
+    """
+    Input:
+        df = dataframe with phenotypic profile per patient & assigned clusters
+        cluster = cluster of interest
+        weights = weights for every phenotype (list)
+        cutoff = specify the required specificity
+    
+            Default cut-off = 0.2
+                feature should at least be prevalent in 20% of the patients of this cluster
+        pat = minimal number of patients       
+    
+    Description:
+        Visualize the top-% most specific features of a cluster/group. The specificity is 
+        calculated by dividing the nr of patient with said phenotypes by the nr of assoc genes. 
+    
+    Output:
+        barplot highlighting phenotypic specificity of each feature
+    """
+    N = len(df[df['cluster']==cluster])
+    l_cols = [col for col in df.columns if col != 'cluster']
+    #print(len(l_cols))
+    #print(df['cluster'])
+    df = df[df['cluster']==cluster]
+    df = pd.concat([df[l_cols].replace(0, np.nan).dropna(axis=1, thresh=pat), df['cluster']], axis=1)
+    #print(df['cluster'])
+    #df['cluster'].replace(np.nan, 0, inplace=True)
+    weights = [weights[l_cols.index(i)] for ix, i in enumerate(list([col for col in df.columns if col != 'cluster']))]
+    series = df.loc[:, ~df.columns.isin(['cluster'])].sum() #[:10]
+    series = series.rename(lambda x: x[:25] + '...' if len(x)> 25 else x) # long labels are automatically shortened
+    prob = np.divide(series, weights)
+    prob = prob.sort_values(ascending=True)
+    
+    mask = prob > cutoff
+    tail_prob = prob.loc[~mask].sum()
+    prob = prob.loc[mask]
+    print('Raw probabilities:\n', prob)
+    
+    prob.plot(kind='barh',figsize=(9,9), title='Most occuring phenotypic features in Cluster %s (n=%s)' % (cluster, str(N)))
+    plt.show()
+    return
+
+def calculatePhenotypicSpecificity(l_cols, col2hpo, df_hpo, penalty=100):
+    """
+    Calculate patient similarity with gene occurrence
+    
+    Input: 
+    - l_cols = list with columns
+    - col2hpo = translates columns to hpo
+    - df_hpo = dataframe with hpo linked to associated genes
+    - penalty = score to assign whenever there are no phenotypes / genes found
+    
+    
+    Formula is as follows: 
+    
+    On Group level:
+        nr of patients / nr of associated genes
+    
+    On individual level:
+        1/ nr of associated genes
+    
+    """
+    weight_list = []
+    
+    for val in l_cols:
+        col = val.lower().strip()
+        #assoc_genes = df_hpo[df_hpo['#Format: HPO-id']==hpo]['entrez-gene-id'].nunique()
+        #coef_list.append(1/assoc_genes) # +0.00000001
+        if col in col2hpo.keys():
+            #print(col2hpo[col])
+            
+            if type(col2hpo[col]) == list:
+                weight_list.append(sum([df_hpo[df_hpo['#Format: HPO-id']==hpo]['entrez-gene-id'].nunique() for hpo in col2hpo[col]]))
+            else :
+                weight_list.append(df_hpo[df_hpo['#Format: HPO-id']==col2hpo[col]]['entrez-gene-id'].nunique())
+            #break
+        else :
+            print(col, 'not found')
+            weight_list.append(penalty)
+    return weight_list
