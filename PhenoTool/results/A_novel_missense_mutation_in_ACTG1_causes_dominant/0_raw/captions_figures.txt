@@ -1,0 +1,7 @@
+
+FIGURE 0:
+(a) Pedigree of the Norwegian  family with autosomal-dominant progressive hearing impairment and segregation of the  c.1109T&gt;C missense mutation. Family members tested positive for the missense mutation are indicated by +/, and family members tested negative for the mutation are indicated by /. (b) -Actin mutation analysis. Sequencing result showing the c.1109T&gt;C mutation in  exon 6. The mutation is heterozygous in affected individuals. (c) Audiograms of left and right ear of representative, affected family members (patients VI-8 and V-16). The age at the time of analysis is indicated. The observation period was 31 and 41 years in patients VI-8 and V-16, respectively.
+FIGURE 1:
+Yeast growth assay. Yeast cells expressing either wild-type or p.V370A mutant -actin were plated on YPD or YPD+0.5  NaCl agar plates at various densities and incubated at 30 or 37C. The photograph shows the cultures 3 days after plating. The experiments were repeated three times with similar results.
+FIGURE 2:
+Modelling of -actin. (a) Structural model of wild-type -actin (green) in complex with profilin (blue) shown as ribbon representations with side chains of residues discussed in the text. V370 is shown in yellow, and the C-terminus of -actin and residues herein that interact with V370 in magenta. Residues elsewhere in -actin that interact with V370 are shown in red. (b) Enlarged view of the boxed region in (a). (c) As in (b), except that -actin is the p.V370A mutant.

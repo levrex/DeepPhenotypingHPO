@@ -1,15 +1,26 @@
+import sys
+sys.path.append('PhenoTool/')
+
+import ast 
 import bokeh.plotting as bp
-from bokeh.models import HoverTool, BoxSelectTool
+from bokeh.models import HoverTool, BoxSelectTool, Panel, Tabs
 from bokeh.plotting import figure, show, output_notebook
 from bokeh.transform import factor_cmap
 from bokeh.models import  CategoricalColorMapper, LinearColorMapper
+from bokeh.io import output_file, show
+from clinphen_src import get_phenotypes
+from clinphen_src import src_dir
 import collections
+from io import BytesIO
 import matplotlib.pyplot as plt
 from math import log2
 import numpy as np
 from numpy.linalg import norm 
 import networkx as nx
+import os
 import pandas as pd
+from PIL import Image
+import re
 from sklearn.cluster import KMeans
 from sklearn import metrics # 
 from sklearn.metrics import roc_curve, auc, confusion_matrix, precision_recall_curve
@@ -19,8 +30,10 @@ from sklearn.cluster import KMeans
 from sklearn.manifold import TSNE
 from sklearn.decomposition import PCA
 import skfuzzy as fuzz
-import ast 
-import re
+from txt2hpo.extract import Extractor
+import unicodedata
+import urllib.request
+import requests
 
 
 
@@ -225,11 +238,6 @@ def makeTSNE_Cluster(values, l_id, l_lbl, title, clusters, pal, perp=30, seed=12
     bp.save(plot_tfidf)
     print('\nTSNE figure saved under location: TSNE/Kmeans_phenoMap_tsne_%s.html' % (title))
     return 
-
-from bokeh.io import output_file, show
-from bokeh.models import Panel, Tabs
-from bokeh.plotting import figure
-
 
 def makeTSNE_Cluster2(values, l_id, l_clust, l_lbl, title, clusters, pal, perp=30, seed=1234):
     """
@@ -1125,3 +1133,1062 @@ def calculatePhenotypicSpecificity(l_cols, col2hpo, df_hpo, penalty=100):
             print(col, 'not found')
             weight_list.append(penalty)
     return weight_list
+
+
+## Functions preprocessing
+
+def remove_html_tags(soup):
+    """  
+    Remove HTML tags and hyperlinks from text file
+    """
+        
+    special_classes = ['accordion-tabbed__tab-mobile', 'dropBlock__body', 'inline-table']
+    for cl in special_classes:
+        for div in soup.find_all('div', {'class': cl}):  #
+            div.replaceWith('')
+            
+    special_classes = ['dpauthors', 'dporcid', 'dptop', 'dptitle', 'dpfn']        
+    for cl in special_classes:
+        for div in soup.find_all('div', {'class': cl}):  #
+            div.decompose()
+
+    for element in ['ul', 'i', 'span', 'li', 'a', "script", "style", "meta", "link", "sup", "select", "option", "figcaption"]: # a 
+        for div in soup.find_all(element):  # , {'class':'Google-Scholar'}
+            #print(div)
+            div.decompose()
+
+    for s in soup.select('div'):
+        s.get_attribute_list = ''       
+    return soup
+
+## Extract Supplement
+
+def predict_article_figure_img(match):
+    """
+    Input:
+        match = link found in article
+        
+    
+    Predict if link references image from article
+    """
+    article = False 
+    link = match.get('src')
+    if link != None: 
+        score  = 1*('article' in link) 
+        if score > 0 :
+            article = True
+    return article
+
+def predict_supplement(classes, txt):
+    """
+    Input:
+        classes = list with class names
+        txt = text for supplement
+        
+    Predict which class refers to the supplement location.
+    It checks if all expected words are found in class name.
+    
+    If no supplement is found than Suppl remains 0
+    
+    In the future you might want to check if there is 
+    a link in the txt
+    """
+    max_score = 0
+    max_ix = 0
+    ix = 0
+    suppl = False 
+    for cl in classes:
+        score  = 1*('supplementary' in cl) + 1*('appendix' in cl)
+        if score > max_score :
+            max_ix = ix
+            max_score= score
+            suppl = True
+        ix += 1
+    return classes[max_ix], suppl
+
+def import_file(file_link, title, file_title):
+    """
+    Import Supplementary & save in specified location
+    
+    Input:
+        file_link = link to supplementary file
+        title = title article
+        file_title = title of supplementary file
+    """
+    user_agent = 'Mozilla/5.0 (Windows; U; Windows NT 5.1; en-US; rv:1.9.0.7) Gecko/2009021910 Firefox/3.0.7'
+    headers={'User-Agent':user_agent}  # , 'Host': 'example.org'
+    cookieProcessor = urllib.request.HTTPCookieProcessor()
+    opener = urllib.request.build_opener(cookieProcessor)
+    request=urllib.request.Request(file_link,None, headers) #The assembled request
+    response = opener.open(request,timeout=100)
+    data = response.read()
+    
+    try : 
+        file = open("results/%s/0_raw/supplement/%s" % (title, file_title), "wb")
+        file.write(data)
+        file.close()
+    except: 
+        print('The file %s is not in a regular table format' % (file_title))
+    return
+
+def extract_supplement(soup, title, domain, save_supplement=False): 
+    """
+    Extract supplementary files from article
+    
+    Input: 
+        soup = extraction from case study
+        save_supplement = save the actual supplementary files
+    """
+    dir_figs = 'results/%s/0_raw/supplement' % (title)
+    txt = ''
+    for ix, div in enumerate(soup.find_all('body')):
+        classes = []
+        text = []
+        links = []
+        for element in div.findAll(class_=True):
+            classes.extend(element["class"])
+            text.extend([element.text for i in range(len(element["class"]))])
+        if classes == []:
+            break
+        cl, suppl = predict_supplement(classes, text)
+        if suppl: # check if supplement is found
+            l_supplement = div.findAll('div', attrs={'class': cl}) # section-paragraph
+        else :
+            l_supplement = []
+        if l_supplement == []:
+            break
+        for i in range(len(l_supplement)):
+            links.extend(l_supplement[i].find_all('a'))
+        for link in links:
+            try:
+                if 'href' in link.attrs:
+                    file_link = link.get('href')
+                elif 'srcset' in link.attrs:
+                    file_link = link.get('srcset')
+                if file_link[:2] == '//': # 'https://' not in 
+                    file_link = 'https:' + figure_link
+                elif file_link[:1] == '/':
+                    file_link = domain[:-1] + file_link
+                elif 'http' not in file_link:
+                    print(file_link, 'not a valid link')
+                    break
+            except: 
+                print(str(file_link), 'not a valid link')
+                break
+            file_title = file_link.rpartition('/')[2]
+            file_title = re.sub(r"[^\.0-9a-zA-Z]+", "", file_title)
+            print(file_link)
+            if save_supplement:
+                import_file(file_link, title, file_title)
+    return 
+
+## Extract figures
+
+def remove_tag_caption(soup):
+    """  
+    Remove HTML tags and hyperlinks from figure caption
+    """
+    for element in ['ul', 'i', 'span', 'li', 'a', "script", "style", "meta", "link", "sup", "select", "option", "em"]: # a  # "script", "style", "meta", "link", "sup", "select", "option", "figcaption"
+        for div in soup.find_all(element):  # , {'class':'Google-Scholar'}
+            #print(div)
+            div.decompose()
+    #print(soup)
+    return soup
+
+def import_figure(figure_link, title, fig_title):
+    """
+    Import Figure & save in specified location
+    
+    Input:
+        figure_link = link to figure
+        title = title article
+        fig_title = title of figure
+    """
+    user_agent = 'Mozilla/5.0 (Windows; U; Windows NT 5.1; en-US; rv:1.9.0.7) Gecko/2009021910 Firefox/3.0.7'
+    headers={'User-Agent':user_agent}  # , 'Host': 'example.org'
+    cookieProcessor = urllib.request.HTTPCookieProcessor()
+    opener = urllib.request.build_opener(cookieProcessor)
+
+    request=urllib.request.Request(figure_link,None, headers) #The assembled request
+    response = opener.open(request,timeout=100)
+    data = response.read()
+    
+    try : 
+        image = Image.open(BytesIO(data))
+        image.save("results/%s/0_raw/figures/%s" % (title, fig_title), 'png')
+    except: 
+        return
+        #print('The file %s is not in a regular image format' % (fig_title))
+    return
+
+def import_table(table_link, title, table_title):
+    """
+    Import Table & save in specified location
+    
+    Input:
+        table_link = link to figure
+        title = title article
+        table_title = title of figure
+    """
+    user_agent = 'Mozilla/5.0 (Windows; U; Windows NT 5.1; en-US; rv:1.9.0.7) Gecko/2009021910 Firefox/3.0.7'
+    headers={'User-Agent':user_agent}  # , 'Host': 'example.org'
+    cookieProcessor = urllib.request.HTTPCookieProcessor()
+    opener = urllib.request.build_opener(cookieProcessor)
+    request=urllib.request.Request(table_link,None, headers) #The assembled request
+    response = opener.open(request,timeout=100)
+    data = response.read()
+    
+    try : 
+        file = open("results/%s/0_raw/tables/%s" % (title, table_title), "wb")
+        file.write(data)
+        file.close()
+    except: 
+        print('The file %s is not in a regular table format' % (table_title))
+    return
+    
+def save_captions(txt, title, doc='captions_figures.txt'):
+    """
+    Save caption data
+    
+    Input:
+        txt = text from caption
+        title = title of article
+        doc = user-defined title of the captions file
+    """
+    txt = removeAccent(txt)
+    file = open("results/%s/0_raw/%s" % (title, doc), "w")
+    file.write(txt)
+    file.close()
+    return
+
+def predict_caption(classes, txt):
+    """
+    Input:
+        classes = list with class names
+        txt = text for caption
+        
+    Predict which class refers to the caption of a table / figure
+    It checks if all expected words are found in class name
+    
+    The only check we do now with regard to the txt of caption, is
+    too see which one has the longest caption. This is to
+    prevent mistaking the title of the caption for the description. 
+    """
+    max_score = 0
+    max_ix = 0
+    max_len = 0
+    ix = 0
+    for cl in classes:
+        score  = 1*('caption' in cl) + 1*('description' in cl) # 1*('tbl' in cl) + 1*('table' in cl) + 1*('wrap' in cl) + 
+        #scores.append(score)
+        if score > max_score or (score == max_score and len(txt[ix]) > max_len):
+            max_ix = ix
+            max_len = len(txt[ix])
+            max_score= score
+        ix += 1
+    #print(classes[max_ix])
+    return classes[max_ix]
+
+
+def extract_figures(soup, title, domain, save_figures=False): 
+    """
+    Extract figures from article
+    
+    Input: 
+        soup = extraction from case study
+        title = title of the article
+        domain = domain/ root of the website
+        save_figures = only the captions are extracted unless save_figures=True
+    """
+    dir_figs = 'results/%s/0_raw/figures' % (title)
+    
+    interpret_figure(soup, title, domain, save_figures)
+    interpret_img(soup, title, domain, save_figures) 
+    return 
+
+def interpret_img(soup, title, domain, save_figures=False):
+    """
+    Captions can often not be retrieved from IMG directly
+    
+    # does image sometimes have a caption though??
+
+    """
+    links = []
+    for link in soup.findAll('img'): # , attrs={'href': re.compile("^(?://|http\://|/)")}
+        #print(link)
+        if predict_article_figure_img(link):
+            links.append(link)
+    extract_images_with_links(links, title, domain, save_figures)
+    return
+
+
+def interpret_figure(soup, title, domain, save_figures=False):
+    txt = ''
+    for ix, div in enumerate(soup.find_all('figure')):
+        #print(div)
+        classes = []
+        text = []
+        for elem in div.findAll(class_=True):
+            classes.extend(elem["class"])
+            text.extend([elem.text for i in range(len(elem["class"]))])
+        if classes == []:
+            continue
+        else :
+            txt += '\nFIGURE %s:\n' % (ix)
+
+        cl = predict_caption_figure(classes, text)
+        #print(cl)
+        captions = div.findAll('div', attrs={'class': cl}) # section-paragraph
+
+        if captions == []:
+            continue
+
+        links = div.findAll('a', attrs={'href': re.compile("^(?://|http\://|/)")}) # maybe http as well
+        links.extend(div.findAll('source', attrs={'srcset': re.compile("^(?://|http\://|/)")}))
+        #print(links)
+        extract_images_with_links(links, title, domain, save_figures)
+        captions = remove_tag_caption(captions[0]) # hopefully this works everytime
+        clean = re.compile('<.*?>')
+        cleansed = re.sub(clean, '', str(captions))
+        txt += cleansed
+    if txt != '':
+        save_captions(txt, title, 'captions_figures.txt')
+    return 
+
+def extract_images_with_links(links, title, domain, save_figures=False):
+    """
+    Format the paths to images to actual working links!
+    
+    Input:
+        links = candidate links for figures
+        title = title of article
+    
+    """ 
+    for link in links:
+        #print(link.get('src'))
+        
+        try:
+            if 'href' in link.attrs:
+                figure_link = link.get('href')
+            elif 'srcset' in link.attrs:
+                figure_link = link.get('srcset')
+            elif 'src' in link.attrs:
+                figure_link = link.get('src')
+                #print('Valid link: ', figure_link)
+            if figure_link[:2] == '//': # 'https://' not in 
+                figure_link = 'https:' + figure_link
+            elif figure_link[:1] == '/':
+                figure_link = domain[:-1] + figure_link
+            #print('Valid link: ', figure_link)
+        except: 
+            print('not a valid link')
+            continue # break
+        fig_title = figure_link.rpartition('/')[2]
+        fig_title = re.sub(r"[^\.0-9a-zA-Z]+", "", fig_title)
+        if save_figures:
+            import_figure(figure_link, title, fig_title)
+    return
+
+def extract_table_captions(soup, title): 
+    """
+    Extract tables from article
+    
+    Input: 
+        soup = extraction from case study
+        title = title of the document
+    """
+    dir_figs = 'results/%s/0_raw/figures' % (title)
+    txt = ''
+    # tbl
+    for ix, div in enumerate(soup.find_all('div', attrs={'class': "inline-table__tail"})):
+        txt += '\nTable %s:\n' % (ix)
+        # section-paragraph
+        captions = div.findAll('div', attrs={'class': "section-paragraph"}) # section-paragraph
+        captions = remove_tag_caption(captions[0]) # hopefully this works everytime
+        clean = re.compile('<.*?>')
+        cleansed = re.sub(clean, '', str(captions))
+        txt += cleansed
+    if txt != '':
+        save_captions(txt, title, 'captions_tables.txt')
+    return 
+
+def extract_captions(soup, title): 
+    txt = ''
+    for ix, div in enumerate(soup.find_all('body')): #for ix, div in enumerate(soup.find_all('a')):
+        classes = []
+        text = []
+        links = []
+        for element in div.findAll(class_=True):
+            classes.extend(element["class"])
+            text.extend([element.text for i in range(len(element["class"]))])
+        if classes == []:
+            continue
+        #print(text)
+        cl = predict_caption(classes, text)
+        #print(classes)
+        #print(cl)
+        captions = soup.findAll('div', attrs={'class': cl}) # section-paragraph
+        if captions == []:
+            continue
+        clean = re.compile('<.*?>')
+        #print(captions)
+        index = 0
+        for cap in captions:
+            #print(cap)
+            try:
+                cleansed = cap.get_text()
+            except : 
+                cap = remove_tag_caption(cap) # hopefully this works everytime
+                cleansed = re.sub(clean, '', str(cap))
+            if cleansed not in [None, '']:
+                txt += 'Entity%s\n' % (index) + cleansed + '\n'
+                index += 1
+        #print(txt)
+    if txt != '': # only save if you have content
+        save_captions(txt, title, 'captions.txt')
+
+def get_caption_from_link(soup, title, domain, save_figures=True):
+    """
+    Sometimes the captions of figures / tables are mentioned in the links
+    """
+    txt = ''
+    for ix, div in enumerate(soup.find_all('body')): #for ix, div in enumerate(soup.find_all('a')):
+        classes = []
+        text = []
+        links = []
+        for element in div.findAll('a', class_=True):
+            classes.extend(element["class"])
+            text.extend([element.text for i in range(len(element["class"]))])
+        if classes == []:
+            continue
+        #print(text)
+        cl = predict_caption_figure(classes, text)
+        #print(cl)
+        captions = div.findAll('a', attrs={'class': cl}) # section-paragraph
+        if captions == []:
+            continue
+        clean = re.compile('<.*?>')
+        for cap in captions:
+            try:
+                cleansed = cap.get('title')
+            except : 
+                cap = remove_tag_caption(cap) # hopefully this works everytime
+                cleansed = re.sub(clean, '', str(cap))
+            if cleansed not in [None, '']:
+                txt += cleansed + '\n'
+    if txt != '': # only save if you have content
+        save_captions(txt, title, 'captions_figures.txt')
+
+def predict_caption_figure(classes, txt):
+    """
+    Input:
+        classes = list with class names
+        txt = text for caption
+        
+    Predict which class refers to the caption of a figure.
+    It checks if all expected words are found in class name
+    
+    The only check we do now with regard to the txt of caption, is
+    too see which one has the longest caption. This is to
+    prevent mistaking the title of the caption for the description. 
+    """
+    #scores = []
+    max_score = 0
+    max_ix = 0
+    max_len = 0
+    ix = 0
+    fig = False
+    for cl in classes:
+        score  = 1*('figure' in cl) + 1*('caption' in cl) + 1*('body' in cl) + 1*('text' in cl) + 1*('description' in cl) + \
+                1*('figure' in txt[ix].lower()) + 1*('caption' in txt[ix].lower()) + 1*('description' in txt[ix].lower())
+        #scores.append(score)
+        if score > max_score or (score == max_score and len(txt[ix]) > max_len):
+            max_ix = ix
+            max_len = len(txt[ix])
+            max_score= score
+            fig = True
+        ix += 1
+        
+    return classes[max_ix], fig
+
+## Functions Screening Documents
+
+def find_acronyms(txt):
+    """
+    Build a dictionary with all of the acronyms mentioned in the text.
+    
+    Checks if first letter of entity and first letter of acronym are matching
+    
+    Assumptions for Acronym expansion:
+     - acronym is larger than 1 character
+     - entities have a max length of 4 words
+     - acronyms start with same letter as entity
+     - the only special character allowed within an
+         entity is the '-' character
+    
+    Input:
+        txt = format free text fields from case study
+    """
+    d_acronyms = {}
+    p = re.compile(r'(((\w)(?:\w|-)* )(\w* ){0,3})\(((?i)(\3)[^)\s]+)\)')
+    matches = re.findall(p, txt)
+    for match in matches:
+        acronym = match[4]
+        expanded = match[0].rstrip() # remove trailing space
+        d_acronyms[acronym] = expanded
+    return d_acronyms
+
+def select_relevant_text(parsed_list, d_phenotype, bin_size, min_power, frames):
+    """
+    Description:
+    
+    Tag the relevant text - where a higher prevalence of phenotypes
+    is found.
+    
+    """
+    reading_frames = {}
+    for i in range(frames):
+        reading_frames[i] = 0
+    bin_ix = 0
+    txt = ''
+    start_str = '<span style="color:red">'
+    end_str = '</span>'
+    for ix, sent in enumerate(parsed_list): 
+        passing = False
+        for frame in reading_frames.keys():
+            frame_ix = reading_frames[frame]
+            if d_phenotype[frame][frame_ix] > min_power:
+                passing = True 
+        if passing== 1:
+            txt += ' ' + start_str + parsed_list[ix] + end_str + ' ' 
+        else :
+            txt += parsed_list[ix] + ' '
+        for frame in reading_frames.keys():
+            frame_ix = reading_frames[frame]
+            if (ix+1+frame) % bin_size == 0 :
+                reading_frames[frame] += 1
+    return txt
+
+def removeAccent(text):
+    """
+    This function removes the accent of characters from the text.
+    Variables:
+        text = text to be processed
+    """
+    try:
+        text = unicode(text, 'utf-8')
+    except NameError: # unicode is a default on python 3 
+        pass
+    text = unicodedata.normalize('NFD', text)
+    text = text.encode('ascii', 'ignore')
+    text = text.decode("utf-8")
+    return text
+
+def first_screening(parsed_list, first_intercept, bin_size, min_power, frames=5):
+    """
+    Scan a document for phenotypes. 
+    
+    Divide the parsed document over multiple bins / regions. Text is then 
+    highlighted if the prevalence of phenotypes within the bin is larger 
+    than expected. Discerning the relevant regions from the background.
+    
+    Input: 
+        parsed_list = parsed document
+        first_intercept = list with intercepted points (assoc. to phenotypes)
+        bin_size = size of the bin (size reflects nr of subsents)
+        min_power = minimal number of phenotypes that should be mentioned
+    """
+    bin_ix = 0
+    bin_sum = 0
+    
+    reading_frames = {}
+    for i in range(frames):
+        reading_frames[i] = 0
+    
+    #reading_frames = {0: 0, 1:0, 2:0, 3:0, 4:0} #[0, 1, 2, 3, 4]
+    d_phenotype = {}
+
+    for frame in reading_frames: # initialize
+        d_phenotype[frame] = [0]
+
+    for ix, sent in enumerate(parsed_list): 
+        if ix in first_intercept:
+            for frame in reading_frames.keys():
+                frame_ix = reading_frames[frame]
+                val = d_phenotype[frame][frame_ix]
+                if type(d_phenotype) == list:
+                    d_phenotype[frame][frame_ix] = val + first_intercept.count(ix)
+                elif type(d_phenotype) == dict:
+                    d_phenotype[frame][frame_ix] = val + len(first_intercept[ix])
+        for frame in reading_frames.keys():
+            frame_ix = reading_frames[frame]
+            if (ix+1+frame) % bin_size == 0 :
+                l_values = d_phenotype[frame]
+                l_values.append(0)
+                d_phenotype[frame] = l_values 
+                reading_frames[frame] += 1
+    for frame in reading_frames.keys():
+        frame_ix = reading_frames[frame]
+        if (ix+1+frame) % bin_size == 0 :
+            l_values = d_phenotype[frame]
+            l_values.append(0)
+            d_phenotype[frame] = l_values 
+            reading_frames[frame] += 1
+    txt = select_relevant_text(parsed_list, d_phenotype, bin_size, min_power, frames)
+    return txt, d_phenotype
+
+## Functions for phenotyper
+def load_common_phenotypes(commonFile):
+    returnSet = set()
+    for line in open(commonFile): returnSet.add(line.strip())
+    return returnSet
+
+def clinphen(inputFile, srcDir, extensive=True, custom_thesaurus="", rare=False):
+    """
+    Employ ClinPhen to infer HPO-codes based on format-free text 
+    
+    first_intercept = First intercepted phenotypes (from a simple Screening)
+    
+    Extensive: perform an extensive search
+    """
+    #srcDir
+    hpo_main_names = srcDir + "/hpo_term_names.txt"
+
+    def getNames():
+        returnMap = {}
+        for line in open(hpo_main_names):
+            lineData = line.strip().split("\t")
+            returnMap[lineData[0]] = lineData[1]
+        return returnMap
+    hpo_to_name = getNames()
+
+    inputStr = ""
+    for line in open(inputFile): inputStr += line
+    if extensive:
+        if not custom_thesaurus: returnString = get_phenotypes.extract_phenotypes(inputStr, hpo_to_name, extensive)
+        else: returnString = get_phenotypes.extract_phenotypes_custom_thesaurus(inputStr, custom_thesaurus, hpo_to_name)
+        if not rare: return returnString
+    else:
+        if not custom_thesaurus: returnString, first_intercept, lines = get_phenotypes.extract_phenotypes(inputStr, hpo_to_name, extensive)
+        else: returnString = get_phenotypes.extract_phenotypes_custom_thesaurus(inputStr, custom_thesaurus, hpo_to_name)
+        if not rare: return returnString, first_intercept, lines
+    #print('qq')
+    items = returnString.split("\n")
+    returnList = []
+    common = load_common_phenotypes(srcDir + "/common_phenotypes.txt")
+    for item in items:
+        HPO = item.split("\t")[0]
+        if HPO in common: continue
+        returnList.append(item)
+    if extensive == True:
+        return "\n".join(returnList)
+    elif extensive == False :
+        return "\n".join(returnList), first_intercept, lines
+    
+def clinphen_str(inputStr, srcDir, extensive=True, custom_thesaurus="", rare=False): # Move this to DeepPhenotyping_functions
+    """
+    Employ ClinPhen to infer HPO-codes based on format-free text 
+    
+    first_intercept = First intercepted phenotypes (from a simple Screening)
+    
+    Extensive: perform an extensive search
+    """
+    #srcDir
+    hpo_main_names = srcDir + "/hpo_term_names.txt"
+
+    def getNames():
+        returnMap = {}
+        for line in open(hpo_main_names):
+            lineData = line.strip().split("\t")
+            returnMap[lineData[0]] = lineData[1]
+        return returnMap
+    hpo_to_name = getNames()
+
+    if extensive:
+        if not custom_thesaurus: returnString = get_phenotypes.extract_phenotypes(inputStr, hpo_to_name, extensive)
+        else: returnString = get_phenotypes.extract_phenotypes_custom_thesaurus(inputStr, custom_thesaurus, hpo_to_name)
+        if not rare: return returnString
+    else:
+        if not custom_thesaurus: returnString, first_intercept, lines = get_phenotypes.extract_phenotypes(inputStr, hpo_to_name, extensive)
+        else: returnString = get_phenotypes.extract_phenotypes_custom_thesaurus(inputStr, custom_thesaurus, hpo_to_name)
+        if not rare: return returnString, first_intercept, lines
+    items = returnString.split("\n")
+    returnList = []
+    common = load_common_phenotypes(srcDir + "/common_phenotypes.txt")
+    for item in items:
+        HPO = item.split("\t")[0]
+        if HPO in common: continue
+        returnList.append(item)
+    if extensive == True:
+        return "\n".join(returnList)
+    elif extensive == False :
+        return "\n".join(returnList), first_intercept, lines
+
+def txt2hpo_str(inputStr):
+    extract = Extractor()
+    returnList = extract.hpo(inputStr.lower()).hpids
+    return returnList # "\n".join(
+
+def ncr_str(inputStr):
+    """
+    Utilize the Neural Concept Recognizer ( a deep learning phenotyper).
+    
+    Return df with HPO and exact location
+    """ 
+    params = (
+        ('text', inputStr),
+    )
+    response = requests.get('https://ncr.ccm.sickkids.ca/curr/annotate/', params=params)
+    
+    d_ncr = {
+    'HPO ID' : [i['hp_id'] for i in ast.literal_eval(response.text)['matches']],
+    'names' : [i['names'] for i in ast.literal_eval(response.text)['matches']],  
+    'start' : [i['start'] for i in ast.literal_eval(response.text)['matches']],    
+    'end' : [i['end'] for i in ast.literal_eval(response.text)['matches']],   
+    'score' : [i['score'] for i in ast.literal_eval(response.text)['matches']],   
+    }
+    df_hpo =pd.DataFrame.from_dict(d_ncr)
+    
+    
+    
+    return df_hpo #, first_intercept, lines
+
+def ncr_str_chunk(lines):
+    """
+    Utilize the Neural Concept Recognizer on a large text by chunking
+    
+    Return df with HPO and exact location
+    """ 
+    first_intercept = {}
+    for ix, line in enumerate(lines): 
+        params = (
+            ('text', line),
+            )
+        response = requests.get('https://ncr.ccm.sickkids.ca/curr/annotate/', params=params)
+        if response.status_code == requests.codes.ok:
+            d_val = ast.literal_eval(response.text)['matches']
+            if d_val != {}: 
+                first_intercept[ix] = d_val
+        #print(ix)
+    return first_intercept
+
+## Functions - Parsing Tables
+
+def tableDataText(table):    
+    """Parses a html segment started with tag <table> followed 
+    by multiple <tr> (table rows) and inner <td> (table data) tags. 
+    It returns a list of rows with inner columns. 
+    Accepts only one <th> (table header/data) in the first row.
+    """
+    def rowgetDataText(tr, coltag='td'): # td (data) or th (header)       
+        return [td.get_text(strip=True).replace('\n','').replace('\r','').replace(';','') for td in tr.find_all(coltag)]  
+    rows = []
+    #print(table)
+    trs = table.find_all('tr')
+    #print(trs)
+    headerow = rowgetDataText(trs[0], 'th')
+    if headerow: # if there is a header row include first
+        rows.append(headerow)
+        trs = trs[1:]
+    for tr in trs: # for every table row
+        #print(tr)
+        #tr = tr.replace('\n','').replace('\r','')
+        rows.append(rowgetDataText(tr, 'td') ) # data row   
+    #print(rows)
+    caption = (len(rows) == 1)
+    return rows, caption
+
+def parseTable(table, remove_inc=True):
+    """
+    Convert Table to pandas Dataframe
+    
+    Input:
+        table = html table from article
+        remove_inc = remove rows with incosistent length
+            (be careful: these can be helpful to categorize table)
+    """
+    #print('y')
+    list_table, caption = tableDataText(table)
+    if caption == True:
+        return list_table, caption
+    dftable = pd.DataFrame(list_table[1:], columns=list_table[0])
+    if remove_inc:
+        med = np.median(dftable.isnull().sum(axis=1).values)
+        dftable = dftable.dropna(thresh=len(dftable.columns)-med)
+    return dftable, caption 
+
+def check_for_link(table, domain, index, title):
+    """
+    Sometimes the table tag refers to supplement with a link. 
+    In that case, we want to download the  supplemented tables 
+    (if these are in xlsx or xls format).
+    
+    Input:
+        table = beautifulsoup / html content that consists of a table
+    
+    Output:
+        This function outputs a boolean that indicates whether or not 
+        links were found in the html box 
+    """
+    links = table.findAll('a', attrs={'href': re.compile("^(?://|http\://|/)")}) # maybe http as well
+    link_ix = 0
+    for link in links:
+        try:
+            table_link = link.get('href')
+        except: 
+            #print('not a valid link')
+            break
+        if table_link[:2] == '//': # 'https://' not in 
+            table_link = 'https:' + table_link
+        elif table_link[:1] == '/':
+            table_link = domain[:-1] + table_link
+        elif 'http' not in table_link:
+            break
+        #print(figure_link)
+        table_title = table_link.rpartition('/')[2]
+        import_table(table_link, title, "Table_%s_%s_%s" % (str(index), str(link_ix), str(table_title)))
+        link_ix += 1
+    if link_ix != 0:
+        return True
+    else :
+        return False
+    
+## Functions Scanning Tables
+
+def find_binary_columns(table):
+    """
+    Description: 
+    Find out which columns qualify as being binary columns. 
+    
+    Input:
+        table = Pandas Dataframe 
+    Output:
+        l_qualify = list of columns that qualify
+    """
+    l_yes = ['y', 'true', 't', 'yes', '1', 'present', 'p', 'pres'] 
+    l_no = ['n', 'false', 'f', 'no', '0', 'absent', 'a', 'abs']
+    l_unknown = ['u', 'unknown', 'na', 'nan', ''] # , '
+    l_not = []
+    for col in table.columns:
+        l_val = table[col].values
+        #print(l_val)
+        for i in l_val:
+            val = i.lower()
+            #print(val)
+            if (val not in l_yes and val not in l_no and val not in l_unknown):
+                l_not.append(col)
+                print('NO')
+                break
+    l_qualify = list(set(table.columns) - set(l_not))
+    return l_qualify
+
+
+
+def link_col_hpo(l_qualify, phenotyper='clinphen'):
+    """
+    Link list with columns to HPO
+    
+    Input:
+        l_qualify = list of columns that qualify as boolean vectors
+    Output: 
+        d_col = dictionary with column names linked to assoc. phenotype ID (HPO)
+    """
+    d_col = {}
+    for col in l_qualify:
+        l_hpo = [] 
+        if phenotyper == 'clinphen':
+            items = clinphen_str(col,'data')
+            df_hpo = pd.DataFrame([n.split('\t') for n in items.split('\n')])
+            df_hpo.columns = df_hpo.iloc[0]
+            df_hpo = df_hpo.reindex(df_hpo.index.drop(0))
+            d_col[col] = list(df_hpo['HPO ID'])
+        elif phenotyper == 'txt2hpo':
+            d_col[col] = txt2hpo_str(col)
+        elif phenotyper == 'ncr':
+            df_hpo = ncr_str(col) # misschien iets soortgelijks als hpo -> waarbij je ook locatie hebt
+            d_col[col] =list(df_hpo['HPO ID'])
+    return d_col
+
+def col_hpo(row, d_col):
+    l_yes = ['y', 'true', 't', 'yes', '1', 'present', 'p', 'pres'] 
+    l_hpo = []
+    for ix, i in enumerate(row):
+        #print(ix)
+        col_name = list(row.keys())[ix]
+        #print(i)
+        val = str(i).lower()
+        if val in l_yes:
+            l_hpo.extend(d_col[col_name])
+    return l_hpo
+
+def row_hpo(row, phenotyper='clinphen'):
+    l_hpo = [] 
+    #print(list(row.values))
+    row_content = ' '.join(list(row.values))
+    if phenotyper == 'clinphen':
+        items = clinphen_str(row_content,'data')
+        df_hpo = pd.DataFrame([n.split('\t') for n in items.split('\n')])
+        df_hpo.columns = df_hpo.iloc[0]
+        df_hpo = df_hpo.reindex(df_hpo.index.drop(0))
+        l_hpo = list(df_hpo['HPO ID'])
+    elif phenotyper == 'txt2hpo':
+        l_hpo = txt2hpo_str(row_content)
+    elif phenotyper == 'ncr':
+        l_hpo = ncr_str(row_content)
+    return l_hpo
+
+def scan_table(table, phenotyper='clinphen'): ## Add function for scanning rows -> text. Then add this to function list
+    l_qualify = find_binary_columns(table)
+    d_col = link_col_hpo(l_qualify, phenotyper)
+    #print(d_col)
+    table['row_hpo'] = table.apply(lambda x : row_hpo(x, phenotyper), axis=1)
+    table['col_hpo'] = table.apply(lambda x : col_hpo(x, d_col), axis=1)
+    return table
+
+## 3. Phenotyping
+
+def generate_phenotable(first_intercept):
+    """
+    Collect information of intercepted phenotypes in a
+    convenient pandas dataframe
+    
+    Input:
+        first_intercept = dictionary with all intercepted phenotypes
+    
+    """
+    df = pd.DataFrame()
+
+    for i, key in enumerate(first_intercept): 
+        for item in first_intercept[key]:
+            item['index'] = i
+            df = df.append(item, ignore_index=True)
+    return df
+
+def predict_identifier_patient(table):
+    """
+    Input:
+        col_name = name of column
+        l_values = values assoc. with column
+
+    return: 
+        predicted column = column predicted to contain the patient ID
+        patient_identifier = indicates if column is even present (boolean)
+    """
+    max_score = 0
+    max_ix = 0
+    ix = 0
+    patient_identifier = False 
+    
+    for col in table.columns:
+        l_values = table[col]
+        col_name = col.lower()
+        score  = 1*('id' in col_name) + 1*('patient' in col_name) + 1*('case' in col_name) + 1*('patnr' in col_name) + \
+                 1*('patid' in col_name) + 1*('casenr' in col_name) + 1*('caseid' in col_name) + 1*(len(np.unique(l_values))==len(l_values)) + 1*('individual' in col_name) + 1*('proband' in col_name)
+        if score > max_score:
+            max_ix = ix
+            max_score= score
+            patient_identifier = True
+        ix += 1
+    return table.columns[max_ix],  patient_identifier
+
+def get_patprof_tables(title, tab_files, d_pat):
+    """
+    Expand the patient phenotypic profiles with provided table
+    """
+    for tab in tab_files:
+        table = pd.read_csv("results/%s/2_phenotypes/%s" % (title, tab), sep='|')
+        table = table.fillna('') # very important to fill na prior to function
+        #print(table.head())
+        cl, pat_identifier = predict_identifier_patient(table)
+        if pat_identifier:
+            print('Patient Identifier column found: ', cl)
+        else : 
+            print("No column seems to represent a patient identifier")
+        for ix, patient in enumerate(table[cl]):
+            key = table['Case ID'].iloc[ix]
+            if key in d_pat.keys():
+                d_pat[key].extend(ast.literal_eval(table['row_hpo'].iloc[ix]))
+            else : 
+                d_pat[key] = ast.literal_eval(table['row_hpo'].iloc[ix])
+            #print(table['row_hpo'].iloc[ix])
+            d_pat[key].extend(ast.literal_eval(table['col_hpo'].iloc[ix]))
+            #print(table[['Case ID', 'row_hpo', 'col_hpo']].iloc[ix])
+    return d_pat
+
+def collectPhenoProfiles(title, phenotyper):
+    """
+    Search all files in the results directory & link
+    to patients with Identifier.
+    """
+    result_files = os.listdir("results/%s/2_phenotypes/" % (title))
+    #print(result_files)
+    table_files = [s for s in result_files if ('Table' in s and phenotyper in s)]
+    d_pat = {}
+    
+    # check if phenotypic abnormality
+    # Consult Tables
+    d_pat = get_patprof_tables(title, table_files, d_pat) # , d_pat
+    if d_pat == {}:
+        print('no phenotypes found in table')
+    # Consult Main text
+    # toDo: add function entity_linking -> regex rules
+    # d_pat = get_patprof_main(title, main_file, d_pat)
+    return d_pat
+
+## 4. Entity Linking Main Text / Annotation
+def get_superclass(graph, hpo_id, name_to_id, id_to_name):
+    """ 
+    Acquire parent features of provided HPO-id
+    
+    Input:
+        graph = HPO DAG tree
+        hpo_id = HPO ID
+        l_col = values of column (implies superclass = same value)
+        name_to_id = dictionary where names are linked to hpo-id codes
+        id_to_name = dictionary where hpo-id codes are linked to names
+    Output:
+        dataframe with inferred parent classes (ancestor nodes of provided hpo-id)
+    """
+    paths = nx.all_simple_paths(
+    graph,
+    source=name_to_id[hpo_id],
+    target=name_to_id['Phenotypic abnormality'] # phenotypic abnormality
+    )
+    
+    hpo_list = []
+    desc_list = []
+    
+    for path in paths:
+        #print('•', ' ⟶ '.join(node for node in path))
+        for node in path:
+            hpo_list.append(node)
+            desc_list.append(id_to_name[node])
+            
+    data = {'HPO id': hpo_list, 'Phenotype': desc_list}
+    return pd.DataFrame.from_dict(data).iloc[::-1].reset_index(drop=True).reset_index()
+
+def annotate_text(parsed_list, d_phenotype):
+    """
+    Description:
+    Annotate the entities found with HPO: 
+    
+    On mouse over the user will see the hpo, confidence score and assoc. patient
+    
+    """
+    bin_ix = 0
+    new_lines = []
+    start_str = '<span style="color:red">'
+    end_str = '</span>'
+    
+    for ix, sent in enumerate(parsed_list): 
+        txt = parsed_list[ix]
+        passing = False
+        if ix in d_phenotype:
+            d_sort = sorted(d_phenotype[ix], key = lambda j: j['end'], reverse=True)
+            for i in d_sort:
+                start_str = '<span style="color:red" title="%s" >'  % ('HPO: ' + i['hp_id'] + '\nCONF: ' + i['score'])
+                start_int = i['start']
+                end_int = i['end']
+                txt = txt[:start_int] + ' ' + start_str + txt[start_int:end_int]  + end_str + ' ' + txt[end_int:] 
+        new_lines.append(txt)
+    return new_lines

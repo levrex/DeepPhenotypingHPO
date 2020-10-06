@@ -1,0 +1,31 @@
+Gene|ACTG1|(Refs.)
+Position(hg19)|chr17q25(79,479,287 base pair)|
+Exome|2/7|
+Accessionnumber|NM_001614.3|
+Nucleotidechange|c.94C>T,hetero|
+Amino acidchange|p.Pro32Ser|
+HGMD®|None|(20)
+Classification byACMG guidelines|Likelypathogenic|(21)
+Allele frequency incontrols||
+dbSNP142|No rsID|
+1000Gp3|None|
+ESP6500|None|
+ExAC|None|
+KRGdb|None|
+Missenseprediction||
+SIFT_pred|Deleterious|
+LRT_pred|Unknown|
+PolyPhen2 HDIV_ pred|Probablydamaging|
+Polyphen2_HVAR_ pred|Probablydamaging|
+MutationTaster_pred|Diseasecausing|
+MutationAssessor_pred|Medium predictedfunctional|
+MetaSVM_pred|Deleterious|
+MetaLR_pred|Deleterious|
+FATHMM_pred|Deleterious|
+PROVEAN_pred|Damaging|
+CADD_phred|16.96|
+Nucleotideconservation prediction||
+GEFF++_RS|3.99|
+PhyloP7way_vertebrate|0.917|
+phastCons7way_vertebrate|0.98|
+SiPhy_29way_logOdds|15.0358|

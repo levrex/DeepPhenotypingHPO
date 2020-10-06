@@ -1,0 +1,59 @@
+end|hp_id|index|names|score|start
+1063.0|HP:0002037|0.0|['Inflammation of the large intestine', 'Inflammation of the large intestine', 'Inflammatory bowel disease']|0.9901862|1037.0
+1884.0|HP:0012393|0.0|['Allergy', 'Allergy']|0.9825028|1877.0
+125.0|HP:0002037|0.0|['Inflammation of the large intestine', 'Inflammation of the large intestine', 'Inflammatory bowel disease']|0.9901862|99.0
+151.0|HP:0012393|6.0|['Allergy', 'Allergy']|0.9825028|144.0
+60.0|HP:0012115|9.0|['Hepatitis', 'Liver inflammation']|0.9798366|51.0
+115.0|HP:0002037|9.0|['Inflammation of the large intestine', 'Inflammation of the large intestine', 'Inflammatory bowel disease']|0.9901862|89.0
+90.0|HP:0001399|10.0|['Hepatic failure', 'Liver failure']|0.9852403|77.0
+143.0|HP:0001396|10.0|['Cholestasis', 'Slowed or blocked flow of bile from liver']|0.98234975|132.0
+138.0|HP:0025085|13.0|['Bloody diarrhea', 'Blood in stool', 'Bloody bowel movement', 'Bloody diarrhea', 'Bloody diarrhoea', 'Bloody stool']|0.9595801|132.0
+77.0|HP:0002037|16.0|['Inflammation of the large intestine', 'Inflammation of the large intestine', 'Inflammatory bowel disease']|0.9901862|51.0
+255.0|HP:0012115|18.0|['Hepatitis', 'Liver inflammation']|0.9798366|246.0
+120.0|HP:0001941|19.0|['Acidosis']|0.96158457|112.0
+111.0|HP:0003128|19.0|['Lactic acidosis', 'Hyperlacticacidemia', 'Increased lactate in body', 'Lactic acidemia', 'Lacticacidemia', 'Lacticacidosis']|0.986802|105.0
+136.0|HP:0001298|19.0|['Encephalopathy']|0.9798358|122.0
+186.0|HP:0001263|19.0|['Global developmental delay', 'Cognitive delay', 'Delayed cognitive development', 'Delayed development', 'Delayed developmental milestones', 'Delayed intellectual development', 'Delayed milestones', 'Delayed psychomotor development', 'Developmental delay', 'Developmental delay in early childhood', 'Developmental delay, global', 'Developmental retardation', 'Lack of psychomotor development', 'Mental and motor retardation', 'Motor and developmental delay', 'Psychomotor delay', 'Psychomotor development deficiency', 'Psychomotor development failure', 'Psychomotor developmental delay', 'Retarded development', 'Retarded mental development', 'Retarded psychomotor development']|0.99637204|167.0
+155.0|HP:0001508|19.0|['Failure to thrive', 'Faltering weight', 'Poor weight gain', 'Postnatal failure to thrive', 'Undergrowth', 'Weight faltering']|0.95105726|146.0
+52.0|HP:0001263|22.0|['Global developmental delay', 'Cognitive delay', 'Delayed cognitive development', 'Delayed development', 'Delayed developmental milestones', 'Delayed intellectual development', 'Delayed milestones', 'Delayed psychomotor development', 'Developmental delay', 'Developmental delay in early childhood', 'Developmental delay, global', 'Developmental retardation', 'Lack of psychomotor development', 'Mental and motor retardation', 'Motor and developmental delay', 'Psychomotor delay', 'Psychomotor development deficiency', 'Psychomotor development failure', 'Psychomotor developmental delay', 'Retarded development', 'Retarded mental development', 'Retarded psychomotor development']|0.99637204|33.0
+80.0|HP:0000407|22.0|['Sensorineural hearing impairment', 'Hearing loss, sensorineural', 'Sensorineural deafness', 'Sensorineural hearing loss']|0.9849287|54.0
+100.0|HP:0001252|22.0|['Muscular hypotonia', 'Low or weak muscle tone', 'Muscle hypotonia']|0.9229314|82.0
+119.0|HP:0000819|22.0|['Diabetes mellitus']|0.9600735|102.0
+140.0|HP:0001410|22.0|['Decreased liver function', 'Decreased liver function', 'Liver dysfunction', 'Liver dysfunction, mild']|0.96137255|121.0
+155.0|HP:0001397|22.0|['Hepatic steatosis', 'Fatty infiltration of liver', 'Fatty liver', 'Liver steatosis', 'Steatosis']|0.99195975|146.0
+325.0|HP:0001290|23.0|['Generalized hypotonia', 'Decreased muscle tone', 'Generalized muscular hypotonia', 'Hypotonia', 'Hypotonia, generalized', 'Low muscle tone']|0.9438168|316.0
+350.0|HP:0001249|23.0|['Intellectual disability', 'Dull intelligence', 'Intellectual disability', 'Low intelligence', 'Mental deficiency', 'Mental retardation', 'Mental retardation, nonspecific', 'Mental-retardation', 'Nonprogressive intellectual disability', 'Nonprogressive mental retardation', 'Poor school performance']|0.9938634|327.0
+373.0|HP:0001510|23.0|['Growth delay', 'Delayed growth', 'Growth deficiency', 'Growth delay', 'Growth failure', 'Growth retardation', 'Poor growth', 'Retarded growth', 'Very poor growth']|0.9823233|355.0
+121.0|HP:0000252|23.0|['Microcephaly', 'Abnormally small cranium', 'Abnormally small head', 'Abnormally small skull', 'Decreased circumference of cranium', 'Decreased size of cranium', 'Decreased size of head', 'Decreased size of skull', 'Reduced head circumference', 'small calvarium', 'small cranium', 'Small head', 'Small head circumference', 'Small skull']|0.9436223|109.0
+153.0|HP:0001263|23.0|['Global developmental delay', 'Cognitive delay', 'Delayed cognitive development', 'Delayed development', 'Delayed developmental milestones', 'Delayed intellectual development', 'Delayed milestones', 'Delayed psychomotor development', 'Developmental delay', 'Developmental delay in early childhood', 'Developmental delay, global', 'Developmental retardation', 'Lack of psychomotor development', 'Mental and motor retardation', 'Motor and developmental delay', 'Psychomotor delay', 'Psychomotor development deficiency', 'Psychomotor development failure', 'Psychomotor developmental delay', 'Retarded development', 'Retarded mental development', 'Retarded psychomotor development']|0.99637204|134.0
+178.0|HP:0001396|23.0|['Cholestasis', 'Slowed or blocked flow of bile from liver']|0.98234975|167.0
+126.0|HP:0002037|24.0|['Inflammation of the large intestine', 'Inflammation of the large intestine', 'Inflammatory bowel disease']|0.9901862|100.0
+357.0|HP:0001824|24.0|['Weight loss']|0.9837039|346.0
+399.0|HP:0001399|24.0|['Hepatic failure', 'Liver failure']|0.9852403|386.0
+369.0|HP:0002329|24.0|['Drowsiness', 'Drowsiness', 'Sleepy']|0.9953453|359.0
+344.0|HP:0011968|24.0|['Feeding difficulties', 'Feeding difficulties', 'Feeding problems', 'Poor feeding']|0.9908641|332.0
+453.0|HP:0001396|24.0|['Cholestasis', 'Slowed or blocked flow of bile from liver']|0.98234975|442.0
+98.0|HP:0025085|25.0|['Bloody diarrhea', 'Blood in stool', 'Bloody bowel movement', 'Bloody diarrhea', 'Bloody diarrhoea', 'Bloody stool']|0.99262744|85.0
+12.0|HP:0002014|25.0|['Diarrhea', 'Diarrhea', 'Diarrhoea', 'Watery stool']|0.9933637|4.0
+163.0|HP:0002194|26.0|['Delayed gross motor development', 'Delayed gross motor skills', 'Delayed motor skills', 'Developmental delay, gross motor', 'Gross motor delay', 'Limited gross motor development']|0.98046434|140.0
+37.0|HP:0002240|27.0|['Hepatomegaly', 'Enlarged liver']|0.988469|25.0
+51.0|HP:0002910|29.0|['Elevated hepatic transaminase', 'Abnormal liver enzymes', 'Abnormal liver function', 'Abnormal liver function tests', 'Elevated liver enzymes', 'Elevated liver function tests', 'Elevated serum transaminases', 'Elevated transaminases', 'High liver enzymes', 'Increased liver enzymes', 'Increased liver function tests', 'Increased transaminases', 'Subclinical abnormal liver function tests']|0.9966|31.0
+151.0|HP:0001433|31.0|['Hepatosplenomegaly', 'Enlarged liver and spleen']|0.99247676|133.0
+166.0|HP:0001392|31.0|['Abnormality of the liver', 'Abnormal liver', 'Abnormality of the liver', 'Liver abnormality', 'Liver disease']|0.8399474|161.0
+265.0|HP:0004324|31.0|['Increased body weight', 'Increased body weight', 'Weight gain']|0.98102045|254.0
+349.0|HP:0001392|31.0|['Abnormality of the liver', 'Abnormal liver', 'Abnormality of the liver', 'Liver abnormality', 'Liver disease']|0.8399474|344.0
+71.0|HP:0002151|32.0|['Increased serum lactate', 'Higher than normal levels of lactate in blood', 'Increased blood lactate']|0.89745724|57.0
+289.0|HP:0100279|33.0|['Ulcerative colitis', 'Colitis ulcerosa']|0.9771575|271.0
+94.0|HP:0002037|33.0|['Inflammation of the large intestine', 'Inflammation of the large intestine', 'Inflammatory bowel disease']|0.92919683|69.0
+216.0|HP:0025615|33.0|['Abscess']|0.98861754|209.0
+51.0|HP:0100633|34.0|['Esophagitis', 'Inflammation of the esophagus', 'Oesophagitis']|0.9481064|14.0
+103.0|HP:0032252|34.0|['Granuloma']|0.9898116|94.0
+133.0|HP:0004332|42.0|['Abnormal lymphocyte morphology', 'Abnormal lymphocytes', 'Abnormality of cells of the lymphoid lineage']|0.83618915|122.0
+249.0|HP:0002354|45.0|['Memory impairment', 'Forgetfulness', 'Memory impairment', 'Memory loss', 'Memory problems', 'Poor memory']|0.81613743|240.0
+121.0|HP:0002354|46.0|['Memory impairment', 'Forgetfulness', 'Memory impairment', 'Memory loss', 'Memory problems', 'Poor memory']|0.81613743|112.0
+316.0|HP:0012115|46.0|['Hepatitis', 'Liver inflammation']|0.9798366|307.0
+246.0|HP:0002027|47.0|['Abdominal pain', 'Abdominal discomfort', 'Abdominal pain', 'Gastro pain', 'Gastrointestinal pain', 'Pain in stomach', 'Stomach pain', 'Upset stomach']|0.9941204|232.0
+216.0|HP:0025085|47.0|['Bloody diarrhea', 'Blood in stool', 'Bloody bowel movement', 'Bloody diarrhea', 'Bloody diarrhoea', 'Bloody stool']|0.96083343|203.0
+46.0|HP:0005435|55.0|['Impaired T cell function', 'Impaired T cell function', 'T-cell dysfunction']|0.99247205|28.0
+168.0|HP:0002037|59.0|['Inflammation of the large intestine', 'Inflammation of the large intestine', 'Inflammatory bowel disease']|0.8752074|130.0
+287.0|HP:0012115|60.0|['Hepatitis', 'Liver inflammation']|0.9798366|278.0
