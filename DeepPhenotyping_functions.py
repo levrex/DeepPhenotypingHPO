@@ -639,6 +639,8 @@ def makeDistanceHeatmap(df, col_id='Id', col_label='Category', dist='dice', titl
     bp.save(hm)
     return
 
+
+
 def classificationReport(y_test, y_pred, threshold = 0.5):
     """
     Return an overview of the most important classification scoring
@@ -1611,6 +1613,21 @@ def predict_caption_figure(classes, txt):
         
     return classes[max_ix], fig
 
+def extract_custom_headers(soup):
+    """  
+    Automatically predict the custom headers based on the provided html file.
+    
+    Input:
+        soup = raw html file
+    """
+    title_classes = []
+    for ix, div in enumerate(soup.find_all('body')):
+        for elem in div.findAll(class_=True):
+            if 'title' in ' '.join(elem['class']) or 'head' in ' '.join(elem['class']):
+                title_classes.append(' '.join(elem['class']))
+    title_classes = list(set(title_classes))
+    return title_classes
+
 ## Functions Screening Documents
 
 def find_acronyms(txt):
@@ -1669,6 +1686,23 @@ def select_relevant_text(parsed_list, d_phenotype, bin_size, min_power, frames):
                 reading_frames[frame] += 1
     return txt
 
+## Cleaning functions
+def simpleCleaning(sent): 
+    """
+    Remove special characters that are not relevant to 
+    the interpretation of the text
+
+    Input:
+        sent = free written text
+    Output :
+        processed sentence
+    """
+    sticky_chars = r'([!#,.:";@\-\+\\/&=$\]\[<>\'^\*`\(\)])'
+    sent = re.sub(sticky_chars, r' ', sent)
+    sent = re.sub(r'([\t|\n|\r])', r' ', sent)
+    sent = sent.lower()
+    return sent
+
 def removeAccent(text):
     """
     This function removes the accent of characters from the text.
@@ -1684,6 +1718,40 @@ def removeAccent(text):
     text = text.decode("utf-8")
     return text
 
+def regex_cleaning(soup, title_classes=[]):
+    """ 
+    Clean Html text with regular expression rules. Headers are 
+    preserved to ensure readability. Custom header classes can be 
+    provided by the user.
+    
+    Input:
+        soup = extracted text from html
+        title_classes = list with custom header flags
+    """
+    # preserve headers
+    new_soup = re.sub(r"\<h([1-6])>", r"@h\1@", soup) 
+    new_soup = re.sub(r"\</h([1-6])>", r"@/h\1@", new_soup)
+    
+    if title_classes != []: ## preserve special div title classes
+        new_soup = re.sub(r"(\<div class=\"(?:%s)\"[^>]*>[^<]*)(</div>)" % ('|'.join(title_classes)), r"\1@/h5@", new_soup)
+        new_soup = re.sub(r"\<div class=\"(?:%s)\"[^>]*>" % ('|'.join(title_classes)), r"@h5@", new_soup)
+
+    new_soup = re.sub(r"<br>", "\n", new_soup)
+    new_soup = re.sub(r"<hr/>", "\n", new_soup)
+    new_soup = re.sub(r"\<em\>|\</em\>", "", new_soup) # remove em tags ? (overbodig?)
+    new_soup = re.sub(r"\<[^\>]+\>", "", new_soup) #remove All html tags
+    new_soup = re.sub(r"\s{3,}", r'<br>', new_soup) # change excessive spaces into a single newline
+    new_soup = re.sub(r"\.([A-Z])", r'. \1', new_soup) # add whitespace where a new sentence is started
+    new_soup = re.sub(r"\\n", r"<br>", new_soup) # format newlines to <br>
+    #
+    
+    # restore preserved headers
+    new_soup = re.sub(r"@h([1-6])@", r"<h\1>", new_soup)
+    new_soup = re.sub(r"@/h([1-6])@", r"</h\1>", new_soup)
+    new_soup = removeAccent(new_soup)
+    return new_soup
+
+## PRODUCT 0
 def first_screening(parsed_list, first_intercept, bin_size, min_power, frames=5):
     """
     Scan a document for phenotypes. 
@@ -1872,6 +1940,54 @@ def ncr_str_chunk(lines):
         #print(ix)
     return first_intercept
 
+def scispacy_str(nlp, umls_to_hpo, lines):
+    """ 
+    nlp = Natural Language Processing pipeline
+    """
+    l_hpo = []
+    for ix, line in enumerate(lines): 
+        ents = nlp(line.lower()).ents # .text
+        l_hpo.extend(inferHPO(ents, umls_to_hpo))
+    return l_hpo
+
+def inferHPO(row, umls_to_hpo):
+    """ 
+    row = all found entities (in spacy Span format)
+    
+    Description:
+        Infer hpo codes based on the found entities.
+    """
+    hpo_list = []
+    for entity in row:
+        for umls_ent in entity._.kb_ents:
+            try :
+                hpo_list.append(umls_to_hpo[hpo.kb.cui_to_entity[umls_ent[0]].concept_id])
+            except :
+                print('not found')
+    return hpo_list
+
+def txt2hpo_str_chunk(lines):
+    """
+    Utilize the txt2hpo tool on a large text by chunking
+    
+    Return df with HPO and exact location
+    """ 
+    first_intercept = {}
+    extract = Extractor()
+    for ix, line in enumerate(lines): 
+        returnList = extract.hpo(line.lower()).entries
+        l_row_pheno = []
+        for i in returnList:
+            d_val = {}
+            d_val['hp_id'] = i['hpid'][0]
+            d_val['start'] = i['index'][0]
+            d_val['end'] = i['index'][1]
+            d_val['score'] = '1' # doesn't calculate a conf
+            l_row_pheno.append(d_val)
+        first_intercept[ix] = l_row_pheno
+        #print(ix)
+    return first_intercept
+
 ## Functions - Parsing Tables
 
 def tableDataText(table):    
@@ -1935,8 +2051,7 @@ def check_for_link(table, domain, index, title):
     for link in links:
         try:
             table_link = link.get('href')
-        except: 
-            #print('not a valid link')
+        except:
             break
         if table_link[:2] == '//': # 'https://' not in 
             table_link = 'https:' + table_link
@@ -1944,7 +2059,6 @@ def check_for_link(table, domain, index, title):
             table_link = domain[:-1] + table_link
         elif 'http' not in table_link:
             break
-        #print(figure_link)
         table_title = table_link.rpartition('/')[2]
         import_table(table_link, title, "Table_%s_%s_%s" % (str(index), str(link_ix), str(table_title)))
         link_ix += 1
@@ -1952,6 +2066,45 @@ def check_for_link(table, domain, index, title):
         return True
     else :
         return False
+   
+def save_tables(title, tables, remove_inc=True):
+    """
+    Save tables found in html file as csv files & collect associated captions.
+    
+    Input:
+        title = title of article
+        tables = list of html tables
+        remove_inc = remove rows with incosistent length (be careful: these can improve readability, or perhaps include valuable information)
+    """
+    index = 0
+    open("results/%s/0_raw/captions_tables.txt" % (title), "w").close()
+    file = open("results/%s/0_raw/captions_tables.txt" % (title), "a")
+    caption = False
+    for table in tables:
+        try : 
+            raw_table, caption = parseTable(table, remove_inc)
+        except:
+            try :
+                raw_table = readTableDirectly(table)
+                raw_table.to_csv("results/%s/0_raw/tables/Table_%s_%s.csv" % (title, str(index), title), sep='|', index=False, encoding='utf-8-sig',)
+                continue
+            except:
+                index += 1
+                continue
+        if caption:
+            print('Caption Found!')
+            file.write(regex_cleaning(str(raw_table[0][1]))+ '\n')
+        else :
+            raw_table = raw_table.astype('str')
+            raw_table.to_csv("results/%s/0_raw/tables/Table_%s_%s.csv" % (title, str(index), title), sep='|', index=False)
+        index += 1
+    file.close()
+    return
+
+def readTableDirectly(table):
+    dfs = pd.read_html(str(table))[0]
+    dfs.columns = dfs.columns.to_flat_index()
+    return dfs
     
 ## Functions Scanning Tables
 
@@ -1959,6 +2112,10 @@ def find_binary_columns(table):
     """
     Description: 
     Find out which columns qualify as being binary columns. 
+    In other words, check if values fall into one of the three categories:
+     - YES category = phenotype present
+     - NO category = phenotype absent
+     - UNKNOWN category = phenotype was not mentioned
     
     Input:
         table = Pandas Dataframe 
@@ -1971,13 +2128,12 @@ def find_binary_columns(table):
     l_not = []
     for col in table.columns:
         l_val = table[col].values
-        #print(l_val)
         for i in l_val:
             val = i.lower()
-            #print(val)
+            val = re.sub("[\(\[].*?[\)\]]", "", val)
+            val = val.strip()
             if (val not in l_yes and val not in l_no and val not in l_unknown):
                 l_not.append(col)
-                print('NO')
                 break
     l_qualify = list(set(table.columns) - set(l_not))
     return l_qualify
@@ -1986,7 +2142,8 @@ def find_binary_columns(table):
 
 def link_col_hpo(l_qualify, phenotyper='clinphen'):
     """
-    Link list with columns to HPO
+    Link list with columns to HPO. Columns are preprocessed
+    prior to screening
     
     Input:
         l_qualify = list of columns that qualify as boolean vectors
@@ -1995,28 +2152,31 @@ def link_col_hpo(l_qualify, phenotyper='clinphen'):
     """
     d_col = {}
     for col in l_qualify:
-        l_hpo = [] 
+        l_hpo = []
         if phenotyper == 'clinphen':
-            items = clinphen_str(col,'data')
+            items = clinphen_str(simpleCleaning(col),'data')
             df_hpo = pd.DataFrame([n.split('\t') for n in items.split('\n')])
             df_hpo.columns = df_hpo.iloc[0]
             df_hpo = df_hpo.reindex(df_hpo.index.drop(0))
             d_col[col] = list(df_hpo['HPO ID'])
         elif phenotyper == 'txt2hpo':
-            d_col[col] = txt2hpo_str(col)
+            d_col[col] = txt2hpo_str(simpleCleaning(col))
         elif phenotyper == 'ncr':
-            df_hpo = ncr_str(col) # misschien iets soortgelijks als hpo -> waarbij je ook locatie hebt
+            df_hpo = ncr_str(simpleCleaning(col)) # misschien iets soortgelijks als hpo -> waarbij je ook locatie hebt
             d_col[col] =list(df_hpo['HPO ID'])
     return d_col
 
 def col_hpo(row, d_col):
     l_yes = ['y', 'true', 't', 'yes', '1', 'present', 'p', 'pres'] 
     l_hpo = []
+    #print(d_col) ### 
     for ix, i in enumerate(row):
-        #print(ix)
         col_name = list(row.keys())[ix]
-        #print(i)
         val = str(i).lower()
+        val = re.sub("[\(\[].*?[\)\]]", "", val)
+        val = val.strip()
+        #print(val, col_name) ### 
+        
         if val in l_yes:
             l_hpo.extend(d_col[col_name])
     return l_hpo
@@ -2034,11 +2194,13 @@ def row_hpo(row, phenotyper='clinphen'):
     elif phenotyper == 'txt2hpo':
         l_hpo = txt2hpo_str(row_content)
     elif phenotyper == 'ncr':
-        l_hpo = ncr_str(row_content)
+        df_hpo = ncr_str(col) # misschien iets soortgelijks als hpo -> waarbij je ook locatie hebt
+        d_col[col] =list(df_hpo['HPO ID'])
     return l_hpo
 
 def scan_table(table, phenotyper='clinphen'): ## Add function for scanning rows -> text. Then add this to function list
     l_qualify = find_binary_columns(table)
+    print('Binary columns:', l_qualify)
     d_col = link_col_hpo(l_qualify, phenotyper)
     #print(d_col)
     table['row_hpo'] = table.apply(lambda x : row_hpo(x, phenotyper), axis=1)
@@ -2105,7 +2267,7 @@ def get_patprof_tables(title, tab_files, d_pat):
         else : 
             print("No column seems to represent a patient identifier")
         for ix, patient in enumerate(table[cl]):
-            key = table['Case ID'].iloc[ix]
+            key = table[cl].iloc[ix]
             if key in d_pat.keys():
                 d_pat[key].extend(ast.literal_eval(table['row_hpo'].iloc[ix]))
             else : 
@@ -2134,6 +2296,35 @@ def collectPhenoProfiles(title, phenotyper):
     # toDo: add function entity_linking -> regex rules
     # d_pat = get_patprof_main(title, main_file, d_pat)
     return d_pat
+
+def getPatientProfileTable(d_pat):
+    """ 
+    Create patient profile table, where a phenotypic profile 
+    is linked to a specific individual. 
+    
+    This is the data that we need to perform deep phenotyping!
+    
+    Important note: phenotypes that were not mentioned are imputed with 0 
+        (assumed to be absent in patient)
+    
+    Input:
+        d_pat = dictionary where patients are linked to phenotypes
+    Output:
+        df_pheno = pandas Dataframe with all unique HPO's as columns and
+            where the patients each have a dedicated row featuring their 
+            known phenotypic profile.
+    """
+    hpo_pool = []
+    for pat in d_pat.keys():
+        hpo_pool.extend(d_pat[pat])
+    columns = list(set(hpo_pool))
+
+    df_pheno = pd.DataFrame(columns=list(set(hpo_pool)))
+
+    for ix, pat in enumerate(d_pat.keys()):
+        l_val = [1 if val in d_pat[pat] else 0 for ix, val in enumerate(df_pheno.columns) ]
+        df_pheno.loc[pat] = l_val
+    return df_pheno
 
 ## 4. Entity Linking Main Text / Annotation
 def get_superclass(graph, hpo_id, name_to_id, id_to_name):
