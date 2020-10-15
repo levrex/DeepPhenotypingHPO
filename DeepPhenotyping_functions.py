@@ -35,7 +35,14 @@ import unicodedata
 import urllib.request
 import requests
 
+global d_checks
 
+# return Failed! or Succesful!
+d_checks = {'Main Text Extraction' : '', 'Table Extraction': '', 'Supplementary Extraction': '', 'Caption Extraction' : ''}
+
+def get_checks():
+    global d_checks
+    return d_checks
 
 class AnnotateHPO(object):
     """
@@ -1940,19 +1947,22 @@ def ncr_str_chunk(lines):
         #print(ix)
     return first_intercept
 
-def scispacy_str(nlp, umls_to_hpo, lines):
+def scispacy_str(nlp, hpo, umls_to_hpo, lines):
     """ 
     nlp = Natural Language Processing pipeline
+    hpo = entity linker (HPO)
     """
     l_hpo = []
     for ix, line in enumerate(lines): 
         ents = nlp(line.lower()).ents # .text
-        l_hpo.extend(inferHPO(ents, umls_to_hpo))
+        #print(ents)
+        l_hpo.extend(inferHPO(ents, umls_to_hpo, hpo))
     return l_hpo
 
-def inferHPO(row, umls_to_hpo):
+def inferHPO(row, umls_to_hpo, hpo):
     """ 
     row = all found entities (in spacy Span format)
+    hpo = entity linker (HPO)
     
     Description:
         Infer hpo codes based on the found entities.
@@ -1963,7 +1973,7 @@ def inferHPO(row, umls_to_hpo):
             try :
                 hpo_list.append(umls_to_hpo[hpo.kb.cui_to_entity[umls_ent[0]].concept_id])
             except :
-                print('not found')
+                continue
     return hpo_list
 
 def txt2hpo_str_chunk(lines):
@@ -2164,6 +2174,8 @@ def link_col_hpo(l_qualify, phenotyper='clinphen'):
         elif phenotyper == 'ncr':
             df_hpo = ncr_str(simpleCleaning(col)) # misschien iets soortgelijks als hpo -> waarbij je ook locatie hebt
             d_col[col] =list(df_hpo['HPO ID'])
+        #elif phenotyper == 'scispacy':
+        #    d_col[col] = scispacy_str(simpleCleaning(col))
     return d_col
 
 def col_hpo(row, d_col):
@@ -2194,8 +2206,8 @@ def row_hpo(row, phenotyper='clinphen'):
     elif phenotyper == 'txt2hpo':
         l_hpo = txt2hpo_str(row_content)
     elif phenotyper == 'ncr':
-        df_hpo = ncr_str(col) # misschien iets soortgelijks als hpo -> waarbij je ook locatie hebt
-        d_col[col] =list(df_hpo['HPO ID'])
+        df_hpo = ncr_str(row_content) # misschien iets soortgelijks als hpo -> waarbij je ook locatie hebt
+        l_hpo =list(df_hpo['HPO ID'])
     return l_hpo
 
 def scan_table(table, phenotyper='clinphen'): ## Add function for scanning rows -> text. Then add this to function list
@@ -2383,3 +2395,153 @@ def annotate_text(parsed_list, d_phenotype):
                 txt = txt[:start_int] + ' ' + start_str + txt[start_int:end_int]  + end_str + ' ' + txt[end_int:] 
         new_lines.append(txt)
     return new_lines
+
+## Validation (For example: ARS)
+
+def evaluateDictionaryHPO(annotated_table, graph):
+    """
+    Create a dictionary where every patient is linked to a list of
+    phenotypes (HPO-codes).
+    
+    Input:
+        annotated_table = pandas Dataframe (generated table from case-study)
+        graph = HPO directed acyclic graph in OBO format
+    """
+    url = '../phenopy_mod/.phenopy/data/hp.obo'
+
+    id_to_name = {id_: data.get('name') for id_, data in graph.nodes(data=True)}
+    name_to_id = {data['name']: id_ for id_, data in graph.nodes(data=True) if 'name' in data}
+    
+    s1 = annotated_table.apply(lambda x: extractAnnotations(x, annotated_table.columns), axis=1)
+
+    d_inferred = {}
+    for ix, pat in enumerate(annotated_table[annotated_table.columns[0]]):
+        d_inferred[pat] = s1[ix]
+    d_inferred = inferParentHPO(d_inferred, graph, id_to_name, name_to_id)
+    return d_inferred
+    
+def inferParentHPO(d_inferred, graph, id_to_name, name_to_id):
+    """
+    Infer parent features (ancestor nodes) - 
+    to get a detailed description of the patient phenotypes
+    
+    Input:
+    d_inferred = dictionary containing all the phenotypes that were found
+    graph = OBO HPO Directed acyclic graph
+    id_to_name = dictionary where every HPO-id is matched to a name
+    name_to_id = dictionary where every name is matched with a HPO-id
+    """
+    d_new_inferred = {}
+    for pat in d_inferred.keys():
+        inferred = d_inferred[pat]
+        new_inferred = []
+        for hpo_id in inferred:
+            new_inferred.append(hpo_id)
+            df_super = get_superclass(graph, id_to_name[hpo_id], name_to_id, id_to_name)
+            new_inferred.extend(list(df_super['HPO id']))
+        d_new_inferred[pat] = new_inferred
+    return d_new_inferred
+
+def extractAnnotations(row, columns):
+    """
+    Extract the phenotypes as found in the annotatedTable
+    
+    Output:
+        inferred = list of found HPO's 
+    """
+    columns = columns[1:]
+    binary_vector = row[1:]
+    inferred = []
+    for ix, val in enumerate(binary_vector):
+        if val == 1:
+            inferred.append(columns[ix])
+    return inferred
+
+def evaluateDictionaryPatients(d_inferred, df_valid, graph):
+    """
+    Compare the predicted phenotypes (d_inferred) with the 
+    validation set.
+    
+    Manual Annotation vs Automatic Extraction
+    
+    Input: 
+        d_inferred = dictionary containing phenotypic profile per patient (wide format)
+        df_valid = pandas Dataframe with phenotypic profiles per patient (long format)
+        graph = OBO HPO Directed acyclic graph
+    Output:
+        confusion matrix with TP, FN, FP and TN
+    """
+    y_test, y_pred = [], []
+    TP, FN, FP, TN = 0, 0, 0, 0
+    
+    for pat in d_inferred.keys(): # Loop through all patients
+        inferred = d_inferred[pat]
+
+        gold = list(df_valid[df_valid['Patient'].str.contains(pat.split(' ')[0])]['HPO-id']) 
+        inferred = is_phenotypic_abnormality(graph, list(inferred))
+        gold = is_phenotypic_abnormality(graph, list(gold))
+        #gold = update_deprecated_OBO(list(gold), d_trans)
+        #inferred = update_deprecated_OBO(list(inferred), d_trans)
+        #print(len(inferred))
+        TP += len(np.intersect1d(list(set(gold)), list(set(inferred))))
+        FN += len(set(gold) - set(inferred))
+        FP +=  len(set(inferred) - set(gold))
+
+        for i in range(len(np.intersect1d(list(set(gold)), list(set(inferred))))):
+            y_test.append(1)
+            y_pred.append(1)
+        for i in range(len(set(gold) - set(inferred))):
+            y_test.append(1)
+            y_pred.append(0)
+        for i in range(len(set(inferred) - set(gold))):
+            y_test.append(0)
+            y_pred.append(1)
+        #print(gold, inferred)
+        print('FN: ', len(set(gold) - set(inferred)))
+        print('FP: ', len(set(inferred) - set(gold)))
+        print(pat, len(inferred), len(gold))
+    return np.array([[TP, FN], [FP, TN]])
+
+## GENERATING REPORT
+def bookKeepingProgress(title):
+    """
+    Input:
+        title = title of article
+        phenotyper = tool used to extract phenotypes from text
+        
+    """ 
+    global d_checks
+    
+    
+    # 1. check if files in directory
+    # 2. screen files and establish whether the extraction was succesful
+    # 3. check if main text - at least has expected structure - or features at least 1 individual / phenotype
+    
+    # 0_raw
+    # check_table_extract()
+    # check_caption_extract()
+    # check_suppl_extract()
+    # check_figure_extract()
+    
+    # 1_extractions
+    # d_stored = { key : [path, file] }
+    d_stored = {'pheno_tables' : ['2_phenotypes', 'Table']}
+    # 2_phenotypes
+    check_pheno_tables()
+    # 3_annotations
+    return
+    
+def check_pheno_tables(title, phenotyper):
+    """
+    
+    ToDo: Maybe perform a more extensive check.
+    Where you actually the content produced in addition 
+    to the 
+    
+    """
+    result_files = os.listdir("results/%s/2_phenotypes/" % (title))
+    table_files = [s for s in result_files if ('Table' in s and phenotyper in s)]
+    if table_files != []:
+        return True
+    else : 
+        return False

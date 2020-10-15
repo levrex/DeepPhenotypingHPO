@@ -1,0 +1,109 @@
+end|hp_id|index|names|score|start
+158.0|HP:0001511|0.0|['Intrauterine growth retardation', 'In utero growth retardation', 'Intrauterine growth failure', 'Intrauterine growth restriction', 'Intrauterine growth retardation, IUGR', 'Intrauterine retardation', 'IUGR', 'Prenatal growth deficiency', 'Prenatal growth failure', 'Prenatal growth retardation', 'Prenatal onset growth retardation', 'Prenatal-onset growth retardation', 'Small for gestational age infant']|0.9977375|126.0
+189.0|HP:0001249|0.0|['Intellectual disability', 'Dull intelligence', 'Intellectual disability', 'Low intelligence', 'Mental deficiency', 'Mental retardation', 'Mental retardation, nonspecific', 'Mental-retardation', 'Nonprogressive intellectual disability', 'Nonprogressive mental retardation', 'Poor school performance']|0.9938634|166.0
+209.0|HP:0001252|0.0|['Muscular hypotonia', 'Low or weak muscle tone', 'Muscle hypotonia']|0.9229314|191.0
+30.0|HP:0009830|1.0|['Peripheral neuropathy', 'Neuropathy', 'Peripheral nerve damage', 'Peripheral neuritis']|0.9695139|20.0
+238.0|HP:0006530|2.0|['Interstitial pulmonary abnormality', 'Abnormality in area between air sacs in lung', 'Interstitial lung disease', 'Interstitial pulmonary disease']|0.94479287|221.0
+256.0|HP:0001392|2.0|['Abnormality of the liver', 'Abnormal liver', 'Abnormality of the liver', 'Liver abnormality', 'Liver disease']|0.9758091|243.0
+178.0|HP:0006554|2.0|['Acute hepatic failure', 'Acute liver failure']|0.9896919|159.0
+403.0|HP:0001252|3.0|['Muscular hypotonia', 'Low or weak muscle tone', 'Muscle hypotonia']|0.9229314|385.0
+96.0|HP:0001511|3.0|['Intrauterine growth retardation', 'In utero growth retardation', 'Intrauterine growth failure', 'Intrauterine growth restriction', 'Intrauterine growth retardation, IUGR', 'Intrauterine retardation', 'IUGR', 'Prenatal growth deficiency', 'Prenatal growth failure', 'Prenatal growth retardation', 'Prenatal onset growth retardation', 'Prenatal-onset growth retardation', 'Small for gestational age infant']|0.9968729|63.0
+120.0|HP:0001324|3.0|['Muscle weakness', 'Muscle weakness', 'Muscular weakness']|0.98386145|105.0
+133.0|HP:0020037|3.0|['Astasia']|0.99569005|126.0
+166.0|HP:0001392|3.0|['Abnormality of the liver', 'Abnormal liver', 'Abnormality of the liver', 'Liver abnormality', 'Liver disease']|0.8399474|161.0
+454.0|HP:0001397|3.0|['Hepatic steatosis', 'Fatty infiltration of liver', 'Fatty liver', 'Liver steatosis', 'Steatosis']|0.99195975|445.0
+346.0|HP:0001511|3.0|['Intrauterine growth retardation', 'In utero growth retardation', 'Intrauterine growth failure', 'Intrauterine growth restriction', 'Intrauterine growth retardation, IUGR', 'Intrauterine retardation', 'IUGR', 'Prenatal growth deficiency', 'Prenatal growth failure', 'Prenatal growth retardation', 'Prenatal onset growth retardation', 'Prenatal-onset growth retardation', 'Small for gestational age infant']|0.9968729|313.0
+519.0|HP:0000407|3.0|['Sensorineural hearing impairment', 'Hearing loss, sensorineural', 'Sensorineural deafness', 'Sensorineural hearing loss']|0.9849287|493.0
+488.0|HP:0000819|3.0|['Diabetes mellitus']|0.9600735|471.0
+377.0|HP:0001249|3.0|['Intellectual disability', 'Dull intelligence', 'Intellectual disability', 'Low intelligence', 'Mental deficiency', 'Mental retardation', 'Mental retardation, nonspecific', 'Mental-retardation', 'Nonprogressive intellectual disability', 'Nonprogressive mental retardation', 'Poor school performance']|0.9938634|354.0
+113.0|HP:0001510|6.0|['Growth delay', 'Delayed growth', 'Growth deficiency', 'Growth delay', 'Growth failure', 'Growth retardation', 'Poor growth', 'Retarded growth', 'Very poor growth']|0.9823233|95.0
+145.0|HP:0100543|6.0|['Cognitive impairment', 'Abnormality of cognition', 'Cognitive abnormality', 'Cognitive defects', 'Cognitive deficits', 'Cognitive impairment', 'Intellectual impairment', 'Mental impairment']|0.95951575|136.0
+64.0|HP:0001511|7.0|['Intrauterine growth retardation', 'In utero growth retardation', 'Intrauterine growth failure', 'Intrauterine growth restriction', 'Intrauterine growth retardation, IUGR', 'Intrauterine retardation', 'IUGR', 'Prenatal growth deficiency', 'Prenatal growth failure', 'Prenatal growth retardation', 'Prenatal onset growth retardation', 'Prenatal-onset growth retardation', 'Small for gestational age infant']|0.99550664|60.0
+326.0|HP:0100633|7.0|['Esophagitis', 'Inflammation of the esophagus', 'Oesophagitis']|0.99726325|315.0
+116.0|HP:0010864|7.0|['Intellectual disability, severe', 'Early and severe mental retardation', 'Intellectual disability, severe', 'Mental retardation, severe', 'Severe mental retardation']|0.993394|86.0
+138.0|HP:0001344|7.0|['Absent speech', 'Absent speech development', 'Lack of language development', 'Lack of speech', 'No speech development', 'No speech or language development', 'Nonverbal']|0.900807|118.0
+165.0|HP:0100022|7.0|['Abnormality of movement', 'Abnormality of movement', 'Movement disorder', 'Unusual movement']|0.9642726|148.0
+196.0|HP:0001252|7.0|['Muscular hypotonia', 'Low or weak muscle tone', 'Muscle hypotonia']|0.9229314|178.0
+203.0|HP:0012443|7.0|['Abnormality of brain morphology', 'Abnormal shape of brain', 'Abnormality of the brain']|0.82531583|198.0
+274.0|HP:0001392|7.0|['Abnormality of the liver', 'Abnormal liver', 'Abnormality of the liver', 'Liver abnormality', 'Liver disease']|0.8399474|269.0
+292.0|HP:0000486|7.0|['Strabismus', 'Cross-eyed', 'Squint', 'Squint eyes']|0.9485362|282.0
+253.0|HP:0000819|8.0|['Diabetes mellitus']|0.9600735|236.0
+104.0|HP:0002342|8.0|['Intellectual disability, moderate', 'IQ between 34 and 49', 'Mental retardation, moderate', 'Moderate mental deficiency', 'Moderate mental retardation']|0.994352|72.0
+277.0|HP:0001250|8.0|['Seizures', 'Epilepsy', 'Seizure', 'Seizures']|0.9799231|269.0
+148.0|HP:0002910|8.0|['Elevated hepatic transaminase', 'Abnormal liver enzymes', 'Abnormal liver function', 'Abnormal liver function tests', 'Elevated liver enzymes', 'Elevated liver function tests', 'Elevated serum transaminases', 'Elevated transaminases', 'High liver enzymes', 'Increased liver enzymes', 'Increased liver function tests', 'Increased transaminases', 'Subclinical abnormal liver function tests']|0.9306556|120.0
+184.0|HP:0001397|8.0|['Hepatic steatosis', 'Fatty infiltration of liver', 'Fatty liver', 'Liver steatosis', 'Steatosis']|0.99195975|175.0
+221.0|HP:0000365|8.0|['Hearing impairment', 'Congenital deafness', 'Congenital hearing loss', 'Deafness', 'Hearing defect', 'Hearing impairment', 'Hearing loss', 'Hypoacusis']|0.9879309|209.0
+62.0|HP:0001511|8.0|['Intrauterine growth retardation', 'In utero growth retardation', 'Intrauterine growth failure', 'Intrauterine growth restriction', 'Intrauterine growth retardation, IUGR', 'Intrauterine retardation', 'IUGR', 'Prenatal growth deficiency', 'Prenatal growth failure', 'Prenatal growth retardation', 'Prenatal onset growth retardation', 'Prenatal-onset growth retardation', 'Small for gestational age infant']|0.99550664|58.0
+453.0|HP:0001511|9.0|['Intrauterine growth retardation', 'In utero growth retardation', 'Intrauterine growth failure', 'Intrauterine growth restriction', 'Intrauterine growth retardation, IUGR', 'Intrauterine retardation', 'IUGR', 'Prenatal growth deficiency', 'Prenatal growth failure', 'Prenatal growth retardation', 'Prenatal onset growth retardation', 'Prenatal-onset growth retardation', 'Small for gestational age infant']|0.99550664|449.0
+496.0|HP:0007015|9.0|['Poor gross motor coordination', 'Gross motor impairment']|0.8629383|476.0
+97.0|HP:0002342|9.0|['Intellectual disability, moderate', 'IQ between 34 and 49', 'Mental retardation, moderate', 'Moderate mental deficiency', 'Moderate mental retardation']|0.9673749|76.0
+153.0|HP:0001392|9.0|['Abnormality of the liver', 'Abnormal liver', 'Abnormality of the liver', 'Liver abnormality', 'Liver disease']|0.8399474|148.0
+209.0|HP:0001399|9.0|['Hepatic failure', 'Liver failure']|0.9852403|196.0
+236.0|HP:0001397|9.0|['Hepatic steatosis', 'Fatty infiltration of liver', 'Fatty liver', 'Liver steatosis', 'Steatosis']|0.99195975|227.0
+259.0|HP:0001396|9.0|['Cholestasis', 'Slowed or blocked flow of bile from liver']|0.98234975|248.0
+275.0|HP:0001999|9.0|['Abnormal facial shape', 'Abnormal facial shape', 'Abnormal morphology of the face', 'Deformity of face', 'Distinctive facies', 'Distortion of face', 'Dysmorphic facial features', 'Dysmorphic facies', 'Facial dysmorphism', 'Funny looking face', 'Malformation of face', 'Unusual facial appearance', 'Unusual facies']|0.9355389|260.0
+323.0|HP:0000293|9.0|['Full cheeks', 'Apple cheeks', 'Big cheeks', 'Chubby cheeks', 'Full cheeks', 'Hyperplasia of cheeks', 'Hypertrophy of cheeks', 'Increased size of cheeks', 'Large cheeks', 'Puffy cheeks']|0.99652565|310.0
+66.0|HP:0001511|9.0|['Intrauterine growth retardation', 'In utero growth retardation', 'Intrauterine growth failure', 'Intrauterine growth restriction', 'Intrauterine growth retardation, IUGR', 'Intrauterine retardation', 'IUGR', 'Prenatal growth deficiency', 'Prenatal growth failure', 'Prenatal growth retardation', 'Prenatal onset growth retardation', 'Prenatal-onset growth retardation', 'Small for gestational age infant']|0.99550664|62.0
+69.0|HP:0001510|22.0|['Growth delay', 'Delayed growth', 'Growth deficiency', 'Growth delay', 'Growth failure', 'Growth retardation', 'Poor growth', 'Retarded growth', 'Very poor growth']|0.8645337|52.0
+512.0|HP:0001510|25.0|['Growth delay', 'Delayed growth', 'Growth deficiency', 'Growth delay', 'Growth failure', 'Growth retardation', 'Poor growth', 'Retarded growth', 'Very poor growth']|0.8645338|495.0
+300.0|HP:0002981|25.0|['Abnormality of the calf', 'Abnormality of the calf']|0.81171274|296.0
+213.0|HP:0002981|26.0|['Abnormality of the calf', 'Abnormality of the calf']|0.81171274|209.0
+107.0|HP:0012443|33.0|['Abnormality of brain morphology', 'Abnormal shape of brain', 'Abnormality of the brain']|0.82531583|102.0
+109.0|HP:0012443|40.0|['Abnormality of brain morphology', 'Abnormal shape of brain', 'Abnormality of the brain']|0.82531583|104.0
+71.0|HP:0002981|41.0|['Abnormality of the calf', 'Abnormality of the calf']|0.81171274|67.0
+43.0|HP:0031831|43.0|['Decreased serum zinc']|0.8898409|24.0
+205.0|HP:0008846|44.0|['Severe intrauterine growth retardation', 'Intrauterine growth retardation, severe', 'Severe prenatal growth deficiency']|0.96307546|166.0
+236.0|HP:0001249|44.0|['Intellectual disability', 'Dull intelligence', 'Intellectual disability', 'Low intelligence', 'Mental deficiency', 'Mental retardation', 'Mental retardation, nonspecific', 'Mental-retardation', 'Nonprogressive intellectual disability', 'Nonprogressive mental retardation', 'Poor school performance']|0.9938634|213.0
+256.0|HP:0001252|44.0|['Muscular hypotonia', 'Low or weak muscle tone', 'Muscle hypotonia']|0.9229314|238.0
+103.0|HP:0001344|46.0|['Absent speech', 'Absent speech development', 'Lack of language development', 'Lack of speech', 'No speech development', 'No speech or language development', 'Nonverbal']|0.942049|75.0
+115.0|HP:0001257|46.0|['Spasticity', 'Involuntary muscle stiffness, contraction, or spasm', 'Muscle spasticity', 'Muscular spasticity']|0.9826288|105.0
+148.0|HP:0002500|46.0|['Abnormality of the cerebral white matter', 'Abnormality of subcortical white matter', 'Cerebral white matter abnormalities', 'Cortical white matter abnormalities seen on MRI', 'Leukoaraiosis', 'White matter abnormalities', 'White matter alterations']|0.84621793|128.0
+173.0|HP:0000252|46.0|['Microcephaly', 'Abnormally small cranium', 'Abnormally small head', 'Abnormally small skull', 'Decreased circumference of cranium', 'Decreased size of cranium', 'Decreased size of head', 'Decreased size of skull', 'Reduced head circumference', 'small calvarium', 'small cranium', 'Small head', 'Small head circumference', 'Small skull']|0.9436223|161.0
+243.0|HP:0002342|46.0|['Intellectual disability, moderate', 'IQ between 34 and 49', 'Mental retardation, moderate', 'Moderate mental deficiency', 'Moderate mental retardation']|0.994352|211.0
+303.0|HP:0012443|46.0|['Abnormality of brain morphology', 'Abnormal shape of brain', 'Abnormality of the brain']|0.82531583|298.0
+54.0|HP:0001249|47.0|['Intellectual disability', 'Dull intelligence', 'Intellectual disability', 'Low intelligence', 'Mental deficiency', 'Mental retardation', 'Mental retardation, nonspecific', 'Mental-retardation', 'Nonprogressive intellectual disability', 'Nonprogressive mental retardation', 'Poor school performance']|0.9938634|31.0
+255.0|HP:0001249|47.0|['Intellectual disability', 'Dull intelligence', 'Intellectual disability', 'Low intelligence', 'Mental deficiency', 'Mental retardation', 'Mental retardation, nonspecific', 'Mental-retardation', 'Nonprogressive intellectual disability', 'Nonprogressive mental retardation', 'Poor school performance']|0.9938634|232.0
+115.0|HP:0001249|48.0|['Intellectual disability', 'Dull intelligence', 'Intellectual disability', 'Low intelligence', 'Mental deficiency', 'Mental retardation', 'Mental retardation, nonspecific', 'Mental-retardation', 'Nonprogressive intellectual disability', 'Nonprogressive mental retardation', 'Poor school performance']|0.9938634|92.0
+5.0|HP:0001392|49.0|['Abnormality of the liver', 'Abnormal liver', 'Abnormality of the liver', 'Liver abnormality', 'Liver disease']|0.8399474|0.0
+119.0|HP:0001399|49.0|['Hepatic failure', 'Liver failure']|0.9852403|106.0
+216.0|HP:0006580|49.0|['Portal fibrosis', 'Portal fibrosis shown on biopsy']|0.9095224|195.0
+190.0|HP:0001397|49.0|['Hepatic steatosis', 'Fatty infiltration of liver', 'Fatty liver', 'Liver steatosis', 'Steatosis']|0.99195975|181.0
+5.0|HP:0001392|50.0|['Abnormality of the liver', 'Abnormal liver', 'Abnormality of the liver', 'Liver abnormality', 'Liver disease']|0.8399474|0.0
+74.0|HP:0001396|50.0|['Cholestasis', 'Slowed or blocked flow of bile from liver']|0.98234975|63.0
+88.0|HP:0001406|52.0|['Intrahepatic cholestasis', 'Impaired release of bile from liver']|0.9830618|64.0
+139.0|HP:0001396|52.0|['Cholestasis', 'Slowed or blocked flow of bile from liver']|0.98234975|128.0
+108.0|HP:0001392|53.0|['Abnormality of the liver', 'Abnormal liver', 'Abnormality of the liver', 'Liver abnormality', 'Liver disease']|0.9758091|95.0
+131.0|HP:0001396|53.0|['Cholestasis', 'Slowed or blocked flow of bile from liver']|0.98234975|120.0
+186.0|HP:0012443|54.0|['Abnormality of brain morphology', 'Abnormal shape of brain', 'Abnormality of the brain']|0.91900283|164.0
+129.0|HP:0012443|54.0|['Abnormality of brain morphology', 'Abnormal shape of brain', 'Abnormality of the brain']|0.82531583|124.0
+36.0|HP:0000252|55.0|['Microcephaly', 'Abnormally small cranium', 'Abnormally small head', 'Abnormally small skull', 'Decreased circumference of cranium', 'Decreased size of cranium', 'Decreased size of head', 'Decreased size of skull', 'Reduced head circumference', 'small calvarium', 'small cranium', 'Small head', 'Small head circumference', 'Small skull']|0.9436223|24.0
+26.0|HP:0009879|56.0|['Simplified gyral pattern', 'Cortical gyral simplification']|0.9949919|2.0
+454.0|HP:0001399|56.0|['Hepatic failure', 'Liver failure']|0.9852403|441.0
+235.0|HP:0001392|56.0|['Abnormality of the liver', 'Abnormal liver', 'Abnormality of the liver', 'Liver abnormality', 'Liver disease']|0.9758091|222.0
+302.0|HP:0001392|56.0|['Abnormality of the liver', 'Abnormal liver', 'Abnormality of the liver', 'Liver abnormality', 'Liver disease']|0.9758091|289.0
+108.0|HP:0012443|58.0|['Abnormality of brain morphology', 'Abnormal shape of brain', 'Abnormality of the brain']|0.82531583|103.0
+119.0|HP:0001392|58.0|['Abnormality of the liver', 'Abnormal liver', 'Abnormality of the liver', 'Liver abnormality', 'Liver disease']|0.8399474|114.0
+247.0|HP:0001392|61.0|['Abnormality of the liver', 'Abnormal liver', 'Abnormality of the liver', 'Liver abnormality', 'Liver disease']|0.8399474|242.0
+43.0|HP:0002821|71.0|['Neuropathic arthropathy', 'Charcot arthropathy', 'Charcot joint']|0.9755548|36.0
+106.0|HP:0003693|71.0|['Distal amyotrophy', 'Amyotrophy of distal limb muscles', 'Distal amyotrophy, especially of the hands and feet', 'Distal limb muscle atrophy', 'Distal muscle atrophy', 'Distal muscle atrophy, upper and lower limbs', 'Distal muscle degeneration', 'Distal muscle wasting', 'Distal muscular atrophy', 'Muscle atrophy, distal']|0.9487233|72.0
+104.0|HP:0006517|89.0|['Alveolar proteinosis']|0.9946696|84.0
+83.0|HP:0002088|89.0|['Abnormal lung morphology', 'Abnormality of lung morphology', 'Abnormality of the lungs', 'Abnormally shaped lung', 'Lung disease', 'Unusal lung shape']|0.801984|74.0
+214.0|HP:0002981|93.0|['Abnormality of the calf', 'Abnormality of the calf']|0.81171274|210.0
+92.0|HP:0001510|94.0|['Growth delay', 'Delayed growth', 'Growth deficiency', 'Growth delay', 'Growth failure', 'Growth retardation', 'Poor growth', 'Retarded growth', 'Very poor growth']|0.9278304|68.0
+87.0|HP:0001406|116.0|['Intrahepatic cholestasis', 'Impaired release of bile from liver']|0.9830618|63.0
+187.0|HP:0001396|118.0|['Cholestasis', 'Slowed or blocked flow of bile from liver']|0.86734545|175.0
+64.0|HP:0001399|142.0|['Hepatic failure', 'Liver failure']|0.9852403|51.0
+50.0|HP:0006808|147.0|['Cerebral hypomyelination', 'Hypomyelination of the brain']|0.90404385|24.0
+83.0|HP:0002143|147.0|['Abnormality of the spinal cord', 'Abnormality of the spinal cord', 'Spinal cord disease', 'Spinal cord pathology']|0.8317755|60.0
+172.0|HP:0002352|151.0|['Leukoencephalopathy']|0.97099715|153.0
+86.0|HP:0000253|154.0|['Progressive microcephaly', 'Microcephaly, postnatal, progressive', 'Microcephaly, progressive', 'Progressively abnormally small cranium', 'Progressively abnormally small skull']|0.9970667|62.0
+115.0|HP:0001272|154.0|['Cerebellar atrophy', 'Degeneration of cerebellum', 'Infratentorial atrophy']|0.97040623|97.0
+143.0|HP:0001250|154.0|['Seizures', 'Epilepsy', 'Seizure', 'Seizures']|0.81469315|133.0
+172.0|HP:0025639|168.0|['Increased urinary zinc level']|0.8990921|160.0
+104.0|HP:0001392|168.0|['Abnormality of the liver', 'Abnormal liver', 'Abnormality of the liver', 'Liver abnormality', 'Liver disease']|0.8399474|99.0
+128.0|HP:0001392|170.0|['Abnormality of the liver', 'Abnormal liver', 'Abnormality of the liver', 'Liver abnormality', 'Liver disease']|0.8399474|123.0
+63.0|HP:0006554|174.0|['Acute hepatic failure', 'Acute liver failure']|0.9896919|44.0
+29.0|HP:0006554|179.0|['Acute hepatic failure', 'Acute liver failure']|0.9896919|10.0
+194.0|HP:0001399|183.0|['Hepatic failure', 'Liver failure']|0.9852403|181.0
+217.0|HP:0009830|183.0|['Peripheral neuropathy', 'Neuropathy', 'Peripheral nerve damage', 'Peripheral neuritis']|0.9717754|196.0
+237.0|HP:0001272|183.0|['Cerebellar atrophy', 'Degeneration of cerebellum', 'Infratentorial atrophy']|0.97040623|219.0
