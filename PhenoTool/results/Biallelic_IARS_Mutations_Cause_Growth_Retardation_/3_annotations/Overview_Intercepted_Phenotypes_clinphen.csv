@@ -1,0 +1,161 @@
+end|hp_id|index|names|score|start
+38.0|HP:0001510|0.0|['Growth delay']|1|19.0
+57.0|HP:0001511|0.0|['Intrauterine growth retardation']|1|38.0
+76.0|HP:0003577|0.0|['Congenital onset']|1|57.0
+95.0|HP:0012828|0.0|['Severe']|1|76.0
+46.0|HP:0001249|1.0|['Intellectual disability']|1|23.0
+36.666666666666664|HP:0001252|2.0|['Muscular hypotonia']|1|18.333333333333332
+55.0|HP:0001290|2.0|['Generalized hypotonia']|1|36.666666666666664
+73.33333333333333|HP:0001319|2.0|['Neonatal hypotonia']|1|55.0
+18.0|HP:0001397|3.0|['Hepatic steatosis']|1|9.0
+118.0|HP:0001399|4.0|['Hepatic failure']|1|59.0
+156.0|HP:0001427|5.0|['Mitochondrial inheritance']|1|78.0
+20.0|HP:0009830|6.0|['Peripheral neuropathy']|1|10.0
+150.0|HP:0001427|7.0|['Mitochondrial inheritance']|1|75.0
+40.666666666666664|HP:0001510|8.0|['Growth delay']|1|20.333333333333332
+61.0|HP:0001511|8.0|['Intrauterine growth retardation']|1|40.666666666666664
+81.33333333333333|HP:0003577|8.0|['Congenital onset']|1|61.0
+23.333333333333332|HP:0001324|9.0|['Muscle weakness']|1|11.666666666666666
+35.0|HP:0012828|9.0|['Severe']|1|23.333333333333332
+46.666666666666664|HP:0020037|9.0|['Astasia']|1|35.0
+66.0|HP:0001397|10.0|['Hepatic steatosis']|1|33.0
+118.66666666666667|HP:0001510|11.0|['Growth delay']|1|59.333333333333336
+178.0|HP:0001511|11.0|['Intrauterine growth retardation']|1|118.66666666666667
+237.33333333333334|HP:0003577|11.0|['Congenital onset']|1|178.0
+54.0|HP:0001249|12.0|['Intellectual disability']|1|27.0
+14.666666666666666|HP:0001252|13.0|['Muscular hypotonia']|1|7.333333333333333
+22.0|HP:0001290|13.0|['Generalized hypotonia']|1|14.666666666666666
+29.333333333333332|HP:0001319|13.0|['Neonatal hypotonia']|1|22.0
+45.0|HP:0000819|14.0|['Diabetes mellitus']|1|22.5
+67.5|HP:0001397|14.0|['Hepatic steatosis']|1|45.0
+20.0|HP:0000365|15.0|['Hearing impairment']|1|10.0
+30.0|HP:0000407|15.0|['Sensorineural hearing impairment']|1|20.0
+40.0|HP:0008527|15.0|['Congenital sensorineural hearing impairment']|1|30.0
+116.0|HP:0001510|16.0|['Growth delay']|1|58.0
+52.666666666666664|HP:0001249|17.0|['Intellectual disability']|1|26.333333333333332
+79.0|HP:0001511|17.0|['Intrauterine growth retardation']|1|52.666666666666664
+105.33333333333333|HP:0002342|17.0|['Intellectual disability, moderate']|1|79.0
+24.0|HP:0001397|18.0|['Hepatic steatosis']|1|12.0
+36.0|HP:0003623|18.0|['Neonatal onset']|1|24.0
+92.0|HP:0000365|19.0|['Hearing impairment']|1|46.0
+58.0|HP:0000819|20.0|['Diabetes mellitus']|1|29.0
+16.0|HP:0001250|21.0|['Seizure']|1|8.0
+138.0|HP:0001511|22.0|['Intrauterine growth retardation']|1|69.0
+46.0|HP:0001399|23.0|['Hepatic failure']|1|23.0
+24.0|HP:0001397|24.0|['Hepatic steatosis']|1|12.0
+36.0|HP:0003623|24.0|['Neonatal onset']|1|24.0
+29.6|HP:0000271|25.0|['Abnormality of the face']|1|14.8
+44.400000000000006|HP:0000291|25.0|['Abnormality of facial adipose tissue']|1|29.6
+59.2|HP:0000293|25.0|['Full cheeks']|1|44.400000000000006
+74.0|HP:0001396|25.0|['Cholestasis']|1|59.2
+88.80000000000001|HP:0004426|25.0|['Abnormality of the cheek']|1|74.0
+24.0|HP:0003674|26.0|['Onset']|1|12.0
+8.0|HP:0001511|27.0|['Intrauterine growth retardation']|1|4.0
+21.0|HP:0000252|28.0|['Microcephaly']|1|10.5
+31.5|HP:0004325|28.0|['Decreased body weight']|1|21.0
+42.0|HP:0011451|28.0|['Congenital microcephaly']|1|31.5
+52.5|HP:0040195|28.0|['Decreased head circumference']|1|42.0
+46.0|HP:0012828|29.0|['Severe']|1|23.0
+69.0|HP:0032169|29.0|['Severe infection']|1|46.0
+92.0|HP:0040194|30.0|['Increased head circumference']|1|46.0
+50.0|HP:0000824|31.0|['Growth hormone deficiency']|1|25.0
+75.0|HP:0001510|31.0|['Growth delay']|1|50.0
+29.25|HP:0000750|32.0|['Delayed speech and language development']|1|14.625
+43.875|HP:0001249|32.0|['Intellectual disability']|1|29.25
+58.5|HP:0001344|32.0|['Absent speech']|1|43.875
+73.125|HP:0002167|32.0|['Neurological speech impairment']|1|58.5
+87.75|HP:0002342|32.0|['Intellectual disability, moderate']|1|73.125
+102.375|HP:0010864|32.0|['Intellectual disability, severe']|1|87.75
+117.0|HP:0012828|32.0|['Severe']|1|102.375
+131.625|HP:0100543|32.0|['Cognitive impairment']|1|117.0
+12.0|HP:0001252|33.0|['Muscular hypotonia']|1|6.0
+18.0|HP:0001290|33.0|['Generalized hypotonia']|1|12.0
+24.0|HP:0001319|33.0|['Neonatal hypotonia']|1|18.0
+144.0|HP:0001257|34.0|['Spasticity']|1|72.0
+49.0|HP:0000252|35.0|['Microcephaly']|1|24.5
+73.5|HP:0011451|35.0|['Congenital microcephaly']|1|49.0
+27.333333333333332|HP:0001249|36.0|['Intellectual disability']|1|13.666666666666666
+41.0|HP:0001256|36.0|['Intellectual disability, mild']|1|27.333333333333332
+54.666666666666664|HP:0012825|36.0|['Mild']|1|41.0
+23.333333333333332|HP:0000252|37.0|['Microcephaly']|1|11.666666666666666
+35.0|HP:0011451|37.0|['Congenital microcephaly']|1|23.333333333333332
+46.666666666666664|HP:0040195|37.0|['Decreased head circumference']|1|35.0
+35.0|HP:0001510|38.0|['Growth delay']|1|17.5
+52.5|HP:0001511|38.0|['Intrauterine growth retardation']|1|35.0
+102.0|HP:0001397|39.0|['Hepatic steatosis']|1|51.0
+154.0|HP:0006580|40.0|['Portal fibrosis']|1|77.0
+231.0|HP:0012115|40.0|['Hepatitis']|1|154.0
+132.0|HP:0001263|41.0|['Global developmental delay']|1|66.0
+15.666666666666666|HP:0000365|42.0|['Hearing impairment']|1|7.833333333333333
+23.5|HP:0000407|42.0|['Sensorineural hearing impairment']|1|15.666666666666666
+31.333333333333332|HP:0008527|42.0|['Congenital sensorineural hearing impairment']|1|23.5
+39.166666666666664|HP:0008625|42.0|['Severe sensorineural hearing impairment']|1|31.333333333333332
+47.0|HP:0012714|42.0|['Severe hearing impairment']|1|39.166666666666664
+54.83333333333333|HP:0012828|42.0|['Severe']|1|47.0
+66.0|HP:0000824|43.0|['Growth hormone deficiency']|1|33.0
+99.0|HP:0001510|43.0|['Growth delay']|1|66.0
+28.666666666666668|HP:0001250|44.0|['Seizure']|1|14.333333333333334
+43.0|HP:0002069|44.0|['Bilateral tonic-clonic seizure']|1|28.666666666666668
+57.333333333333336|HP:0002169|44.0|['Clonus']|1|43.0
+71.66666666666667|HP:0002197|44.0|['Generalized-onset seizure']|1|57.333333333333336
+86.0|HP:0010818|44.0|['Generalized tonic seizure']|1|71.66666666666667
+100.33333333333334|HP:0011169|44.0|['Generalized clonic seizure']|1|86.0
+72.0|HP:0000819|45.0|['Diabetes mellitus']|1|36.0
+108.0|HP:0100651|45.0|['Type I diabetes mellitus']|1|72.0
+28.5|HP:0001249|46.0|['Intellectual disability']|1|14.25
+42.75|HP:0001256|46.0|['Intellectual disability, mild']|1|28.5
+57.0|HP:0002342|46.0|['Intellectual disability, moderate']|1|42.75
+71.25|HP:0012825|46.0|['Mild']|1|57.0
+26.666666666666668|HP:0000252|47.0|['Microcephaly']|1|13.333333333333334
+40.0|HP:0011451|47.0|['Congenital microcephaly']|1|26.666666666666668
+53.333333333333336|HP:0040195|47.0|['Decreased head circumference']|1|40.0
+35.0|HP:0001510|48.0|['Growth delay']|1|17.5
+52.5|HP:0001511|48.0|['Intrauterine growth retardation']|1|35.0
+56.0|HP:0000952|49.0|['Jaundice']|1|28.0
+29.0|HP:0002904|50.0|['Hyperbilirubinemia']|1|14.5
+43.5|HP:0002908|50.0|['Conjugated hyperbilirubinemia']|1|29.0
+48.0|HP:0012825|51.0|['Mild']|1|24.0
+112.0|HP:0000952|52.0|['Jaundice']|1|56.0
+54.0|HP:0002904|53.0|['Hyperbilirubinemia']|1|27.0
+81.0|HP:0002908|53.0|['Conjugated hyperbilirubinemia']|1|54.0
+100.0|HP:0001396|54.0|['Cholestasis']|1|50.0
+60.0|HP:0001397|55.0|['Hepatic steatosis']|1|30.0
+164.0|HP:0006580|56.0|['Portal fibrosis']|1|82.0
+74.0|HP:0100806|57.0|['Sepsis']|1|37.0
+107.0|HP:0002904|58.0|['Hyperbilirubinemia']|1|53.5
+160.5|HP:0002908|58.0|['Conjugated hyperbilirubinemia']|1|107.0
+72.0|HP:0001410|59.0|['Decreased liver function']|1|36.0
+44.0|HP:0002013|60.0|['Vomiting']|1|22.0
+122.0|HP:0002719|61.0|['Recurrent infections']|1|61.0
+70.0|HP:0001263|62.0|['Global developmental delay']|1|35.0
+21.0|HP:0000252|63.0|['Microcephaly']|1|10.5
+31.5|HP:0011451|63.0|['Congenital microcephaly']|1|21.0
+138.0|HP:0001510|64.0|['Growth delay']|1|69.0
+130.0|HP:0001510|65.0|['Growth delay']|1|65.0
+34.0|HP:0001510|66.0|['Growth delay']|1|17.0
+84.0|HP:0001263|67.0|['Global developmental delay']|1|42.0
+88.0|HP:0012828|68.0|['Severe']|1|44.0
+92.0|HP:0012828|69.0|['Severe']|1|46.0
+90.0|HP:0001263|70.0|['Global developmental delay']|1|45.0
+68.0|HP:0012828|71.0|['Severe']|1|34.0
+192.0|HP:0002981|72.0|['Abnormality of the calf']|1|96.0
+142.0|HP:0001396|73.0|['Cholestasis']|1|71.0
+94.0|HP:0001396|74.0|['Cholestasis']|1|47.0
+141.0|HP:0001406|74.0|['Intrahepatic cholestasis']|1|94.0
+105.0|HP:0001396|75.0|['Cholestasis']|1|52.5
+157.5|HP:0001406|75.0|['Intrahepatic cholestasis']|1|105.0
+66.0|HP:0001396|76.0|['Cholestasis']|1|33.0
+172.0|HP:0001510|77.0|['Growth delay']|1|86.0
+102.0|HP:0001658|78.0|['Myocardial infarction']|1|51.0
+376.0|HP:0012443|79.0|['Abnormality of brain morphology']|1|188.0
+93.0|HP:0000505|80.0|['Visual impairment']|1|46.5
+139.5|HP:0003429|80.0|['CNS hypomyelination']|1|93.0
+176.0|HP:0003429|81.0|['CNS hypomyelination']|1|88.0
+99.0|HP:0000252|82.0|['Microcephaly']|1|49.5
+148.5|HP:0011451|82.0|['Congenital microcephaly']|1|99.0
+75.0|HP:0001392|83.0|['Abnormality of the liver']|1|37.5
+112.5|HP:0011010|83.0|['Chronic']|1|75.0
+76.0|HP:0001392|84.0|['Abnormality of the liver']|1|38.0
+114.0|HP:0011010|84.0|['Chronic']|1|76.0
+252.0|HP:0001399|85.0|['Hepatic failure']|1|126.0
+144.0|HP:0001427|86.0|['Mitochondrial inheritance']|1|72.0

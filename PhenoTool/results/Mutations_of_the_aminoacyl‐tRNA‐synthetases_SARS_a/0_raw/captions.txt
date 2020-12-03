@@ -1,0 +1,33 @@
+Entity0
+A: Pedigree of family 1. B: Pedigree of family 2. Full symbols represent affected individuals with ID. Arrows indicate the respective index patients. C: Schematic representations of SARS gene and protein. The position of the missense mutation c.514G>A in exon five of SARS as well as the corresponding change on protein (p.Asp172Asn) are indicated. The protein domain structure shown is based on UniProtKB/Swiss-Prot entry P49591. D: Schematic representations of the WARS2 gene and protein. The positions of the missense mutation c.37T>G in exon one and the deletion c.325delA in exon two of WARS2 as well as the positions of the corresponding protein changes p.Trp14Gly and p.Ser109Alafs*15 are indicated. The shown mitochondrial localization signal (amino acids 1-18) and the mitochondrial Tryptophan-tRNA ligase domain (amino acids 19-360) are based on UniProtKB/Swiss-Prot entry Q9UGM6
+                     
+Entity1
+A: Whole cell lysate (WCL), cytoplasmic (CF), and nuclear (NF) fractions from HEK293T cells transfected either with EYFP-SARS wild-type (WT) or mutant (p.Asp172Asn) were run on SDS-PAGE. The gel was blotted and probed with a-GFP antibody. The blot was subsequently probed with a-tubulin and a-lamin antibodies as loading controls for cytosolic and nuclear fractions, respectively. B: Quantification of EYFP-SARS WT or mutant (p.Asp172Asn) expression in HEK293T cells. Quantification of bands from Western blots was performed using ImageQuant software (Molecular Dynamics). Tubulin was used to normalize SARS protein expression. On the left, histogram showing a statistically highly significant reduction of SARS p.Asp172Asn expression compared with the expression of SARS WT in total cell lysate from HEK293T cells (n = 6; t-test (two-tailed, homoscedastic): ***P < 0.001, SARS p.Asp172NAsn expression is reduced to 67% of SARS WT expression. In the middle, histogram showing significant reduction of mutant SARS in the cytosolic fraction as compared with the WT SARS (n = 6; t test (two-tailed, homoscedastic): ***, P < 0.001). SARS p.Asp172Asn expression is reduced to about 60% of SARS WT expression. C: Results of pyrophosphate release assay. During the first step of the aminoacylation reaction, serine-adenylate is formed and pyrophosphate is released. Equal amounts of recombinant SARS WT and mutant (p. Asp172Asn and p.Thr429Ala) proteins were used to assay the first step of aminoacylation. The pyrophosphate released (nmol P) during serine activation was measured in a colorimetric reaction using BIOMOL GREEN Reagent(tm). At 60 min p.Asp172Asn SARS (n = 4; red) shows highly statistically significant reduction of pyrophosphate release as compared with the WT SARS. The catalytically inactive p.Thr429Ala SARS (blue) released no pyrophosphate (n = 6). Data were normalized to individual background activity. ***: P < 0.001 (Student's t-test; two-tailed, homoscedastic)
+                     
+Entity2
+Confocal immunofluorescence microscopy showing the mitochondrial localization of EYFP-WARS2 wild-type (WT) and mutant (p.Trp13Gly) in COS7 cells. Transfection rates were 42.8 +- 2.2% for WARS2 WT and 40.8 +- 1.3% for WARS2 p.Trp13Gly, respectively (based on three independent transfections). The green signal corresponds to WARS2 staining, the red signal correspond to MitoTracker, a fluorescent dye that stains mitochondria whereas the blue corresponds to nuclear DAPI staining. Scale bars = 10 mM. B: Subcellular co-localization of EYFP-WARS2 WT and mutant (p.Trp13Gly) (green signal) with the mitochondrial marker HSP60 (red signal). Blue signal corresponds to nuclear DAPI staining. Scale bars: 10 mM
+                     
+Entity3
+Impaired mitochondrial localization of the WARS2 p.Trp13Gly protein. A: Mitochondrial fractions (MT) from HEK293T cells transfected either with wild-type (WT) or mutant EYFP-WARS2 (p.Trp13Gly) was run on SDS-PAGE. The gel was blotted and probed with a-GFP antibody. The blot was subsequently probed with antibodies specific for several mitochondrial proteins. B-E: Quantification of WT and mutant EYFP-WARS2 (p.Trp13Gly) expression in the mitochondrial fraction. Several mitochondrial markers (PHB1, HSP60, VADC, and COX IV) were used to normalize WARS2 protein amount. Quantification of bands from Western blots was performed using ImageQuant software (Molecular Dynamics). The histograms show a statistically highly significant reduction of WARS2 p.Trp13Gly in this cellular compartment compared with WARS2 WT (n = 3; t-test (two-tailed, homoscedastic): ***P < 0.001). WARS2 p.Trp13Gly expression is reduced to 70% of WARS2 WT. F: Whole cell lysates (WCL) from HEK293T cells transfected either with WT or mutant EYFP-WARS2 (p.Trp13Gly) were run on SDS-PAGE. The gel was blotted and probed with a-GFP antibody and subsequently with a-tubulin antibody as loading control. G: Quantification of bands from Western blots was performed using ImageQuant software (Molecular Dynamics) and tubulin was used to normalize WARS2 protein expression. The histogram shows no difference in the expression level of WT and mutant WARS2 in the whole cell lysate. H: The histogram shows significant difference in the amount of endogenous SDHA in the mitochondrial fraction upon overexpression of p.Trp13Gly-WARS2 compared with the WT (n = 3; t-test (two-tailed, homoscedastic): ***, P < 0.001). PHB1 was used to normalize SDHA protein amount
+                     
+Entity4
+Human Mutation
+Entity6
+Open in figure viewerPowerPoint
+Entity7
+Open in figure viewerPowerPoint
+Entity8
+Open in figure viewerPowerPoint
+Entity9
+Open in figure viewerPowerPoint
+Entity10
+Volume38, Issue6June 2017Pages 621-636
+
+Entity11
+Close Figure ViewerReturn to Figure
+Entity12
+Close Figure Viewer
+Entity13
+Previous FigureNext Figure
+Entity15
+Caption

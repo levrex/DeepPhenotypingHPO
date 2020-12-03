@@ -1,0 +1,216 @@
+|HPO|LBL|NAME
+0|HP:0000152|TP|Abnormality of head or neck
+1|HP:0000234|TP|Abnormality of the head
+2|HP:0000240|TP|Abnormality of skull size
+3|HP:0000252|TP|Microcephaly
+4|HP:0000271|TP|Abnormality of the face
+5|HP:0000293|TP|Full cheeks
+6|HP:0000309|TP|Abnormality of the midface
+7|HP:0000359|TP|Abnormality of the inner ear
+8|HP:0000364|TP|Hearing abnormality
+9|HP:0000365|TP|Hearing impairment
+10|HP:0000407|TP|Sensorineural hearing impairment
+11|HP:0000478|TP|Abnormality of the eye
+12|HP:0000598|TP|Abnormality of the ear
+13|HP:0000707|TP|Abnormality of the nervous system
+14|HP:0000750|TP|Delayed speech and language development
+15|HP:0000818|TP|Abnormality of the endocrine system
+16|HP:0000819|TP|Diabetes mellitus
+17|HP:0000924|TP|Abnormality of the skeletal system
+18|HP:0000929|TP|Abnormal skull morphology
+19|HP:0000951|TP|Abnormality of the skin
+20|HP:0001249|TP|Intellectual disability
+21|HP:0001252|TP|Muscular hypotonia
+22|HP:0001257|TP|Spasticity
+23|HP:0001263|TP|Global developmental delay
+24|HP:0001276|TP|Hypertonia
+25|HP:0001344|TP|Absent speech
+26|HP:0001392|TP|Abnormality of the liver
+27|HP:0001396|TP|Cholestasis
+28|HP:0001397|TP|Hepatic steatosis
+29|HP:0001399|TP|Hepatic failure
+30|HP:0001410|TP|Decreased liver function
+31|HP:0001507|TP|Growth abnormality
+32|HP:0001510|TP|Growth delay
+33|HP:0001511|TP|Intrauterine growth retardation
+34|HP:0001574|TP|Abnormality of the integument
+35|HP:0001939|TP|Abnormality of metabolism/homeostasis
+36|HP:0002011|TP|Morphological central nervous system abnormality
+37|HP:0002012|TP|Abnormality of the abdominal organs
+38|HP:0002013|TP|Vomiting
+39|HP:0002017|TP|Nausea and vomiting
+40|HP:0002060|TP|Abnormal cerebral morphology
+41|HP:0002167|TP|Neurological speech impairment
+42|HP:0002342|TP|Intellectual disability, moderate
+43|HP:0002493|TP|Upper motor neuron dysfunction
+44|HP:0002715|TP|Abnormality of the immune system
+45|HP:0002904|TP|Hyperbilirubinemia
+46|HP:0002908|TP|Conjugated hyperbilirubinemia
+47|HP:0002977|TP|Aplasia/Hypoplasia involving the central nervous system
+48|HP:0003011|TP|Abnormality of the musculature
+49|HP:0003429|TP|CNS hypomyelination
+50|HP:0003549|TP|Abnormality of connective tissue
+51|HP:0003808|TP|Abnormal muscle tone
+52|HP:0004297|TP|Abnormality of the biliary system
+53|HP:0004323|TP|Abnormality of body weight
+54|HP:0004325|TP|Decreased body weight
+55|HP:0004426|TP|Abnormality of the cheek
+56|HP:0006561|TP|Lipid accumulation in hepatocytes
+57|HP:0006580|TP|Portal fibrosis
+58|HP:0007364|TP|Aplasia/Hypoplasia of the cerebrum
+59|HP:0009121|TP|Abnormal axial skeleton morphology
+60|HP:0009124|TP|Abnormal adipose tissue morphology
+61|HP:0010864|TP|Intellectual disability, severe
+62|HP:0010978|TP|Abnormality of immune system physiology
+63|HP:0011014|TP|Abnormal glucose homeostasis
+64|HP:0011121|TP|Abnormality of skin morphology
+65|HP:0011354|TP|Generalized abnormality of skin
+66|HP:0011389|TP|Functional abnormality of the inner ear
+67|HP:0011400|TP|Abnormal CNS myelination
+68|HP:0011442|TP|Abnormal central motor function
+69|HP:0011446|TP|Abnormality of higher mental function
+70|HP:0011458|TP|Abdominal symptom
+71|HP:0011804|TP|Abnormal muscle physiology
+72|HP:0011842|TP|Abnormality of skeletal morphology
+73|HP:0012115|TP|Hepatitis
+74|HP:0012373|TP|Abnormal eye physiology
+75|HP:0012443|TP|Abnormality of brain morphology
+76|HP:0012447|TP|Abnormal myelination
+77|HP:0012638|TP|Abnormal nervous system physiology
+78|HP:0012639|TP|Abnormal nervous system morphology
+79|HP:0012647|TP|Abnormal inflammatory response
+80|HP:0012649|TP|Increased inflammatory response
+81|HP:0012758|TP|Neurodevelopmental delay
+82|HP:0012759|TP|Neurodevelopmental abnormality
+83|HP:0025031|TP|Abnormality of the digestive system
+84|HP:0025032|TP|Abnormality of digestive system physiology
+85|HP:0025155|TP|Abnormality of hepatobiliary system physiology
+86|HP:0031137|TP|Storage in hepatocytes
+87|HP:0031703|TP|Abnormal ear morphology
+88|HP:0031704|TP|Abnormal ear physiology
+89|HP:0032101|TP|Unusual infection
+90|HP:0032169|TP|Severe infection
+91|HP:0040195|TP|Decreased head circumference
+92|HP:0100547|TP|Abnormality of forebrain morphology
+93|HP:0100651|TP|Type I diabetes mellitus
+94|HP:0410042|TP|Abnormal liver morphology
+95|HP:0000708|FN|Behavioral abnormality
+96|HP:0011968|FN|Feeding difficulties
+97|HP:0007370|FN|Aplasia/Hypoplasia of the corpus callosum
+98|HP:0001518|FN|Small for gestational age
+99|HP:0003073|FN|Hypoalbuminemia
+100|HP:0002079|FN|Hypoplasia of the corpus callosum
+101|HP:0012116|FN|Abnormal albumin level
+102|HP:0040288|FN|Nasogastric tube feeding
+103|HP:0008277|FN|Abnormal blood zinc concentration
+104|HP:0025356|FN|Psychomotor retardation
+105|HP:0002910|FN|Elevated hepatic transaminase
+106|HP:0011030|FN|Abnormal blood transition element cation concentration
+107|HP:0002492|FN|Morphological abnormality of the corticospinal tract
+108|HP:0031964|FN|Elevated serum alanine aminotransferase
+109|HP:0011922|FN|Abnormal activity of mitochondrial respiratory chain
+110|HP:0001001|FN|Abnormality of subcutaneous fat tissue
+111|HP:0004386|FN|Gastrointestinal inflammation
+112|HP:0025354|FN|Abnormal cellular phenotype
+113|HP:0001525|FN|Severe failure to thrive
+114|HP:0002500|FN|Abnormality of the cerebral white matter
+115|HP:0031691|FN|Severe viral infection
+116|HP:0003256|FN|Abnormality of the coagulation cascade
+117|HP:0011017|FN|Abnormal cellular physiology
+118|HP:0000496|FN|Abnormality of eye movement
+119|HP:0001508|FN|Failure to thrive
+120|HP:0007365|FN|Aplasia/Hypoplasia involving the corticospinal tracts
+121|HP:0003111|FN|Abnormal blood ion concentration
+122|HP:0007185|FN|Loss of consciousness
+123|HP:0006956|FN|Dilation of lateral ventricles
+124|HP:0007552|FN|Abnormal subcutaneous fat tissue distribution
+125|HP:0100633|FN|Esophagitis
+126|HP:0006554|FN|Acute hepatic failure
+127|HP:0000486|FN|Strabismus
+128|HP:0025033|FN|Abnormality of digestive system morphology
+129|HP:0011923|FN|Decreased activity of mitochondrial complex I
+130|HP:0031956|FN|Elevated serum aspartate aminotransferase
+131|HP:0008151|FN|Prolonged prothrombin time
+132|HP:0008347|FN|Decreased activity of mitochondrial complex IV
+133|HP:0000549|FN|Abnormal conjugate eye movement
+134|HP:0002118|FN|Abnormality of the cerebral ventricles
+135|HP:0030047|FN|Abnormality of lateral ventricle
+136|HP:0012719|FN|Functional abnormality of the gastrointestinal tract
+137|HP:0008872|FN|Feeding difficulties in infancy
+138|HP:0011471|FN|Gastrostomy tube feeding in infancy
+139|HP:0031831|FN|Decreased serum zinc
+140|HP:0012103|FN|Abnormality of the mitochondrion
+141|HP:0008972|FN|Decreased activity of mitochondrial respiratory chain
+142|HP:0004372|FN|Reduced consciousness/confusion
+143|HP:0012718|FN|Morphological abnormality of the gastrointestinal tract
+144|HP:0002062|FN|Morphological abnormality of the pyramidal tract
+145|HP:0010929|FN|Abnormal blood cation concentration
+146|HP:0006808|FN|Cerebral hypomyelination
+147|HP:0002031|FN|Abnormal esophagus morphology
+148|HP:0000253|FN|Progressive microcephaly
+149|HP:0010993|FN|Abnormality of the cerebral subcortex
+150|HP:0001871|FN|Abnormality of blood and blood-forming tissues
+151|HP:0012200|FN|Abnormality of prothrombin
+152|HP:0031034|FN|Abnormal insulin like growth factor binding protein acid labile subunit level
+153|HP:0003287|FN|Abnormality of mitochondrial metabolism
+154|HP:0002119|FN|Ventriculomegaly
+155|HP:0011024|FN|Abnormality of the gastrointestinal tract
+156|HP:0001928|FN|Abnormality of coagulation
+157|HP:0007016|FN|Corticospinal tract hypoplasia
+158|HP:0001273|FN|Abnormal corpus callosum morphology
+159|HP:0011013|FN|Abnormal circulating carbohydrate concentration
+160|HP:0010876|FN|Abnormal circulating protein level
+161|HP:0001319|FP|Neonatal hypotonia
+162|HP:0001290|FP|Generalized hypotonia
+163|HP:0000864|FP|Abnormality of the hypothalamus-pituitary axis
+164|HP:0000824|FP|Growth hormone deficiency
+165|HP:0000504|FP|Abnormality of vision
+166|HP:0000291|FP|Abnormality of facial adipose tissue
+167|HP:0100806|FP|Sepsis
+168|HP:0003117|FP|Abnormal circulating hormone level
+169|HP:0011451|FP|Congenital microcephaly
+170|HP:0032792|FP|Tonic seizure
+171|HP:0031865|FP|Abnormal liver physiology
+172|HP:0032367|FP|Abnormal growth hormone level
+173|HP:0000830|FP|Anterior hypopituitarism
+174|HP:0000505|FP|Visual impairment
+175|HP:0020037|FP|Astasia
+176|HP:0040075|FP|Hypopituitarism
+177|HP:0032677|FP|Generalized-onset motor seizure
+178|HP:0001324|FP|Muscle weakness
+179|HP:0002169|FP|Clonus
+180|HP:0001406|FP|Intrahepatic cholestasis
+181|HP:0032180|FP|Abnormal circulating metabolite concentration
+182|HP:0010818|FP|Generalized tonic seizure
+183|HP:0008527|FP|Congenital sensorineural hearing impairment
+184|HP:0011169|FP|Generalized clonic seizure
+185|HP:0002814|FP|Abnormality of the lower limb
+186|HP:0001658|FP|Myocardial infarction
+187|HP:0009830|FP|Peripheral neuropathy
+188|HP:0001347|FP|Hyperreflexia
+189|HP:0012714|FP|Severe hearing impairment
+190|HP:0011747|FP|Abnormality of the anterior pituitary
+191|HP:0012503|FP|Abnormality of the pituitary gland
+192|HP:0011025|FP|Abnormal cardiovascular system physiology
+193|HP:0000759|FP|Abnormal peripheral nervous system morphology
+194|HP:0020219|FP|Motor seizure
+195|HP:0031826|FP|Abnormal reflex
+196|HP:0100022|FP|Abnormality of movement
+197|HP:0001005|FP|Dermatological manifestations of systemic disorders
+198|HP:0040064|FP|Abnormality of limbs
+199|HP:0001250|FP|Seizure
+200|HP:0002197|FP|Generalized-onset seizure
+201|HP:0002719|FP|Recurrent infections
+202|HP:0011799|FP|Abnormality of facial soft tissue
+203|HP:0001256|FP|Intellectual disability, mild
+204|HP:0008625|FP|Severe sensorineural hearing impairment
+205|HP:0012337|FP|Abnormal homeostasis
+206|HP:0001952|FP|Glucose intolerance
+207|HP:0002069|FP|Bilateral tonic-clonic seizure
+208|HP:0004305|FP|Involuntary movements
+209|HP:0040194|FP|Increased head circumference
+210|HP:0002981|FP|Abnormality of the calf
+211|HP:0000952|FP|Jaundice
+212|HP:0020221|FP|Clonic seizure
+213|HP:0100543|FP|Cognitive impairment
+214|HP:0001626|FP|Abnormality of the cardiovascular system

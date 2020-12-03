@@ -1,0 +1,14 @@
+# Overview of the Phenotype Ranking measure (Phrank)
+
+Goal: match the most relevant gene or disease with the patient phenotypes
+
+
+Disease -> HPO:XXXX, HPO:XXXXX, HPO:XXXXXX
+Patient -> Phenotypes -> HPO:XXX, HPO:XXX, HPO:XXX
+
+
+All HPO terms project onto a corresponding node in the HPO ontology DAG
+
+We use OMIM gene-disease-phenotype mappings to estimate the probability of observing each phenotype
+
+

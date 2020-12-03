@@ -1,8 +1,24 @@
-;Type;Language;Negation;Lemmatizing;Sensitivy;Precision;F1-score;Accuracy
-ClinPhen;heuristic rulebased;python;y;y;0.62;0.62;0.62;0.45
-scispacy;statistical model;python;n;;0.50;0.15;0.23;0.13
-text2hpo;;python;y;;0.53;0.80;0.64;0.47
-Monarch;;java;;;;;;
-CTAKES;;java;y;;;;;
-MetaMap;;java;;;;;;
-Custom;;python;n;;;;;
+;Type;Language;Negation;Lemmatizing;Sensitivy;Precision;F1-score;;;;;Precision;F1-score
+ClinPhen;heuristic rulebased;python;y;y;0,635;0,5675;0,5725;;;;0.62;0.62;0.62
+text2hpo;;python;y;;0,69;0,5875;0,6125;;;;0.53;0.80;0.64
+Neural concept recognizer;;python;;;0,72;0,6775;0,6975;;;;;;
+Monarch;;java;;;;;;;;;;;
+CTAKES;;java;y;;;;;;;;;;
+MetaMap;;java;;;;;;;;;;;
+Custom;;python;n;;;;;;;;;;
+;;;;;;;;;;;;;
+;;;;;;;;;;;;;
+;;;;;;;;;;;;;
+;;;;;;;;;;;;;
+;Musante et al, 2017;Fagbemi et al, 2020;Kopajtich et al, 2020;Orenstein et al, 2016;;;;;;;;;
+Sens NCR:;0,65;0,78;0,73;0,72;;;;;;;;;
+PPV NCR:;0,6;0,74;0,7;0,67;;;;;;;;;
+F1 NCR:;0,62;0,76;0,72;0,69;;;;;;;;;
+Sens Clinphen:;0,81;0,63;0,59;0,51;;;;;;;;;
+PPV Clinphen:;0,37;0,53;0,64;0,73;;;;;;;;;
+F1 Clinphen:;0,51;0,57;0,61;0,6;;;;;;;;;
+Sen txt2hpo:;0,81;0,8;0,65;0,5;;;;;;;;;
+PPV txt2hpo:;0,44;0,54;0,66;0,71;;;;;;;;;
+F1 txt2hpo:;0,57;0,64;0,66;0,58;;;;;;;;;
+;;;;;;;;;;;;;
+;;;;;;;7;;;;;;

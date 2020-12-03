@@ -1,0 +1,196 @@
+|HPO|LBL|NAME|end|hp_id|index|line|names|score|start
+0|HP:0000077|TP|Abnormality of the kidney|||||||
+1|HP:0000079|TP|Abnormality of the urinary system|||||||
+2|HP:0000081|TP|Duplicated collecting system|112.0|HP:0000081|25.0|there was a duplicated collecting system on the left and|['Duplicated collecting system']|1.0|56.0
+3|HP:0000119|TP|Abnormality of the genitourinary system|||||||
+4|HP:0000126|TP|Hydronephrosis|29.0|HP:0000126|26.0|mild bilateral hydronephrosis.|['Hydronephrosis']|1.0|14.5
+5|HP:0000152|TP|Abnormality of head or neck|||||||
+6|HP:0000234|TP|Abnormality of the head|||||||
+7|HP:0000271|TP|Abnormality of the face|65.0|HP:0000271|30.0|on examination he had abnormal fat distribution with a round face,|['Abnormality of the face']|1.0|32.5
+8|HP:0000293|TP|Full cheeks|30.0|HP:0000293|31.0|full cheeks and|['Full cheeks']|1.0|15.0
+9|HP:0000309|TP|Abnormality of the midface|||||||
+10|HP:0000311|TP|Round face|97.5|HP:0000311|30.0|on examination he had abnormal fat distribution with a round face,|['Round face']|1.0|65.0
+11|HP:0000311|TP|Round face|136.0|HP:0000311|50.0|on physical exam there was a strikingly round face compared to trunk,|['Round face']|1.0|68.0
+12|HP:0000707|TP|Abnormality of the nervous system|89.0|HP:0000707|47.0|this supports a variable neurodevelopmental outcome in individuals with this disorder and|['Abnormality of the nervous system']|1.0|44.5
+13|HP:0000924|TP|Abnormality of the skeletal system|||||||
+14|HP:0000951|TP|Abnormality of the skin|||||||
+15|HP:0000952|TP|Jaundice|70.0|HP:0000952|28.0|gradually the jaundice resolved and|['Jaundice']|1.0|35.0
+16|HP:0000974|TP|Hyperextensible skin|40.0|HP:0000974|9.0|skin hyperelasticity,|['Hyperextensible skin']|1.0|20.0
+17|HP:0000974|TP|Hyperextensible skin|50.0|HP:0000974|33.0|his skin was hyperelastic,|['Hyperextensible skin']|1.0|25.0
+18|HP:0000974|TP|Hyperextensible skin|39.0|HP:0000974|51.0|hyperelastic skin with joint laxity (fig.|['Hyperextensible skin']|1.0|26.0
+19|HP:0001005|TP|Dermatological manifestations of systemic disorders|||||||
+20|HP:0001080|TP|Biliary tract abnormality|||||||
+21|HP:0001197|TP|Abnormality of prenatal development or birth|||||||
+22|HP:0001263|TP|Global developmental delay|153.0|HP:0001263|2.0|mild developmental delay - orenstein - 2017 - clinical genetics - wiley online library<br>working off-campus? learn about our<br>by continuing to browse this site,|['Global developmental delay']|1.0|76.5
+23|HP:0001263|TP|Global developmental delay|49.0|HP:0001263|5.0|mild developmental delay<br></h1><br>first published:|['Global developmental delay']|1.0|24.5
+24|HP:0001263|TP|Global developmental delay|56.0|HP:0001263|8.0|expand the phenotype to include mild developmental delay,|['Global developmental delay']|1.0|28.0
+25|HP:0001263|TP|Global developmental delay|86.0|HP:0001263|46.0|at 4 years there is evidence of mild developmental delay based on cat/clams scores but|['Global developmental delay']|1.0|43.0
+26|HP:0001263|TP|Global developmental delay|59.0|HP:0001263|54.0|we expand the phenotype to include mild developmental delay,|['Global developmental delay']|1.0|29.5
+27|HP:0001388|TP|Joint laxity|56.0|HP:0001388|32.0|he had joint hyperlaxity and|['Joint laxity']|1.0|28.0
+28|HP:0001388|TP|Joint laxity|52.0|HP:0001388|51.0|hyperelastic skin with joint laxity (fig.|['Joint laxity']|1.0|39.0
+29|HP:0001388|TP|Joint laxity|32.0|HP:0001388|55.0|joint laxity and|['Joint laxity']|1.0|16.0
+30|HP:0001392|TP|Abnormality of the liver|41.0|HP:0001392|22.0|he had abnormal liver enzymes got 200 (u/l),|['Abnormality of the liver']|1.0|20.5
+31|HP:0001392|TP|Abnormality of the liver|146.0|HP:0001392|40.0|abnormal liver pathology was seen in two previously reported patients and|['Abnormality of the liver']|1.0|73.0
+32|HP:0001396|TP|Cholestasis|40.0|HP:0001396|1.0|neonatal cholestasis,|['Cholestasis']|1.0|20.0
+33|HP:0001396|TP|Cholestasis|40.0|HP:0001396|4.0|neonatal cholestasis,|['Cholestasis']|1.0|20.0
+34|HP:0001396|TP|Cholestasis|100.0|HP:0001396|7.0|neonatal cholestasis with distinct liver pathology.|['Cholestasis']|1.0|50.0
+35|HP:0001396|TP|Cholestasis|124.0|HP:0001396|15.0|this report confirms the association with neonatal cholestasis,|['Cholestasis']|1.0|62.0
+36|HP:0001396|TP|Cholestasis|88.0|HP:0001396|41.0|only one presented with neonatal cholestasis.|['Cholestasis']|1.0|44.0
+37|HP:0001396|TP|Cholestasis|22.0|HP:0001396|43.0|cholestasis.|['Cholestasis']|1.0|11.0
+38|HP:0001396|TP|Cholestasis|43.0|HP:0001396|53.0|liver dysfunction with neonatal cholestasis.|['Cholestasis']|1.0|21.5
+39|HP:0001507|TP|Growth abnormality|222.0|HP:0001507|34.0|he is treated with growth hormone (gh) since the age of 19 months for gh resistance (abnormal igf1 generation test),|['Growth abnormality']|1.0|111.0
+40|HP:0001507|TP|Growth abnormality|139.0|HP:0001507|37.0|significant growth delay is a consistent finding in all the reported subjects as well as the potentially equivalent disorder seen in cattle .|['Growth abnormality']|1.0|69.5
+41|HP:0001510|TP|Growth delay|158.0|HP:0001510|0.0|https://www.sciencedirect.com/science/article/pii/s0002929716301987?via%3dihub<br><br><br>biallelic iars mutations in a child with intrauterine growth retardation,|['Growth delay']|1.0|79.0
+42|HP:0001510|TP|Growth delay|241.0|HP:0001510|3.0|you agree to its use of cookies as described in our .<br>access byutrecht university<br>access byutrecht university<br><h5><br>search within<br>short report<br>full access<br><h1>biallelic mutations in a child with intrauterine growth retardation,|['Growth delay']|1.0|120.5
+43|HP:0001510|TP|Growth delay|232.0|HP:0001510|6.0|biallelic mutations in cytosolic isoleucyltrna synthetase () have been described in three individuals with growth delay,|['Growth delay']|1.0|116.0
+44|HP:0001510|TP|Growth delay|52.0|HP:0001510|12.0|these individuals had a distinct syndrome of prenatal onset growth retardation,|['Growth delay']|1.0|26.0
+45|HP:0001510|TP|Growth delay|106.0|HP:0001510|16.0|during the third trimester there was growth delay and|['Growth delay']|1.0|53.0
+46|HP:0001510|TP|Growth delay|208.5|HP:0001510|37.0|significant growth delay is a consistent finding in all the reported subjects as well as the potentially equivalent disorder seen in cattle .|['Growth delay']|1.0|139.0
+47|HP:0001510|TP|Growth delay|82.0|HP:0001510|38.0|the cause for growth delay is unknown and|['Growth delay']|1.0|41.0
+48|HP:0001510|TP|Growth delay|58.0|HP:0001510|52.0|intrauterine growth delay and|['Growth delay']|1.0|29.0
+49|HP:0001511|TP|Intrauterine growth retardation|237.0|HP:0001511|0.0|https://www.sciencedirect.com/science/article/pii/s0002929716301987?via%3dihub<br><br><br>biallelic iars mutations in a child with intrauterine growth retardation,|['Intrauterine growth retardation']|1.0|158.0
+50|HP:0001511|TP|Intrauterine growth retardation|361.5|HP:0001511|3.0|you agree to its use of cookies as described in our .<br>access byutrecht university<br>access byutrecht university<br><h5><br>search within<br>short report<br>full access<br><h1>biallelic mutations in a child with intrauterine growth retardation,|['Intrauterine growth retardation']|1.0|241.0
+51|HP:0001511|TP|Intrauterine growth retardation|78.0|HP:0001511|12.0|these individuals had a distinct syndrome of prenatal onset growth retardation,|['Intrauterine growth retardation']|1.0|52.0
+52|HP:0001518|TP|Small for gestational age|52.0|HP:0001518|18.0|he was admitted to the nicu for low birth weight and|['Small for gestational age']|1.0|26.0
+53|HP:0001560|TP|Abnormality of the amniotic fluid|||||||
+54|HP:0001562|TP|Oligohydramnios|30.0|HP:0001562|17.0|oligohydramnios.|['Oligohydramnios']|1.0|15.0
+55|HP:0001574|TP|Abnormality of the integument|||||||
+56|HP:0001939|TP|Abnormality of metabolism/homeostasis|||||||
+57|HP:0001943|TP|Hypoglycemia|94.0|HP:0001943|19.0|hypoglycemia (27mg/dl) that resolved with feeding.|['Hypoglycemia']|1.0|47.0
+58|HP:0001987|TP|Hyperammonemia|36.0|HP:0001987|24.0|hyperammonemia (139).|['Hyperammonemia']|1.0|18.0
+59|HP:0001999|TP|Abnormal facial shape|||||||
+60|HP:0002012|TP|Abnormality of the abdominal organs|||||||
+61|HP:0002157|TP|Azotemia|||||||
+62|HP:0002904|TP|Hyperbilirubinemia|74.0|HP:0002904|20.0|during his admission he developed direct hyperbilirubinemia up to 7.5mg/dl,|['Hyperbilirubinemia']|1.0|37.0
+63|HP:0002908|TP|Conjugated hyperbilirubinemia|111.0|HP:0002908|20.0|during his admission he developed direct hyperbilirubinemia up to 7.5mg/dl,|['Conjugated hyperbilirubinemia']|1.0|74.0
+64|HP:0003073|TP|Hypoalbuminemia|38.0|HP:0003073|23.0|hypoalbuminemia and|['Hypoalbuminemia']|1.0|19.0
+65|HP:0003155|TP|Elevated alkaline phosphatase|86.0|HP:0003155|21.0|increased alkaline phosphatase 1450 (u/l) and|['Elevated alkaline phosphatase']|1.0|43.0
+66|HP:0004297|TP|Abnormality of the biliary system|||||||
+67|HP:0004323|TP|Abnormality of body weight|||||||
+68|HP:0004325|TP|Decreased body weight|78.0|HP:0004325|18.0|he was admitted to the nicu for low birth weight and|['Decreased body weight']|1.0|52.0
+69|HP:0004364|TP|Abnormal circulating nitrogen compound concentration|||||||
+70|HP:0004379|TP|Abnormality of alkaline phosphatase level|||||||
+71|HP:0004426|TP|Abnormality of the cheek|||||||
+72|HP:0004742|TP|Abnormal renal collecting system morphology|||||||
+73|HP:0008067|TP|Abnormally lax or hyperextensible skin|||||||
+74|HP:0010647|TP|Abnormal elasticity of skin|||||||
+75|HP:0010876|TP|Abnormal circulating protein level|||||||
+76|HP:0010935|TP|Abnormality of the upper urinary tract|||||||
+77|HP:0010944|TP|Abnormal renal pelvis morphology|||||||
+78|HP:0010946|TP|Dilatation of the renal pelvis|||||||
+79|HP:0011014|TP|Abnormal glucose homeostasis|||||||
+80|HP:0011015|TP|Abnormal blood glucose concentration|||||||
+81|HP:0011121|TP|Abnormality of skin morphology|||||||
+82|HP:0011354|TP|Generalized abnormality of skin|||||||
+83|HP:0011729|TP|Abnormality of joint mobility|||||||
+84|HP:0012116|TP|Abnormal albumin level|||||||
+85|HP:0012210|TP|Abnormal renal morphology|||||||
+86|HP:0012379|TP|Abnormal enzyme/coenzyme activity|||||||
+87|HP:0012440|TP|Abnormal biliary tract morphology|||||||
+88|HP:0012638|TP|Abnormal nervous system physiology|||||||
+89|HP:0012758|TP|Neurodevelopmental delay|||||||
+90|HP:0012759|TP|Neurodevelopmental abnormality|133.5|HP:0012759|47.0|this supports a variable neurodevelopmental outcome in individuals with this disorder and|['Neurodevelopmental abnormality']|1.0|89.0
+91|HP:0025031|TP|Abnormality of the digestive system|||||||
+92|HP:0025032|TP|Abnormality of digestive system physiology|||||||
+93|HP:0100508|TP|Abnormality of vitamin metabolism|||||||
+94|HP:0100511|TP|Abnormality of vitamin D metabolism|||||||
+95|HP:0410042|TP|Abnormal liver morphology|||||||
+96|HP:0012443|FN|Abnormality of brain morphology|||||||
+97|HP:0011968|FN|Feeding difficulties|||||||
+98|HP:0011458|FN|Abdominal symptom|||||||
+99|HP:0009121|FN|Abnormal axial skeleton morphology|||||||
+100|HP:0011842|FN|Abnormality of skeletal morphology|||||||
+101|HP:0004207|FN|Abnormal 5th finger morphology|||||||
+102|HP:0008872|FN|Feeding difficulties in infancy|||||||
+103|HP:0009815|FN|Aplasia/hypoplasia of the extremities|||||||
+104|HP:0011342|FN|Mild global developmental delay|||||||
+105|HP:0012639|FN|Abnormal nervous system morphology|||||||
+106|HP:0007552|FN|Abnormal subcutaneous fat tissue distribution|||||||
+107|HP:0031075|FN|Abnormal response to insulin tolerance test|||||||
+108|HP:0004209|FN|Clinodactyly of the 5th finger|||||||
+109|HP:0040019|FN|Finger clinodactyly|||||||
+110|HP:0031072|FN|Abnormal endocrine physiology|||||||
+111|HP:0000929|FN|Abnormal skull morphology|||||||
+112|HP:0005542|FN|Prolonged whole-blood clotting time|||||||
+113|HP:0001871|FN|Abnormality of blood and blood-forming tissues|||||||
+114|HP:0002011|FN|Morphological central nervous system abnormality|||||||
+115|HP:0011013|FN|Abnormal circulating carbohydrate concentration|||||||
+116|HP:0001395|FN|Hepatic fibrosis|||||||
+117|HP:0002060|FN|Abnormal cerebral morphology|||||||
+118|HP:0001406|FN|Intrahepatic cholestasis|||||||
+119|HP:0009484|FN|Deviation of the hand or of fingers of the hand|||||||
+120|HP:0001367|FN|Abnormal joint morphology|||||||
+121|HP:0001001|FN|Abnormality of subcutaneous fat tissue|||||||
+122|HP:0001155|FN|Abnormality of the hand|||||||
+123|HP:0009124|FN|Abnormal adipose tissue morphology|||||||
+124|HP:0001167|FN|Abnormality of finger|||||||
+125|HP:0031073|FN|Abnormal response to endocrine stimulation test|||||||
+126|HP:0011433|FN|High maternal serum chorionic gonadotropin|||||||
+127|HP:0030948|FN|Elevated gamma-glutamyltransferase level|||||||
+128|HP:0011436|FN|Abnormal maternal serum screening|||||||
+129|HP:0006579|FN|Prolonged neonatal jaundice|||||||
+130|HP:0011297|FN|Abnormal digit morphology|||||||
+131|HP:0002686|FN|Prenatal maternal abnormality|||||||
+132|HP:0031865|FN|Abnormal liver physiology|||||||
+133|HP:0030084|FN|Clinodactyly|||||||
+134|HP:0000252|FN|Microcephaly|||||||
+135|HP:0001408|FN|Bile duct proliferation|||||||
+136|HP:0007364|FN|Aplasia/Hypoplasia of the cerebrum|||||||
+137|HP:0006496|FN|Aplasia/hypoplasia involving bones of the upper limbs|||||||
+138|HP:0009115|FN|Aplasia/hypoplasia involving the skeleton|||||||
+139|HP:0040064|FN|Abnormality of limbs|||||||
+140|HP:0045060|FN|Aplasia/hypoplasia involving bones of the extremities|||||||
+141|HP:0002817|FN|Abnormality of the upper limb|||||||
+142|HP:0005927|FN|Aplasia/hypoplasia involving bones of the hand|||||||
+143|HP:0011470|FN|Nasogastric tube feeding in infancy|||||||
+144|HP:0100547|FN|Abnormality of forebrain morphology|||||||
+145|HP:0003549|FN|Abnormality of connective tissue|||||||
+146|HP:0031079|FN|Impaired growth-hormone response to insulin stimulation test|||||||
+147|HP:0000240|FN|Abnormality of skull size|||||||
+148|HP:0001928|FN|Abnormality of coagulation|||||||
+149|HP:0040068|FN|Abnormality of limb bone|||||||
+150|HP:0004279|FN|Short palm|||||||
+151|HP:0000818|FN|Abnormality of the endocrine system|||||||
+152|HP:0040195|FN|Decreased head circumference|||||||
+153|HP:0001405|FN|Periportal fibrosis|||||||
+154|HP:0010648|FN|Dermal translucency|||||||
+155|HP:0002813|FN|Abnormality of limb bone morphology|||||||
+156|HP:0001998|FN|Neonatal hypoglycemia|||||||
+157|HP:0002977|FN|Aplasia/Hypoplasia involving the central nervous system|||||||
+158|HP:0100871|FN|Abnormality of the palm|||||||
+159|HP:0004097|FN|Deviation of finger|||||||
+160|HP:0031414|FN|High serum calcifediol|||||||
+161|HP:0009179|FN|Deviation of the 5th finger|||||||
+162|HP:0011844|FN|Abnormal appendicular skeleton morphology|||||||
+163|HP:0000973|FP|Cutis laxa|26.0|HP:0000973|51.0|hyperelastic skin with joint laxity (fig.|['Cutis laxa']|1.0|13.0
+164|HP:0002715|FP|Abnormality of the immune system|||||||
+165|HP:0012649|FP|Increased inflammatory response|||||||
+166|HP:0012647|FP|Abnormal inflammatory response|||||||
+167|HP:0001410|FP|Decreased liver function|34.0|HP:0001410|14.0|liver dysfunction .|['Decreased liver function']|1.0|17.0
+168|HP:0001410|FP|Decreased liver function|100.0|HP:0001410|35.0|potentially secondary to his liver dysfunction and|['Decreased liver function']|1.0|50.0
+169|HP:0001410|FP|Decreased liver function|34.0|HP:0001410|36.0|liver dysfunction,|['Decreased liver function']|1.0|17.0
+170|HP:0001410|FP|Decreased liver function|42.0|HP:0001410|39.0|liver dysfunction and|['Decreased liver function']|1.0|21.0
+171|HP:0001410|FP|Decreased liver function|64.5|HP:0001410|53.0|liver dysfunction with neonatal cholestasis.|['Decreased liver function']|1.0|43.0
+172|HP:0032180|FP|Abnormal circulating metabolite concentration|||||||
+173|HP:0011277|FP|Abnormality of the urinary system physiology|||||||
+174|HP:0012337|FP|Abnormal homeostasis|||||||
+175|HP:0032101|FP|Unusual infection|||||||
+176|HP:0005248|FP|Intrahepatic biliary atresia|71.33333333333333|HP:0005248|45.0|there was bile ducts paucity which is seen in very few conditions such as congenital sclerosing cholangitis,|['Intrahepatic biliary atresia']|1.0|35.666666666666664
+177|HP:0000010|FP|Recurrent urinary tract infections|158.0|HP:0000010|29.0|during his nicu admission there was one episode of urinary tract infection with ..|['Recurrent urinary tract infections']|1.0|79.0
+178|HP:0001249|FP|Intellectual disability|46.0|HP:0001249|13.0|intellectual disability,|['Intellectual disability']|1.0|23.0
+179|HP:0010978|FP|Abnormality of immune system physiology|||||||
+180|HP:0025155|FP|Abnormality of hepatobiliary system physiology|||||||
+181|HP:0005912|FP|Biliary atresia|||||||
+182|HP:0002910|FP|Elevated hepatic transaminase|61.5|HP:0002910|22.0|he had abnormal liver enzymes got 200 (u/l),|['Elevated hepatic transaminase']|1.0|41.0
+183|HP:0030151|FP|Cholangitis|107.0|HP:0030151|45.0|there was bile ducts paucity which is seen in very few conditions such as congenital sclerosing cholangitis,|['Cholangitis']|1.0|71.33333333333333
+184|HP:0032245|FP|Abnormal metabolism|||||||
+185|HP:0002719|FP|Recurrent infections|40.0|HP:0002719|48.0|recurrent infections,|['Recurrent infections']|1.0|20.0
+186|HP:0011446|FP|Abnormality of higher mental function|||||||
+187|HP:0011040|FP|Abnormality of the intrahepatic bile duct|||||||
+188|HP:0011843|FP|Abnormality of skeletal physiology|||||||
+189|HP:0030991|FP|Sclerosing cholangitis|142.66666666666666|HP:0030991|45.0|there was bile ducts paucity which is seen in very few conditions such as congenital sclerosing cholangitis,|['Sclerosing cholangitis']|1.0|107.0
+190|HP:0100512|FP|Low levels of vitamin D|226.0|HP:0100512|56.0|decreased after routine vitamin d supplements (400 u daily) were discontinued at 12 months.<br>word 2007 document<br>,|['Low levels of vitamin D']|1.0|113.0
+191|HP:0001399|FP|Hepatic failure|168.0|HP:0001399|42.0|the subject reported here had a similar presentation with neonatal liver failure and|['Hepatic failure']|1.0|84.0
+192|HP:0001399|FP|Hepatic failure|124.0|HP:0001399|49.0|25hydroxy vitamin d levels were high in spite of liver failure,|['Hepatic failure']|1.0|62.0
+193|HP:0006580|FP|Portal fibrosis|120.0|HP:0006580|27.0|fibrosis with new vessel formation was seen in portal spaces.|['Portal fibrosis']|1.0|60.0
+194|HP:0006580|FP|Portal fibrosis|50.0|HP:0006580|44.0|portal tract fibrosis and|['Portal fibrosis']|1.0|25.0

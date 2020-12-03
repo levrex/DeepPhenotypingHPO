@@ -1,0 +1,19 @@
+Error cause;Error type;Example
+Synonym/Code/Abbreviation;FN;Sent: … elevated ALAT and ASAT...
+;;GS: Elevated serum alanine aminotransferase (HP:0031964)
+;;NCR: None
+Verb phrase;FN;Sent:  ... She had an unexplained episode of unconsciousness …
+;;GS: Loss of consciousness (HP:0007185)
+;;NCR: None
+Negation;FP;Sent: …Negative for seizure, …, muscle pain…
+;;GS: None
+;;NCR: myalgia (HP:0003326)
+Context;FP;Sent: … IARS in cattle, …, underlies weak calf syndrome …
+;;GS: None
+;;NCR:  Abnormality of the calf (HP:0002981)
+Context;FN;Sent: …  Activities of complex I appeared to be decreased …
+;;GS: Decreased activity of mitochondrial complex IV (HP:0008347)
+;;NCR: None
+Neighboring Concept;FP/FN;Sent: …microcephaly was still pronounced…
+;;GS: microcephaly
+;;NCR: progressive microcephaly (HP:0000253)
