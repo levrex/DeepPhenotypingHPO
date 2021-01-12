@@ -13,11 +13,10 @@ from clinphen_src import get_phenotypes
 from clinphen_src import src_dir
 import collections
 from io import BytesIO
-from KMedoids import KMedoids
+#from KMedoids import KMedoids
 import matplotlib.pyplot as plt
 from math import log2
 from nltk.tokenize import sent_tokenize
-from nltk.tokenize.punkt import PunktSentenceTokenizer #, PunktParameters
 import numpy as np
 from numpy.linalg import norm 
 import networkx as nx
@@ -35,20 +34,21 @@ from scipy.spatial.distance import squareform
 from sklearn.cluster import KMeans
 from sklearn.manifold import TSNE
 from sklearn.decomposition import PCA
-import skfuzzy as fuzz
+#import skfuzzy as fuzz ## Ultimately Fuzzy clustering is not used.
 from txt2hpo.extract import Extractor
 import time
-import unicodedata
 import urllib.request
 from urllib.parse import urlparse
 from unidecode import unidecode
 from webdriver_manager.chrome import ChromeDriverManager
 
 global d_checks
+global user
+global pwd
 
 import importlib as imp
 import EntityLinking as enlink
-imp.reload(enlink)
+#imp.reload(enlink)
 
 
 # return Failed! or Succesful!
@@ -58,6 +58,18 @@ def get_checks():
     global d_checks
     return d_checks
 
+def set_login(USERNAME, PASSWORD):
+    global user
+    global pwd
+    user = USERNAME
+    pwd = PASSWORD
+    return 
+
+def get_login():
+    global user
+    global pwd
+    return user, pwd
+    
 class AnnotateHPO(object):
     """
     Extract HPO terms from text.
@@ -481,7 +493,77 @@ def lossVsClusters(X_trans, n=20):
     plt.title('Loss Vs No. Of clusters')
     plt.show()
 
-def elbowMethod(X_trans, method='kmeans', n=20):
+def defineOptimalNrOfPatients(df, n=0):
+    """
+    Define the minimal required nr of patients with the elbow method.
+    Whereby the optimal nr of patients is assessed by drawing a line between
+    the first and last observation and acquiring the greatest distance
+    perpendicular to the draw line.
+    
+    Input:
+        df = dataframe with phenotypic profiles for all patient
+        n = search space (number of patients to consider)
+    
+    Return:
+        k = Minimal number of patients a phenotype should be present in
+    """
+    if n == 0:
+        n = len(df)
+    distances = []
+    l_cols = [col for col in df.columns if col != 'cluster']
+    l_y = []
+    for i in range(n):
+        y = len(df[l_cols].replace(0, np.nan).dropna(axis=1, thresh=i).columns)
+        if i != 1:
+            l_y.append(y)
+
+    fig1, ax1 = plt.subplots(1,2,figsize=(12,6))
+
+    for i in range(1, len(l_y)+1):
+        p1=np.array((1,l_y[0]))
+        p2=np.array((n,l_y[len(l_y)-1]))
+        p3=np.array((i+1, l_y[i-1]))
+        distances.append(norm(np.cross(p2-p1, p1-p3))/norm(p2-p1))
+
+    k = distances.index(max(distances))+1
+
+    ax1[0].plot(range(1, len(l_y)+1), l_y)
+    ax1[0].set_title('Presence of phenotypes in patient population')
+    ax1[0].set_xlabel('Number of patients')
+    ax1[0].set_ylabel('Phenotypes')
+
+    ax1[1].plot(range(1, len(l_y)+1), distances, color='r')
+    ax1[1].plot([k, k], [max(distances),0],
+                 color='navy', linestyle='--')
+    ax1[1].set_title('Perpendicular distance to line between first and last observation')
+    ax1[1].set_xlabel('Number of clusters')
+    ax1[1].set_ylabel('Distance')
+    plt.show()
+    return k
+    
+def clusterMembership(category_list, cluster_list, save_as=''):
+    """ 
+    Plot cluster membership for each subtype/ category
+    
+    Input:
+        category_list = list of predefined categories/ subtypes
+        cluster_list = list of clusters
+        save_as = title used for saving the elbow plot figure
+            (no title implies that the figure won't be saved)
+    """ 
+    d = {'cat': category_list, 'cluster': cluster_list}
+    df_bar = pd.DataFrame(data=d)
+    fig, ax = plt.subplots(figsize=(15,7))
+    df_bar.groupby(['cluster', 'cat']).size().unstack().plot(ax=ax, kind = 'bar') 
+    if save_as != '':
+        fig = plt.gcf()
+        fig.savefig('figures/cluster_memb_%s' % (save_as))
+        plt.clf()
+    else:
+        plt.show()
+    return
+    
+def elbowMethod(X_trans, method='kmeans', n=20, save_as=''):
     """
     Define optimal number of clusters with elbow method, optimized for 
     Within cluster sum of errors(wcss).
@@ -490,6 +572,8 @@ def elbowMethod(X_trans, method='kmeans', n=20):
         X_trans = Distance matrix based on HPO binary data (X)
         method = clustering method
         n = search space (number of clusters to consider)
+        save_as = title used for saving the elbow plot figure
+            (no title implies that the figure won't be saved)
     
     Return:
         k = Number of clusters that corresponds to optimized WCSS
@@ -533,8 +617,11 @@ def elbowMethod(X_trans, method='kmeans', n=20):
     ax1[1].set_title('Perpendicular distance to line between first and last observation')
     ax1[1].set_xlabel('Number of clusters')
     ax1[1].set_ylabel('Distance')
-    plt.show()
     
+    if save_as != '':
+        plt.savefig('figures/elbow_plot_%s' % (save_as))
+    else : 
+        plt.show()
     return k
 
 def makeDistanceHeatmap(df, col_id='Id', col_label='Category', dist='dice', title='Test'):
@@ -1059,6 +1146,7 @@ def PhenotypicSpecifictyOccurrence(df, weights, cluster=None, labels={}, pat_fra
     
     N = len(df[df['cluster']==cluster])
     l_cols = [col for col in df.columns if col != 'cluster']
+    print(N)
     
     if cluster == None:
         cluster = list(df['cluster'].unique())[0]
@@ -1204,10 +1292,14 @@ def predict_article_figure_img(match):
     """
     article = False 
     link = match.get('src')
+    if link == None:
+        link = match.get('alt')
     if link != None: 
-        score  = 1*('article' in link) + 1 * ('image' in link) + 1 * ('figure' in link) + 1 * ('img' in link) + 1 * ('fig' in link)
+        link = link.lower()
+        score  = 1*('article' in link) + 1 * ('image' in link) + 1 * ('figure' in link) + 1 * ('img' in link) + 1 * ('fig' in link) + 1 * ('pic' in link) - 1 * ('produkte' in link) - 1 * ('product' in link) - 1 * ('icon' in link) - 1 * ('logo' in link) - 1 * ('.gif' in link) - 1 * ('thumbnail' in link) - 1 * ('powerpoint' in link) - 1 * ('docx' in link)
         if score > 0 :
             article = True
+    #print(article, link)
     return article
 
 def predict_supplement(classes, texts):
@@ -1340,8 +1432,56 @@ def scrapingCaseStudyHTML(path_to_html):
     return soup
 
 
+def getLoginData(login_file): 
+    """
+    Acquire the login information from the login_details.txt.
+    This file contains a dictionary
+    
+    Input:
+        login_file = path to file with login details
+    """
+    file = open(login_file, "r")
+    contents = file.read()
+    dictionary = ast.literal_eval(contents)
+    file.close()
+    return dictionary
 
-def scrapingCaseStudy(link, path_to_driver):
+def scrapingCaseStudyLOGIN(URL, user='', pwd='', LIBRARY='https://login.proxy.library.uu.nl/login?auth=uushibboleth&url=', TIME=10):
+    """
+    This function automatically gains access to the case studies behind paywalls. 
+    However it does require an account to an academic library, thus you have 
+    to provide a username and password. Default: University Utrecht library.
+    
+    Input: 
+        URL = link to case study
+        user = username 
+        pwd = password
+        LIBRARY = link to library to get access to paper (default: University Utrecht)
+        TIME = appoint time to ensure a successfull connection in case you have a weak wifi (default:10)
+    
+    Output:
+        soup = scraped html file consisting of content from case study
+    """
+    if user == '':
+        user, pwd = get_login()
+    link = LIBRARY + URL 
+
+    driver = webdriver.Chrome(ChromeDriverManager().install())
+
+    driver.get(link)
+    time.sleep(round(TIME/2)) # make sure page has completed loading
+    driver.find_element_by_name('Ecom_User_ID').send_keys(user)
+    driver.find_element_by_name('Ecom_Password').send_keys(pwd)
+    driver.find_element_by_id('loginButton2').click()
+    time.sleep(TIME) # make sure page has completed loading
+    
+    html = driver.page_source
+    soup = BeautifulSoup(html, "lxml") # , "lxml"
+
+    driver.quit()
+    return soup
+
+def scrapingCaseStudy(link, TIME):
     """
     Scraping case study with a google chrome webdriver, the content
     is then formatted by BeautifulSoup and the returned by the function 
@@ -1351,16 +1491,16 @@ def scrapingCaseStudy(link, path_to_driver):
     
     Input: 
         link = link to case study
-        path_to_driver = path to google chrome webdriver
+        TIME = appoint time to ensure a successfull connection in case you have a weak wifi (default:10)
     
     Output:
         soup = scraped html file consisting of content from case study
     """
-    #driver = webdriver.Chrome(path_to_driver)
+    #driver = webdriver.Chrome(path_to_driver) 
     driver = webdriver.Chrome(ChromeDriverManager().install())
 
     driver.get(link)
-    time.sleep(10)
+    time.sleep(TIME)
     html = driver.page_source
     soup = BeautifulSoup(html, "lxml") # , "lxml"
 
@@ -1389,7 +1529,7 @@ def createFolderStructure(title):
 
 ## Parse Case study
 
-def parseCaseStudy(soup, title, link, save_supplement=False, remove_accent=False):
+def parseCaseStudy(soup, title, link, save_supplement=False, screenshots=False, remove_accent=False):
     """
     Parse the HTML content from a case study, all raw content 
     is saved locally!
@@ -1404,6 +1544,9 @@ def parseCaseStudy(soup, title, link, save_supplement=False, remove_accent=False
         link = URL link to case study
         save_supplement = boolean indicating whether or not to 
             save the supplementary files
+        screenshots = boolean indicating whether or not to make 
+            screenshots of the supplemented files.
+                - Useful if you aren't able to extract figures
         
     Output:
         new_soup = processed main text from case study
@@ -1415,6 +1558,7 @@ def parseCaseStudy(soup, title, link, save_supplement=False, remove_accent=False
     # asses Domain
     parsed_uri = urlparse(link)
     domain = '{uri.scheme}://{uri.netloc}/'.format(uri=parsed_uri)
+    print('Domain:', domain)
     
     # Extract Figures / Tables
     tables = soup.findAll("table")
@@ -1423,7 +1567,7 @@ def parseCaseStudy(soup, title, link, save_supplement=False, remove_accent=False
     if save_supplement == True:
         extract_supplement(soup, title, domain, save_supplement) 
     save_tables(title, tables, remove_inc=True)
-    extract_figures(soup, title, domain, save_figures=True)
+    extract_figures(soup, title, domain, save_figures=True, screenshots=screenshots)
     
     # Get links within table
     for index, table in enumerate(tables):
@@ -1456,6 +1600,50 @@ def remove_tag_caption(soup):
     #print(soup)
     return soup
 
+
+def screen_capture(URL, title, fig_title, user='', pwd='', LIBRARY='https://login.proxy.library.uu.nl/login?auth=uushibboleth&url='):
+    """
+    This function automatically gains access to the case studies behind paywalls. 
+    However it does require an account to an academic library, thus you have 
+    to provide a username and password. Default: University Utrecht library.
+    
+    Input: 
+        URL = link to figure
+        title = title article
+        fig_title = title of figure
+        user = username 
+        pwd = password
+        LIBRARY = link to library to get access to paper (default: University Utrecht)
+    
+    Output:
+        soup = scraped html file consisting of content from case study
+    """
+    if user == '':
+        user, pwd = get_login()
+    
+    link = LIBRARY + URL 
+
+    driver = webdriver.Chrome(ChromeDriverManager().install())
+
+    driver.get(link)
+    time.sleep(5) # make sure page has completed loading
+    driver.find_element_by_name('Ecom_User_ID').send_keys(user)
+    driver.find_element_by_name('Ecom_Password').send_keys(pwd)
+    driver.find_element_by_id('loginButton2').click()
+    time.sleep(5) # make sure page has completed loading
+    
+    data = driver.page_source
+    
+    driver.save_screenshot("results/%s/0_raw/figures/%s.png" % (title, fig_title))
+    driver.quit()
+    #try : 
+    #    #image = Image.open(BytesIO(data))
+    #    #image.save("results/%s/0_raw/figures/%s" % (title, fig_title), 'png')
+    #except: 
+    #    return
+    
+    return 
+
 def import_figure(figure_link, title, fig_title):
     """
     Import Figure & save in specified location
@@ -1469,8 +1657,10 @@ def import_figure(figure_link, title, fig_title):
     headers={'User-Agent':user_agent}  # , 'Host': 'example.org'
     cookieProcessor = urllib.request.HTTPCookieProcessor()
     opener = urllib.request.build_opener(cookieProcessor)
-
-    request=urllib.request.Request(figure_link,None, headers) #The assembled request
+    try: 
+        request=urllib.request.Request(figure_link,None, headers) #The assembled request
+    except:
+        return
     try :
         response = opener.open(request,timeout=100)
         data = response.read()
@@ -1498,7 +1688,10 @@ def import_table(table_link, title, table_title):
     headers={'User-Agent':user_agent}  # , 'Host': 'example.org'
     cookieProcessor = urllib.request.HTTPCookieProcessor()
     opener = urllib.request.build_opener(cookieProcessor)
-    request=urllib.request.Request(table_link,None, headers) #The assembled request
+    try: 
+        request=urllib.request.Request(table_link,None, headers) #The assembled request
+    except:
+        return
     try :
         response = opener.open(request,timeout=100)
         data = response.read()
@@ -1630,7 +1823,7 @@ def interpret_legend(soup, title):
         save_captions(txt, title, 'legends_table.txt')
     return 
 
-def extract_figures(soup, title, domain, save_figures=False): 
+def extract_figures(soup, title, domain, save_figures=False, screenshots=False): 
     """
     Extract figures from article
     
@@ -1639,14 +1832,16 @@ def extract_figures(soup, title, domain, save_figures=False):
         title = title of the article
         domain = domain/ root of the website
         save_figures = only the captions are extracted unless save_figures=True
+        screenshots = if you have difficulty extracting the figures, you could 
+            make screenshots to ensure that the figures are captured
     """
     dir_figs = 'results/%s/0_raw/figures' % (title)
     
-    interpret_figure(soup, title, domain, save_figures)
-    interpret_img(soup, title, domain, save_figures) 
+    interpret_figure(soup, title, domain, save_figures, screenshots)
+    interpret_img(soup, title, domain, save_figures, screenshots) 
     return 
 
-def interpret_img(soup, title, domain, save_figures=False):
+def interpret_img(soup, title, domain, save_figures=False, screenshots=False):
     """
     Captions can often not be retrieved from IMG directly
     
@@ -1660,11 +1855,11 @@ def interpret_img(soup, title, domain, save_figures=False):
         #print(link)
         if predict_article_figure_img(link):
             links.append(link)
-    extract_images_with_links(links, title, domain, save_figures)
+    extract_images_with_links(links, title, domain, save_figures, screenshots)
     return
 
 
-def interpret_figure(soup, title, domain, save_figures=False):
+def interpret_figure(soup, title, domain, save_figures=False, screenshots=False):
     """
     This function recognizes figures in the case study.
     
@@ -1698,7 +1893,7 @@ def interpret_figure(soup, title, domain, save_figures=False):
         links = div.findAll('a', attrs={'href': re.compile("^(?://|http\://|/)")}) # maybe http as well
         links.extend(div.findAll('source', attrs={'srcset': re.compile("^(?://|http\://|/)")}))
         #print(links)
-        extract_images_with_links(links, title, domain, save_figures)
+        extract_images_with_links(links, title, domain, save_figures, screenshots)
         #txt = regex_cleaning(str(captions[0]))
         #captions = str(remove_tag_caption(captions[0])) # hopefully this works everytime
         captions = html_to_text(str(captions[0])) # format to text
@@ -1709,25 +1904,31 @@ def interpret_figure(soup, title, domain, save_figures=False):
         save_captions(txt, title, 'captions_figures.txt')
     return 
 
-def extract_images_with_links(links, title, domain, save_figures=False):
+def extract_images_with_links(links, title, domain, save_figures=False, screenshots=False):
     """
     Format the paths to images to actual working links!
     
     Input:
         links = candidate links for figures
         title = title of article
+        domain = 
+        save_figures = save all figures you can find
+        screenshots = make screenshots of the figures
     
     """ 
     for link in links:
         #print(link.get('src'))
         
         try:
+            #print(link.attrs)
             if 'href' in link.attrs:
                 figure_link = link.get('href')
             elif 'srcset' in link.attrs:
                 figure_link = link.get('srcset')
             elif 'src' in link.attrs:
                 figure_link = link.get('src')
+            #elif 'alt' in link.attrs:
+            #    figure_link = link.get('alt')
                 #print('Valid link: ', figure_link)
             if figure_link[:2] == '//': # 'https://' not in 
                 figure_link = 'https:' + figure_link
@@ -1737,8 +1938,11 @@ def extract_images_with_links(links, title, domain, save_figures=False):
         except: 
             print('not a valid link')
             continue # break
+        #print(figure_link)
         fig_title = figure_link.rpartition('/')[2]
         fig_title = re.sub(r"[^\.0-9a-zA-Z]+", "", fig_title)
+        if screenshots: # takes alot of time
+            screen_capture(figure_link, title, fig_title)
         if save_figures:
             import_figure(figure_link, title, fig_title)
     return
@@ -1842,7 +2046,7 @@ def extract_undefined_captions(soup, title):
                 #    match.decompose()
                 #print('CL captured:', cl)
     #print('CAPTIONS:', captions)  
-    print('Entities found:', len(captions))
+    print('Special elements found:', len(captions))
     clean = re.compile('<.*?>')
     for index, cap in enumerate(captions):
         #try:
@@ -2295,6 +2499,7 @@ def ncr_str(inputStr):
     p = re.compile(r'\<Response \[[0-9]*\]\>')
     
     if p.match(inputStr): # only if you don't have a negative response
+        # Potentially causes error if " or ' in text!
         d_ncr = {
         'HPO ID' : [i['hp_id'] for i in ast.literal_eval(response.text)['matches']],
         'names' : [i['names'] for i in ast.literal_eval(response.text)['matches']],  
@@ -2315,6 +2520,10 @@ def ncr_str_chunk(lines, batch_size=15):
     Return df with HPO and exact location. Now it will also save the line
     
     be careful - ensure that url is not too long (do not make the batchsize too big!)
+    
+    Return:
+        first_intercept = dictionary containing the intercepted phenotypes
+        l_batches = list with all batches
     """ 
     first_intercept = {}
     batch_size = 15 
@@ -2323,6 +2532,7 @@ def ncr_str_chunk(lines, batch_size=15):
     
     cur_batch = 0
     batch = ''
+    l_batches =[]
     #print(len(lines))
     for ix, line in enumerate(lines): 
         if ix != 0 and (ix % batch_size == 0 or ix == len(lines)-1):
@@ -2339,6 +2549,8 @@ def ncr_str_chunk(lines, batch_size=15):
                     for d in d_val: 
                         line_nr, cur_line = calculateLine(batch, d, cur_batch, batch_size)
                         d['line'] = cur_line
+                        d['match'] = batch[d['start']:d['end']]
+                        #l_batches.append(cur_line) ## Remove later??
                         if line_nr in first_intercept:
                             first_intercept[line_nr].append(d)
                         else :
@@ -2348,12 +2560,15 @@ def ncr_str_chunk(lines, batch_size=15):
             #print(first_intercept)
             #print(eql)
             cur_batch += 1
+            #l_batches.append(batch)
+            
             batch = ''
             print('Batch', str(cur_batch), str(round(len(lines)/batch_size)))
         batch += line + '\n'
+        l_batches.append(line)
     #print(first_intercept)
     #print(eql)
-    return first_intercept
+    return first_intercept, l_batches
 
 def scispacy_str(nlp, hpo, umls_to_hpo, lines):
     """ 
@@ -2407,6 +2622,7 @@ def clinphen_extensive_search(lines):
             d_val['end'] = stepsize*(index+1)
             d_val['score'] = '1'  # doesn't calculate a conf
             d_val['line'] = line
+            d_val['match'] = row['Phenotype name']
             l_row_pheno.append(d_val) 
         new_d[ix] = l_row_pheno
         if ix % 10 == 0:
@@ -2434,6 +2650,7 @@ def clinphen_extensive_search_back(first_intercept, lines):
                 d_val['end'] = stepsize*(index+1)
                 d_val['score'] = '1'  # doesn't calculate a conf
                 d_val['line'] = line
+                d_val['match'] = row['Phenotype name']
                 l_row_pheno.append(d_val)
             new_d[ix] = l_row_pheno
         else :
@@ -2458,6 +2675,7 @@ def txt2hpo_str_chunk(lines):
             d_val['end'] = i['index'][1]
             d_val['score'] = '1' # doesn't calculate a conf
             d_val['line'] = line
+            d_val['match'] = i['matched']
             l_row_pheno.append(d_val)
         first_intercept[ix] = l_row_pheno
         #print(ix)
@@ -2898,12 +3116,13 @@ def scan_main(main_txt, pheno='clinphen'):
     Output:
         first_intercept = dictionary or list with intercepted phenotypes
         lines = list with the segmented lines of the article
-        
+        l_batches = list with batches
     """
+    l_batches = []
     if pheno == 'ncr':
         
         lines = segmentation(main_txt)
-        first_intercept = ncr_str_chunk(lines, batch_size=15)
+        first_intercept, l_batches = ncr_str_chunk(lines, batch_size=15)
         #print(first_intercept)
     elif pheno == 'clinphen':
         lines = segmentation(main_txt)
@@ -2922,7 +3141,7 @@ def scan_main(main_txt, pheno='clinphen'):
     elif pheno == 'txt2hpo':
         lines = segmentation(main_txt)
         first_intercept = txt2hpo_str_chunk(lines)
-    return first_intercept, lines
+    return first_intercept, lines, l_batches
 
 ## 3. Phenotyping
 
@@ -2945,11 +3164,11 @@ def phenotypeCaseStudy(new_soup, title, pheno='clinphen', stringent=True, l_patt
         d_parsed = dictionary containing all parsed documents
     """
     d_parsed = {} # collect all parsed documents
-    first_intercept, lines = scan_main(new_soup, pheno)
+    first_intercept, lines, l_batches = scan_main(new_soup, pheno)
     d_parsed['Main text'] = lines
 
     file_name = 'Annotated_%s_%s.html' % (pheno, title)
-    df_hpo = main_annotation(title, pheno, file_name, lines, first_intercept, stringent=stringent, l_patterns=l_patterns) 
+    df_hpo = main_annotation(title, pheno, file_name, lines, first_intercept, stringent=stringent, l_patterns=l_patterns, l_batches=l_batches) 
     
     print('Phenotypes in main text:', len(df_hpo))
     
@@ -2958,11 +3177,11 @@ def phenotypeCaseStudy(new_soup, title, pheno='clinphen', stringent=True, l_patt
     if os.path.exists(caption_file):
         with open(caption_file, "r", encoding="utf-8") as file:
             captions_txt = file.read()
-        first_intercept, lines = scan_main(captions_txt, pheno)
+        first_intercept, lines, l_batches = scan_main(captions_txt, pheno)
         d_parsed['Captions'] = lines
         
         file_name = 'Annotated_%s_captions.html' % (pheno)
-        df_hpo2 = main_annotation(title, pheno, file_name, lines, first_intercept, section='Captions', stringent=stringent, l_patterns=l_patterns)
+        df_hpo2 = main_annotation(title, pheno, file_name, lines, first_intercept, section='Captions', stringent=stringent, l_patterns=l_patterns, l_batches=l_batches)
         df_hpo = df_hpo.append(df_hpo2, ignore_index=True)
         
     # Screen tables 
@@ -2975,6 +3194,29 @@ def phenotypeCaseStudy(new_soup, title, pheno='clinphen', stringent=True, l_patt
     print('Phenotypes in captions & table:', len(df_hpo))
     save_all_phenotypes(title, pheno, df_hpo)
     return df_hpo, d_parsed
+
+
+def annotateCaseStudy(title, pheno='clinphen', entity_linking=True):
+    """
+    Annotate the case study content, linking each phenotype
+    to the right patient
+    
+    Also acquire locations from the InterceptedPhenotypes table
+    
+    Input:
+        title = title of the article
+        pheno = phenotyper extraction tool
+        entity_linking = whether or not to create convenient profiles for deep phenotyping
+    Output: 
+        df_pheno = pandas Dataframe with all phenotypes 
+           captured from the table.
+    """
+    d_pat = collectPhenoProfiles(title, phenotyper=pheno, entity_linking=entity_linking)
+    #print(d_pat.values())
+    df_pheno = getPatientProfileTable(d_pat)
+
+    df_pheno.to_csv("results/%s/3_annotations/PhenoProfiles_%s.csv" % (title, pheno), sep='|', index=True)
+    return df_pheno, d_pat
 
 def table_annotation(title, pheno='clinphen', d_parsed={}, stringent=True, l_patterns = []):
     """
@@ -3010,13 +3252,13 @@ def table_annotation(title, pheno='clinphen', d_parsed={}, stringent=True, l_pat
             html = file.read()
             new_soup = BeautifulSoup(html, "lxml")
 
-        first_intercept, lines = scan_main(str(new_soup), pheno=pheno)
+        first_intercept, lines, l_batches = scan_main(str(new_soup), pheno=pheno)
         d_parsed['Table File ' + str(index)] = lines
-        new_lines = annotate_text(lines, first_intercept, 'Table File ' + str(index), stringent, l_patterns) # hopefully this works
+        new_lines = annotate_text(lines, first_intercept, 'Table File ' + str(index), stringent, l_patterns, l_batches) # hopefully this works
 
         ## collect phenotypes in a dataframe - with additional information
         file_name = 'Annotated_%s_table%s.html' % (pheno, str(index))
-        df_hpo2 = main_annotation(title, pheno, file_name, lines, first_intercept, 'Table File ' + str(index), stringent)
+        df_hpo2 = main_annotation(title, pheno, file_name, lines, first_intercept, 'Table File ' + str(index), stringent, l_patterns, l_batches)
 
         if df_hpo2 is not None:
             if df_hpo2.empty == False:
@@ -3044,7 +3286,7 @@ def table_annotation(title, pheno='clinphen', d_parsed={}, stringent=True, l_pat
             print('Table %s is not screened due to unconvenient format' % (str(index)))
     return df_hpo, d_parsed
 
-def main_annotation(title, pheno, file_name, lines, first_intercept, section='Main text', stringent=True, l_patterns=[]):
+def main_annotation(title, pheno, file_name, lines, first_intercept, section='Main text', stringent=True, l_patterns=[], l_batches=[]):
     """
     Annotate the main text.
     
@@ -3059,7 +3301,7 @@ def main_annotation(title, pheno, file_name, lines, first_intercept, section='Ma
     """
     if type(first_intercept) != list:
         ## save annotated text
-        new_lines = annotate_text(lines, first_intercept, section, stringent, l_patterns)
+        new_lines = annotate_text(lines, first_intercept, section, stringent, l_patterns, l_batches)
 
         with open("results/%s/2_phenotypes/%s" % (title, file_name), "w", encoding="utf-8") as file:
             file.write(' '.join(new_lines))
@@ -3196,7 +3438,7 @@ def get_patprof_tables(title, tab_files, d_pat):
     print('Table', d_pat)        
     return d_pat
 
-def get_intercepted_pheno(title, phenotyper, d_pat):
+def get_intercepted_pheno(title, phenotyper, d_pat, sensitive=True):
     """
     Acquire intercepted phenotypes from output file which 
     was generated by the phenotypeCaseStudy function.
@@ -3205,6 +3447,9 @@ def get_intercepted_pheno(title, phenotyper, d_pat):
         title = title of the article
         phenotyper = HPO phenotype extraction tool used
         d_pat = dictionary with phenotypic profile per patient
+        sensitive = also includes the phenotypes that couldnt be 
+            assigned to any patient
+                - Turn this on, if the rudimentary entity linking is lacking
     Output:
         d_pat = updated phenotypic profile dictionary
     """
@@ -3214,9 +3459,10 @@ def get_intercepted_pheno(title, phenotyper, d_pat):
         # 
         pat_id = re.sub(r"\([^\>]+\)", "", pat_id) # remove everything between brackets
         pat_id.strip()
-        if pat_id != 'None' or ([pat_id] == list(df_intercept['pat_id'].unique())):
+        if (sensitive or pat_id != 'None') or ([pat_id] == list(df_intercept['pat_id'].unique())):
             print('No patients found in text, thus we presume the case study concerns a single patient.')
             d_pat[pat_id] = list(df_intercept[((df_intercept['pat_id']==pat_id) & (df_intercept['flags']=='set()') & (df_intercept['negated']==0))]['hp_id'].values)
+        
     # (df_intercept['relevant']==1) & flags
     #d_pat['Undefined_case'] = [item['hp_id'] for sublist in df_intercept for item in sublist]
     #except: 
@@ -3239,7 +3485,7 @@ def merge_duplicate_keys(d_pat):
         l_keys = list(d_copy.keys())
         l_keys.remove(pat_id)
         if len(l_keys) > 0:
-            mask = np.array([pat_id in k for k in l_keys])
+            mask = np.array([pat_id.lower() in k.lower() for k in l_keys])
 
             for sim in np.asarray(l_keys)[mask]:
                 print(type(sim))
@@ -3357,8 +3603,64 @@ def get_superclass(graph, hpo_id, name_to_id, id_to_name):
     data = {'HPO id': hpo_list, 'Phenotype': desc_list}
     return pd.DataFrame.from_dict(data).iloc[::-1].reset_index(drop=True).reset_index()
 
+def remove_overlapping_entity(l_found):
+    """
+    Remove entities that have the same start/ end values (overlapping entities)
+    Ultimately the largest entity is kept (longest name).
+    
+    Input;
+        l_found = List with overlapping entities/ phenotypes
+    Output:
+        List without the overlapping entities/ phenotypes
+    
+    Potential errors: An entity within another entity 
+        but without a duplicate start or end will still cause errors!!
+    
+    """
+    df = pd.DataFrame.from_records(l_found, columns=['match', 'start', 'end', 'desc'])
+    
+    s = df.match.str.len().sort_values().index # sort on str size of match
+    df = df.reindex(s)
+    df = df.drop_duplicates(subset='start', keep="last") # remove same start
+    df = df.drop_duplicates(subset='end', keep="last") # remove same end
+    return df.values.tolist()
+    
+def get_location_phenotype(txt, d_pheno):
+    """
+    Get the location of each phenotype (match) in the text and return
+    instructions for colouring the entities
+    
+    Input:
+        txt = sentence (string)
+        d_pheno = list of phenotypes intercepted in a specific sentence
+    
+    Output:
+        l_found = list with start / end position per phenotype in sentence
+            a.k.a. regions to color!
+        l_new_found = list with entity, start, stop and description (dict)
+    """
+    l_ent= [i['match'] for i in d_pheno]
+    l_pheno = [i for i in d_pheno]
+    l_found = []
+    l_new_found = []
+    for ent in l_ent:
+        l_found.extend([[ent, m.start(), m.end()] for m in re.finditer(ent, txt)])
+    #print(txt)
+    #print(l_found[::-1])
+    l_found = sorted(l_found, key=lambda x: x[1])
+    #print(l_found)
+    for pheno in l_found[::-1]: # add other details to pheno as well
+        ix = l_ent.index(pheno[0])
+        #print(l_ent.index(pheno[0]))
+        l = pheno
+        l.append(l_pheno[ix])
+        l_new_found.append(l)
+    l_new_found = remove_overlapping_entity(l_new_found)
+    l_new_found = sorted(l_new_found, key=lambda x: x[1])[::-1]
+    #print(l_new_found)
+    return l_new_found
 
-def annotate_text(parsed_list, d_phenotype, section='Main text', stringent=True, l_patterns=[]):
+def annotate_text(parsed_list, d_phenotype, section='Main text', stringent=True, l_patterns=[], l_batches=[], BATCHES=True):
     """
     Description:
     Annotate the entities found with HPO: 
@@ -3372,11 +3674,12 @@ def annotate_text(parsed_list, d_phenotype, section='Main text', stringent=True,
         stringent = boolean indicating whether or not to perform a 
             stringent entity linking
         l_patterns = list of patterns to identify entities
+        BATCHES = work with offset if there are batches
         
     Output:
         new_lines = annotated content
     """
-    bin_ix = 0
+    batch_size = 15 
     new_lines = []
     start_str = '<span style="color:red">'
     end_str = '</span>'
@@ -3387,19 +3690,21 @@ def annotate_text(parsed_list, d_phenotype, section='Main text', stringent=True,
     
     for ix, sent in enumerate(parsed_list): 
         txt = parsed_list[ix]
+        init_txt = txt
         passing = False
         if ix in d_phenotype:
-            d_sort = sorted(d_phenotype[ix], key = lambda j: j['end'], reverse=True)
-            for i in d_sort:
+            l_found = get_location_phenotype(txt, d_phenotype[ix])
+            for j in l_found:
+                start_int = j[1]
+                end_int = j[2]
+                desc = j[3]
                 if section != 'Main text': # Check for table or caption!
-                    i['section'] = section
-                if 'negated' in i.keys():
-                    start_str = '<span style="color:red" title="%s" >'  % ('HPO: ' + i['hp_id'] + '\nCONF: ' + str(i['score']) + '\nPAT: ' + i['pat_id'] + '\nNEG: ' + str(i['negated']) + '\nREL: ' + str(i['relevant']) + '\nSECTION: ' + i['section']) # i['pat_id']
+                    desc['section'] = section
+                if 'negated' in desc.keys():
+                    start_str = '<span style="color:red" title="%s" >'  % ('HPO: ' + desc['hp_id'] + '\nCONF: ' + str(desc['score']) + '\nPAT: ' + desc['pat_id'] + '\nNEG: ' + str(desc['negated']) + '\nREL: ' + str(desc['relevant']) + '\nSECTION: ' + desc['section']) # i['pat_id']
                 else : 
-                    start_str = '<span style="color:red" title="%s" >'  % ('HPO: ' + i['hp_id'] + '\nCONF: ' + str(i['score']) + '\nPAT: ' + i['pat_id'])
-                start_int = int(i['start'])
-                end_int = int(i['end'])
-                txt = txt[:start_int] + ' ' + start_str + txt[start_int:end_int]  + end_str + ' ' + txt[end_int:] 
+                    start_str = '<span style="color:red" title="%s" >'  % ('HPO: ' + desc['hp_id'] + '\nCONF: ' + str(desc['score']) + '\nPAT: ' + desc['pat_id'])
+                txt = txt[:start_int] + ' ' + start_str + txt[start_int:end_int]  + end_str + ' ' + txt[end_int:]
         new_lines.append(txt)
     return new_lines
 

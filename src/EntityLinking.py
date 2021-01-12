@@ -96,7 +96,7 @@ def identify_patient(lines, stringent=True, l_patterns=[]):
     
     Input: 
         lines = segmented content of case study
-        stringent = boolean indicating whether or not 
+        stringent = boolean indicating whether or not to perform a stringent patient linking
         l_patterns = user provided list of entities (e.g. V:6). If a user doesn't 
             provide a list of entities -> then use default rules to initiate unsupervised
             entity linking!
@@ -235,7 +235,7 @@ def is_negated(line, phenotype, start_hpo):
     in_chunk = False
     
     matcher = Matcher(nlp.vocab)
-    pheno_pat = [ast.literal_eval('{"ORTH": "' + str(i.lower()) +'"}') for i in phenotype.split(' ')]
+    pheno_pat = [ast.literal_eval('{"ORTH": "' + str(i.lower().replace('"', '') +'"}')) for i in phenotype.split(' ')]
     matcher.add("phenotype", None, pheno_pat)
     
     doc = nlp(line)
@@ -376,7 +376,7 @@ def mass_flagging(lines, d_phenotype, d_patient_ids):
                 if len(d_patient_ids) != 1:
                     i['pat_id'] = predict_patient(ix, d_patient_ids, len(flags)!=0) # all
                 else :
-                    print('No patients found in text!')
+                    #print('No patients found in text!')
                     i['pat_id'] = predict_patient(ix, d_patient_ids, len(flags)!=0)
                 i['relevant'] = predict_relevancy(section.lower(), i['pat_id'])
     #print(d_phenotype)

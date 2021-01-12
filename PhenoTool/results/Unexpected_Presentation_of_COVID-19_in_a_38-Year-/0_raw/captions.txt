@@ -1,0 +1,75 @@
+Entity0
+ Complete blood count and C-reactive protein tests result
+Entity1
+ Erythema and aphthous lesion on the left tonsil.
+Entity2
+ Maculopapular rash on trunk.
+Entity3
+ Spiral lung CT scan.
+Entity4
+
+
+
+
+
+
+
+Entity5
+
+
+(c) 2020 S. Karger AG, Basel
+
+Entity6
+
+
+
+
+
+
+
+Entity7
+
+SOCIAL MEDIA
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Entity8
+
+Privacy Policy | Terms of Use | Imprint
+Karger International: COM | DE | CN
+
+Entity9
+
+
+(c) 2020 S. Karger AG, Basel
+
