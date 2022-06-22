@@ -4,7 +4,7 @@ matplotlib==3.2.1
 negspacy==0.1.9
 networkx==2.4
 nltk==3.5
-numpy==1.19.1
+numpy==1.22.0
 obonet==0.2.5
 pandas==1.0.3
 phenopy==0.4.2
