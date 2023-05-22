@@ -12,7 +12,7 @@ phrank==1.6
 PIL==7.2.0
 pyspellchecker==0.5.4
 re==2.2.1
-requests==2.23.0
+requests==2.31.0
 scipy==1.4.1
 selenium==3.141.0
 skfuzzy==0.4.2
